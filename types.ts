@@ -45,6 +45,16 @@ export interface Question {
   explanation?: string;
   hint?: string;
   category?: string; // Optional topic tag
+  translations?: {
+    [key in Language]?: {
+      text: string;
+      options?: string[];
+      hint?: string;
+      explanation?: string;
+      category?: string;
+      correctAnswer?: string;
+    };
+  };
 }
 
 export interface GameConfig {

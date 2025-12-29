@@ -121,7 +121,7 @@ export const Lobby: React.FC<LobbyProps> = ({
         {/* Header */}
         <div className="flex items-center px-6 py-4 justify-between z-20">
           <div className="w-12"></div>
-          <h2 className="text-text-main dark:text-white text-2xl font-black uppercase tracking-tight flex-1 text-center bg-white dark:bg-black border-2 border-text-main dark:border-white shadow-sketch-sm rounded-lg py-1 rotate-1">Lobby</h2>
+          <h2 className="text-text-main dark:text-white text-2xl font-black uppercase tracking-tight flex-1 text-center bg-white dark:bg-black border-2 border-text-main dark:border-white shadow-sketch-sm rounded-lg py-1 rotate-1">{t.lobby}</h2>
           <div className="flex w-12 items-center justify-end">
             <button onClick={onOpenSettings} className="flex items-center justify-center rounded-full h-12 w-12 bg-white dark:bg-gray-800 border-2 border-text-main dark:border-white shadow-sketch text-text-main dark:text-white hover:bg-gray-50 active:translate-y-[2px] active:shadow-sketch-active transition-all">
               <span className="material-symbols-outlined">settings</span>
@@ -137,11 +137,11 @@ export const Lobby: React.FC<LobbyProps> = ({
             <div className="absolute bottom-3 right-3 w-4 h-4 bg-white border-2 border-text-main rounded-full"></div>
             <div className="absolute bottom-3 left-3 w-4 h-4 bg-white border-2 border-text-main rounded-full"></div>
             <div className="relative flex flex-col items-center justify-center text-center z-10">
-              <span className="bg-white border-2 border-text-main px-3 py-1 rounded-full text-text-main font-bold uppercase tracking-widest text-xs mb-3 shadow-sketch-sm -rotate-2">Room Code</span>
+              <span className="bg-white border-2 border-text-main px-3 py-1 rounded-full text-text-main font-bold uppercase tracking-widest text-xs mb-3 shadow-sketch-sm -rotate-2">{t.roomCode}</span>
               <h1 className="text-text-main text-6xl md:text-7xl font-black tracking-widest leading-none drop-shadow-sm select-all">{roomCode}</h1>
               <button onClick={() => navigator.share?.({ title: 'Join ElBureau', text: `Join code: ${roomCode}` })} className="mt-6 inline-flex items-center gap-2 bg-white hover:bg-gray-50 active:bg-gray-100 border-2 border-text-main shadow-sketch px-4 py-2 rounded-xl transition-all active:translate-y-[2px] active:shadow-sketch-active cursor-pointer">
                 <span className="material-symbols-outlined text-lg">share</span>
-                <span className="text-sm font-bold text-text-main uppercase">Tap to share</span>
+                <span className="text-sm font-bold text-text-main uppercase">{t.tapToShare}</span>
               </button>
             </div>
           </div>
@@ -152,10 +152,10 @@ export const Lobby: React.FC<LobbyProps> = ({
               <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-green-100 border-2 border-text-main text-green-700">
                 <span className="material-symbols-outlined text-xl font-bold">check</span>
               </div>
-              <p className="text-text-main dark:text-white text-base font-bold">{connectedPlayers.length} Players Ready</p>
+              <p className="text-text-main dark:text-white text-base font-bold">{connectedPlayers.length} {t.playersReady}</p>
             </div>
             <h2 className="text-text-main dark:text-white text-lg font-bold leading-tight text-center bg-paper-white/80 backdrop-blur-sm px-4 py-1 rounded-lg border-2 border-dashed border-text-main/30">
-              Waiting for players...
+              {t.waitingForPlayers}
             </h2>
           </div>
 
@@ -178,7 +178,7 @@ export const Lobby: React.FC<LobbyProps> = ({
                 <div className="w-16 h-16 rounded-full bg-transparent border-2 border-dashed border-text-main/20 flex items-center justify-center text-text-main/40 dark:text-white/40">
                   <span className="material-symbols-outlined text-3xl">person_add</span>
                 </div>
-                <h3 className="text-text-main/40 dark:text-white/40 text-sm font-bold uppercase tracking-wide">Waiting...</h3>
+                <h3 className="text-text-main/40 dark:text-white/40 text-sm font-bold uppercase tracking-wide">{t.waiting}</h3>
               </div>
             ))}
           </div>
@@ -190,7 +190,7 @@ export const Lobby: React.FC<LobbyProps> = ({
             <div className="max-w-md mx-auto w-full flex flex-col items-center gap-4 pointer-events-auto">
               {!hasApiKey && (
                 <button onClick={onOpenSettings} className="bg-pop-red/10 border-2 border-pop-red border-dashed rounded-lg p-2 text-xs font-bold text-pop-red w-full text-center hover:bg-pop-red/20">
-                  ⚠ API Key Missing!
+                  ⚠ {t.apiKeyMissing}
                 </button>
               )}
               <button
@@ -216,25 +216,25 @@ export const Lobby: React.FC<LobbyProps> = ({
           <button onClick={() => setView('home')} className="text-text-main dark:text-white flex size-12 shrink-0 items-center justify-center rounded-full border-2 border-transparent active:bg-black/5 hover:bg-black/5 transition-colors cursor-pointer">
             <span className="material-symbols-outlined text-3xl font-bold">arrow_back</span>
           </button>
-          <h2 className="text-text-main dark:text-white text-2xl font-display font-bold leading-tight tracking-tight flex-1 text-center pr-12">Game Setup</h2>
+          <h2 className="text-text-main dark:text-white text-2xl font-display font-bold leading-tight tracking-tight flex-1 text-center pr-12">{t.gameSetup}</h2>
         </div>
 
         <div className="flex-1 overflow-y-auto no-scrollbar pt-6">
 
           {/* Player Name */}
           <div className="px-5 mb-6">
-            <label className="text-text-main dark:text-white text-sm font-display font-bold ml-1 mb-2 block uppercase tracking-wide">Your Name</label>
+            <label className="text-text-main dark:text-white text-sm font-display font-bold ml-1 mb-2 block uppercase tracking-wide">{t.yourName}</label>
             <input
               type="text"
               value={playerName}
               onChange={(e) => setPlayerName(e.target.value)}
               className="w-full bg-white dark:bg-white/5 border-2 border-paper-border rounded-xl px-4 py-3 font-display font-bold text-lg outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all"
-              placeholder="Host Name"
+              placeholder={t.hostNamePlaceholder}
             />
           </div>
 
           {/* Themes */}
-          <h3 className="text-text-main dark:text-white text-xl font-display font-bold leading-tight tracking-wide px-5 pb-4 transform -rotate-1">Choose Your Vibe</h3>
+          <h3 className="text-text-main dark:text-white text-xl font-display font-bold leading-tight tracking-wide px-5 pb-4 transform -rotate-1">{t.chooseVibe}</h3>
           <div className="flex w-full overflow-x-auto px-5 py-4 no-scrollbar scroll-pl-5 mb-4">
             <div className="flex min-h-min flex-row items-start justify-start gap-4 pr-5">
               {THEME_CARDS.map((card) => {
@@ -242,7 +242,7 @@ export const Lobby: React.FC<LobbyProps> = ({
                 return (
                   <div key={card.id} onClick={() => setConfig({ ...config, theme: card.value })} className={`group flex flex-col justify-center gap-2 w-32 cursor-pointer transition-transform hover:-translate-y-1 ${isSelected ? 'transform -translate-y-1' : ''}`}>
                     <div className={`relative w-full aspect-[3/4] bg-white dark:bg-white/5 rounded-xl overflow-hidden border-2 border-paper-border ${isSelected ? 'shadow-sketch-lg ring-2 ring-primary ring-offset-2 ring-offset-background-light' : 'shadow-sketch group-hover:shadow-sketch-hover'} transition-all`}>
-                      {isSelected && <div className="absolute top-2 right-2 bg-primary text-black border-2 border-paper-border text-[10px] font-display font-bold px-2 py-1 rounded-md z-10 shadow-sketch-sm -rotate-6">PICKED!</div>}
+                      {isSelected && <div className="absolute top-2 right-2 bg-primary text-black border-2 border-paper-border text-[10px] font-display font-bold px-2 py-1 rounded-md z-10 shadow-sketch-sm -rotate-6">{t.picked}</div>}
 
                       {card.image ? (
                         <div className={`w-full h-full bg-center bg-cover transition-all duration-300 ${isSelected ? '' : 'grayscale group-hover:grayscale-0'}`} style={{ backgroundImage: `url('${card.image}')` }}></div>
@@ -273,20 +273,20 @@ export const Lobby: React.FC<LobbyProps> = ({
                 value={customTheme}
                 onChange={(e) => setCustomTheme(e.target.value)}
                 className="w-full bg-white dark:bg-white/5 border-2 border-paper-border border-dashed rounded-xl px-4 py-3 font-display font-bold text-lg outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all"
-                placeholder="e.g. 90s Sitcoms"
+                placeholder={t.customThemePlaceholder}
               />
             </div>
           )}
 
           {/* Questions Count */}
           <div className="flex flex-col">
-            <h3 className="text-text-main dark:text-white text-xl font-display font-bold leading-tight tracking-wide px-5 pb-4 transform rotate-1">The Nitty Gritty</h3>
+            <h3 className="text-text-main dark:text-white text-xl font-display font-bold leading-tight tracking-wide px-5 pb-4 transform rotate-1">{t.nittyGritty}</h3>
             <div className="px-5 mb-6">
               <div className="bg-white dark:bg-white/5 rounded-xl p-5 border-2 border-paper-border shadow-sketch">
                 <div className="flex w-full items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
                     <span className="material-symbols-outlined text-text-main text-2xl">quiz</span>
-                    <p className="text-text-main dark:text-white text-lg font-display font-bold">How many Qs?</p>
+                    <p className="text-text-main dark:text-white text-lg font-display font-bold">{t.howManyQs}</p>
                   </div>
                   <span className="bg-primary text-text-main border-2 border-paper-border px-3 py-1 rounded-lg text-sm font-bold shadow-sketch-sm rotate-2">{config.questionCount}</span>
                 </div>
@@ -311,7 +311,7 @@ export const Lobby: React.FC<LobbyProps> = ({
 
               {/* Difficulty */}
               <div className="mt-4">
-                <p className="text-text-main dark:text-white text-sm font-display font-bold ml-1 mb-2">Difficulty Level</p>
+                <p className="text-text-main dark:text-white text-sm font-display font-bold ml-1 mb-2">{t.difficultyLevel}</p>
                 <div className="flex p-2 bg-white dark:bg-white/5 border-2 border-paper-border rounded-xl shadow-sketch gap-2">
                   {(['easy', 'medium', 'hard', 'mixed'] as const).map(diff => (
                     <button
@@ -331,12 +331,12 @@ export const Lobby: React.FC<LobbyProps> = ({
 
               {/* Question Types */}
               <div className="mt-4">
-                <p className="text-text-main dark:text-white text-sm font-display font-bold ml-1 mb-2">Question Style</p>
+                <p className="text-text-main dark:text-white text-sm font-display font-bold ml-1 mb-2">{t.questionStyle}</p>
                 <div className="flex p-2 bg-white dark:bg-white/5 border-2 border-paper-border rounded-xl shadow-sketch gap-2">
                   {[
-                    { val: 'mixed', label: 'Mix' },
-                    { val: 'mc', label: 'Choices' },
-                    { val: 'open', label: 'Typed' }
+                    { val: 'mixed', label: t.styleMix },
+                    { val: 'mc', label: t.styleChoices },
+                    { val: 'open', label: t.styleTyped }
                   ].map(type => (
                     <button
                       key={type.val}
@@ -357,13 +357,13 @@ export const Lobby: React.FC<LobbyProps> = ({
 
           {/* House Rules */}
           <div className="flex flex-col pb-24">
-            <h3 className="text-text-main dark:text-white text-xl font-display font-bold leading-tight tracking-wide px-5 pb-4 transform -rotate-1">House Rules</h3>
+            <h3 className="text-text-main dark:text-white text-xl font-display font-bold leading-tight tracking-wide px-5 pb-4 transform -rotate-1">{t.houseRules}</h3>
             <div className="px-5 flex flex-col gap-4">
               {/* Timer */}
               <div className="flex flex-col gap-2 p-4 bg-white dark:bg-white/5 rounded-xl border-2 border-paper-border shadow-sketch">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="material-symbols-outlined text-xl">timer</span>
-                  <p className="text-text-main dark:text-white text-lg font-display font-bold">Time Limit</p>
+                  <p className="text-text-main dark:text-white text-lg font-display font-bold">{t.timeLimit}</p>
                 </div>
                 <div className="flex gap-2">
                   {[0, 15, 30, 45, 60].map(sec => (
@@ -376,7 +376,7 @@ export const Lobby: React.FC<LobbyProps> = ({
                           : 'text-text-main border-transparent hover:bg-gray-100 hover:border-paper-border'}
                                   `}
                     >
-                      {sec === 0 ? 'None' : `${sec}s`}
+                      {sec === 0 ? t.timeNone : `${sec}s`}
                     </button>
                   ))}
                 </div>
@@ -387,9 +387,9 @@ export const Lobby: React.FC<LobbyProps> = ({
                 <div className="flex flex-col">
                   <div className="flex items-center gap-2">
                     <span className="material-symbols-outlined text-xl group-hover:text-primary transition-colors">lightbulb</span>
-                    <p className="text-text-main dark:text-white text-lg font-display font-bold">Allow Hints</p>
+                    <p className="text-text-main dark:text-white text-lg font-display font-bold">{t.allowHints}</p>
                   </div>
-                  <p className="text-xs font-bold text-text-main/60 dark:text-white/60 pl-7 font-display">Dynamic Cost (Easy: 75%, Med: 50%, Hard: 25%)</p>
+                  <p className="text-xs font-bold text-text-main/60 dark:text-white/60 pl-7 font-display">{t.hintDynamicCost}</p>
                 </div>
                 <div className={`relative h-8 w-14 rounded-full border-2 border-paper-border cursor-pointer transition-colors shadow-sketch-sm ${config.allowHints ? 'bg-primary' : 'bg-gray-200'}`}>
                   <div className={`absolute top-1 size-5 rounded-full bg-white border-2 border-paper-border shadow-sm transition-all ${config.allowHints ? 'right-1' : 'left-1'}`}></div>
@@ -406,7 +406,7 @@ export const Lobby: React.FC<LobbyProps> = ({
             disabled={isBusy}
             className="pointer-events-auto w-full bg-primary text-black text-xl font-display font-bold py-4 rounded-xl border-2 border-paper-border shadow-sketch-lg hover:shadow-sketch hover:translate-y-1 active:shadow-sketch-active active:translate-y-[4px] transition-all flex items-center justify-center gap-3 disabled:opacity-50"
           >
-            <span>{isBusy ? 'CREATING...' : 'LAUNCH GAME'}</span>
+            <span>{isBusy ? t.creating : t.launchGame}</span>
             <span className="material-symbols-outlined text-2xl animate-pulse">rocket_launch</span>
           </button>
         </div>
@@ -434,8 +434,8 @@ export const Lobby: React.FC<LobbyProps> = ({
           </div>
 
           <div className="text-center mb-10 space-y-2">
-            <h1 className="text-4xl font-display font-black tracking-wide uppercase text-text-main dark:text-white drop-shadow-sm rotate-1">Join the Fun!</h1>
-            <p className="text-lg text-text-main/60 dark:text-white/60 font-medium font-display">Enter the magic code from the host.</p>
+            <h1 className="text-4xl font-display font-black tracking-wide uppercase text-text-main dark:text-white drop-shadow-sm rotate-1">{t.joinFun}</h1>
+            <p className="text-lg text-text-main/60 dark:text-white/60 font-medium font-display">{t.enterMagicCode}</p>
           </div>
 
           {/* Inputs */}
@@ -460,13 +460,13 @@ export const Lobby: React.FC<LobbyProps> = ({
           </div>
 
           <div className="w-full max-w-[340px] mb-10">
-            <label className="text-text-main dark:text-white text-sm font-display font-bold ml-1 mb-2 block uppercase tracking-wide">Your Name</label>
+            <label className="text-text-main dark:text-white text-sm font-display font-bold ml-1 mb-2 block uppercase tracking-wide">{t.yourName}</label>
             <input
               type="text"
               value={playerName}
               onChange={(e) => setPlayerName(e.target.value)}
               className="w-full bg-white dark:bg-white/5 border-2 border-text-main dark:border-white rounded-xl px-4 py-3 font-display font-bold text-lg outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all text-center placeholder:text-gray-300"
-              placeholder="Player Name"
+              placeholder={t.playerNamePlaceholder}
             />
           </div>
 
@@ -477,7 +477,7 @@ export const Lobby: React.FC<LobbyProps> = ({
               className="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-16 bg-primary text-black text-xl font-display font-black tracking-wider uppercase border-2 border-text-main shadow-sketch transition-all hover:shadow-sketch-hover hover:-translate-y-0.5 active:translate-x-[4px] active:translate-y-[4px] active:shadow-none disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span className="relative z-10 flex items-center gap-2">
-                {isBusy ? 'Joining...' : 'Enter Room'}
+                {isBusy ? t.joining : t.enterRoom}
                 <span className="material-symbols-outlined text-2xl font-bold group-hover:rotate-12 transition-transform">arrow_forward</span>
               </span>
               <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 50%)', backgroundSize: '10px 10px' }}></div>
@@ -511,7 +511,7 @@ export const Lobby: React.FC<LobbyProps> = ({
         <div className="w-full max-w-[280px] mx-auto mb-8 animate-wiggle">
           <div className="absolute -top-6 -right-6 transform rotate-12 z-20">
             <div className="bg-primary px-4 py-1 rounded-sketchy-sm shadow-sketch transform rotate-6 border-2 border-text-main">
-              <span className="text-sm font-black text-text-main uppercase tracking-wider font-marker">BETA!</span>
+              <span className="text-sm font-black text-text-main uppercase tracking-wider font-marker">{t.beta}</span>
             </div>
           </div>
           <img src="/logo.svg" alt="ElBureau Logo" className="w-full h-auto drop-shadow-sm transform -rotate-2" />
@@ -520,7 +520,7 @@ export const Lobby: React.FC<LobbyProps> = ({
         {/* Tagline */}
         <div className="mb-14 relative group animate-pop-in" style={{ animationDelay: '0.2s' }}>
           <div className="bg-paper-white px-8 py-4 rounded-sketchy border-2 border-text-main shadow-sketch transform -rotate-1 hover:rotate-1 transition-transform duration-300 relative z-20">
-            <p className="text-text-main font-bold text-lg text-center font-marker">"Ready to buzz in?"</p>
+            <p className="text-text-main font-bold text-lg text-center font-marker">"{t.readyToBuzz}"</p>
           </div>
         </div>
 
@@ -528,12 +528,12 @@ export const Lobby: React.FC<LobbyProps> = ({
         <div className="w-full flex flex-col gap-5 max-w-xs relative z-30 animate-slide-up" style={{ animationDelay: '0.4s' }}>
           <SketchButton onClick={() => setView('join_setup')} variant="primary" className="h-16 text-2xl" sketchy>
             <span className="material-symbols-outlined mr-3 text-3xl font-black">play_arrow</span>
-            JOIN ROOM
+            {t.joinRoomBtn}
           </SketchButton>
 
           <SketchButton onClick={() => setView('host_setup')} variant="secondary" className="h-16 text-xl" sketchy>
             <span className="material-symbols-outlined mr-3 text-3xl group-hover:rotate-90 transition-transform">add_circle</span>
-            CREATE ROOM
+            {t.createRoomBtn}
           </SketchButton>
         </div>
       </main>
@@ -541,10 +541,10 @@ export const Lobby: React.FC<LobbyProps> = ({
       <footer className="p-6 pb-10 flex justify-center items-center gap-6 text-sm font-bold text-text-main/60 dark:text-white/60 font-marker z-20">
         <a href="#" className="hover:text-primary hover:underline decoration-wavy decoration-2 transition-colors flex items-center gap-1">
           <span className="material-symbols-outlined text-lg">help</span>
-          How to Play
+          {t.howToPlay}
         </a>
         <span className="w-1.5 h-1.5 bg-text-main rounded-full"></span>
-        <a href="#" className="hover:text-primary hover:underline decoration-wavy decoration-2 transition-colors">Privacy</a>
+        <a href="#" className="hover:text-primary hover:underline decoration-wavy decoration-2 transition-colors">{t.privacy}</a>
       </footer>
     </div>
   );

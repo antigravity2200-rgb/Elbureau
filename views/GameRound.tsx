@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { GameState, GamePhase, Player, Question } from '../types';
+import { GameState, GamePhase, Player, Question, Language } from '../types';
 import { TRANSLATIONS } from '../constants';
 import { updateRoomState, updatePlayerState } from '../services/firebase';
 import { SketchButton } from '../components/SketchButton';
@@ -15,11 +15,25 @@ interface GameRoundProps {
 
 export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomId }) => {
     const { config, players, questions, currentQuestionIndex, phase } = gameState;
-    const t = TRANSLATIONS[config.language];
+
+    // Detect User Language
+    const [localLang, setLocalLang] = useState<Language>(config.language);
+    useEffect(() => {
+        try {
+            const browserLang = navigator.language.split('-')[0] as Language;
+            if (Object.values(Language).includes(browserLang)) {
+                setLocalLang(browserLang);
+            }
+        } catch (e) {
+            console.warn("Language detection failed", e);
+        }
+    }, []);
+
+    const t = TRANSLATIONS[localLang];
 
     const me = players.find(p => p.id === playerId);
     const isWagerPhase = [GamePhase.WAGER_SETUP, GamePhase.WAGER_GENERATING, GamePhase.WAGER_QUESTION, GamePhase.WAGER_REVEAL].includes(phase);
-    const activeQuestion = isWagerPhase ? (gameState.finalQuestion || { text: "Preparing Final Round...", category: "FINAL WAGER", correctAnswer: "", id: "final", type: "open" } as Question) : questions[currentQuestionIndex];
+    const activeQuestion = isWagerPhase ? (gameState.finalQuestion || { text: t.generatingFinal, category: t.wagerRound, correctAnswer: "", id: "final", type: "open" } as Question) : questions[currentQuestionIndex];
 
     const [selectedBet, setSelectedBet] = useState<number | null>(null);
     const [answerInput, setAnswerInput] = useState('');
@@ -64,8 +78,15 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
 
     const isHost = me.isHost;
 
-    // Use activeQuestion for rendering
-    const currentQuestion = activeQuestion;
+    // Use activeQuestion for rendering, with fallback to translations
+    const currentQuestion = {
+        ...activeQuestion,
+        text: activeQuestion?.translations?.[localLang]?.text || activeQuestion?.text,
+        options: activeQuestion?.translations?.[localLang]?.options || activeQuestion?.options,
+        correctAnswer: activeQuestion?.translations?.[localLang]?.correctAnswer || activeQuestion?.correctAnswer,
+        hint: activeQuestion?.translations?.[localLang]?.hint || activeQuestion?.hint,
+        explanation: activeQuestion?.translations?.[localLang]?.explanation || activeQuestion?.explanation,
+    };
 
     // --- ACTIONS ---
 
@@ -281,7 +302,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
             <header className="flex-none flex items-center justify-between mb-2 z-10 scale-95 origin-top">
                 <div className="flex items-center gap-2 bg-white dark:bg-white/10 px-3 py-1 rounded-sketchy border-2 border-text-main dark:border-white shadow-sketch text-sm font-bold">
                     <span className="text-primary mr-1">Q</span>
-                    {isWagerPhase ? "FINAL" : `${currentQuestionIndex + 1} / ${config.questionCount}`}
+                    {isWagerPhase ? t.wagerRound.split(' ')[0] : `${currentQuestionIndex + 1} / ${config.questionCount}`}
                 </div>
 
                 <div className={`flex items-center gap-2 px-4 py-1 rounded-full border-2 border-text-main shadow-sketch transition-all ${me.isCorrect === true ? 'bg-primary' : me.isCorrect === false ? 'bg-red-100' : 'bg-paper-white'}`}>
@@ -298,7 +319,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                     <section className="relative z-20 animate-slide-in-down flex-none mt-2">
                         <SketchCard className={`${isWagerPhase ? "bg-black text-white border-pop-yellow" : "bg-white dark:bg-gray-800"}`} padding="p-5">
                             <div className="absolute -top-3 -left-2 bg-primary text-black text-xs font-black uppercase px-2 py-1 rounded-sm border-2 border-black rotate-[-6deg] shadow-sm">
-                                {currentQuestion.category || (isWagerPhase ? "FINAL WAGER" : "General")}
+                                {currentQuestion.category || (isWagerPhase ? t.wagerRound : "General")}
                             </div>
 
                             <h2 className={`text-xl md:text-2xl font-black text-center leading-tight mt-2 line-clamp-4 ${isWagerPhase ? "text-pop-yellow" : "text-text-main dark:text-white"}`}>
@@ -309,7 +330,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                             {isInputPhase && config.timerSeconds > 0 && (
                                 <div className="mt-6">
                                     <div className="flex justify-between items-end mb-1 px-1">
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">Time Remaining</span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">{t.timeRemaining}</span>
                                         <span className="text-xs font-black text-gray-800 dark:text-gray-200">{timeLeft}s</span>
                                     </div>
                                     <div className="relative w-full h-3 bg-white border-2 border-black rounded-full overflow-hidden shadow-sm">
@@ -323,7 +344,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
 
                             {(isReveal || isWagerReveal) && (
                                 <div className="mt-4 pt-4 border-t-2 border-dashed border-gray-200 dark:border-gray-600 text-center animate-fade-in">
-                                    <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">Answer</p>
+                                    <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-1">{t.answerLabel}</p>
                                     <p className="text-xl font-bold text-green-600 dark:text-green-400">{currentQuestion.correctAnswer}</p>
                                 </div>
                             )}
@@ -341,7 +362,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                         {!isWagerPhase && (
                             <div className="transition-all duration-300">
                                 <div className="flex items-center justify-between mb-2 px-1">
-                                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">1. Wager</label>
+                                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">1. {t.wagerPoints}</label>
                                 </div>
                                 <div className="flex gap-2 overflow-x-auto pb-2 px-1 no-scrollbar justify-center py-2">
                                     {me.betsAvailable.map(chipVal => {
@@ -372,7 +393,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                         {/* Answer Input */}
                         <div className={`transition-all duration-500 ${selectedBet || isWagerPhase ? 'opacity-100 translate-y-0' : 'opacity-30 translate-y-4'}`}>
                             <div className="flex items-center justify-between mb-1 px-1">
-                                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">{isWagerPhase ? "Your Answer" : "2. Answer"}</label>
+                                <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">{isWagerPhase ? t.finalAnswerPlaceholder : "2. " + t.submitAnswer}</label>
                             </div>
 
                             <SketchCard className="bg-paper-white/50 dark:bg-white/5 border-dashed" padding="p-3">
@@ -402,7 +423,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                                             type="text"
                                             value={answerInput}
                                             onChange={(e) => setAnswerInput(e.target.value)}
-                                            placeholder={isWagerPhase ? "Final Answer..." : (selectedBet ? "Type answer..." : "Pick wager first...")}
+                                            placeholder={isWagerPhase ? t.finalAnswerPlaceholder : (selectedBet ? t.typeAnswer : t.pickWagerFirst)}
                                             disabled={hasSubmitted || (!selectedBet && !isWagerPhase)}
                                             className="w-full bg-white dark:bg-gray-800 border-2 border-text-main rounded-xl px-4 py-3 text-center font-bold text-lg outline-none focus:ring-4 focus:ring-primary/20 focus:border-primary transition-all shadow-inner disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
                                         />
@@ -424,7 +445,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                         {/* Only show preview if current player has submitted */}
                         {(isPreview && !hasSubmitted) ? (
                             <div className="text-center text-gray-500 font-bold bg-white/80 py-8 rounded-lg backdrop-blur-sm">
-                                Answer submitted! Waiting for others...
+                                {t.waitingForOthers}
                             </div>
                         ) : (
                             <section className="grid grid-cols-2 gap-4 w-full px-1 animate-fade-in relative z-30">
@@ -476,12 +497,12 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                 {phase === GamePhase.WAGER_SETUP && (
                     <section className="flex flex-col gap-6 relative z-30 flex-none animate-slide-up w-full">
                         <div className="text-center mb-2">
-                            <h2 className="text-3xl font-black text-text-main dark:text-white mb-1">FINAL WAGER</h2>
-                            <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">High Stakes Round</p>
+                            <h2 className="text-3xl font-black text-text-main dark:text-white mb-1">{t.wagerRound}</h2>
+                            <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">{t.highStakes}</p>
                         </div>
                         {/* Wager Amount Selection */}
                         <SketchCard className="bg-white dark:bg-gray-800" padding="p-4">
-                            <h3 className="text-lg font-black mb-3">1. Choose Your Wager</h3>
+                            <h3 className="text-lg font-black mb-3">1. {t.chooseWager}</h3>
                             <div className="grid grid-cols-3 gap-3">
                                 {[0, 10, 20].map(amt => (
                                     <button
@@ -506,7 +527,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
 
                         {/* Difficulty Vote */}
                         <SketchCard className="bg-white dark:bg-gray-800" padding="p-4">
-                            <h3 className="text-lg font-black mb-3">2. Vote Difficulty</h3>
+                            <h3 className="text-lg font-black mb-3">2. {t.voteDifficulty}</h3>
                             <div className="grid grid-cols-3 gap-3">
                                 {['easy', 'medium', 'hard'].map(diff => (
                                     <button
@@ -532,7 +553,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                         {/* Waiting Message */}
                         {me.wagerAmount !== undefined && me.wagerDifficulty !== undefined && (
                             <div className="text-center text-gray-500 font-bold bg-white/80 py-3 rounded-lg backdrop-blur-sm animate-pulse">
-                                Waiting for others...
+                                {t.waitingForOthers}
                             </div>
                         )}
 
@@ -543,7 +564,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                                 onClick={handleStartFinalRound}
                                 className="w-full text-lg py-3 shadow-sketch-lg animate-bounce"
                             >
-                                GENERATE FINAL QUESTION
+                                {t.generateFinalBtn}
                             </SketchButton>
                         )}
                     </section>
@@ -560,13 +581,13 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                             onClick={isWagerPhase ? submitWagerPrediction : submitPrediction}
                             className={`w-full text-lg py-3 shadow-sketch-lg ${isWagerPhase ? "bg-pop-red text-white border-black" : ""}`}
                         >
-                            {isSubmitting ? 'Sending...' : (isWagerPhase ? 'Lock In Final Answer' : 'Lock In Answer & Bet')}
+                            {isSubmitting ? t.sending : (isWagerPhase ? t.lockInFinal : t.lockInBet)}
                         </SketchButton>
                     )}
 
                     {isActionPhase && hasSubmitted && (
                         <div className="w-full text-gray-500 font-bold bg-white/80 py-3 rounded-lg backdrop-blur-sm animate-pulse border-2 border-dashed border-gray-300">
-                            Waiting for others...
+                            {t.waitingForOthers}
                         </div>
                     )}
 
@@ -577,7 +598,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                             onClick={isWagerReveal ? null : (phase === GamePhase.WAGER_QUESTION || phase === GamePhase.WAGER_GENERATING ? handleWagerReveal : handleReveal)}
                             className={`w-full text-lg py-3 shadow-sketch-lg bg-pop-blue border-black text-white ${(isWagerReveal) ? 'hidden' : ''}`}
                         >
-                            {phase === GamePhase.WAGER_QUESTION ? "Reveal Answers" : "Start Judging"} <span className="material-symbols-outlined ml-2">gavel</span>
+                            {phase === GamePhase.WAGER_QUESTION ? t.revealFinal : t.startJudging} <span className="material-symbols-outlined ml-2">gavel</span>
                         </SketchButton>
                     )}
 
@@ -587,7 +608,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                             onClick={handleWagerReveal}
                             className="w-full text-lg py-3 shadow-sketch-lg bg-pop-blue border-black text-white"
                         >
-                            Reveal Final Answers <span className="material-symbols-outlined ml-2">visibility</span>
+                            {t.revealFinal} <span className="material-symbols-outlined ml-2">visibility</span>
                         </SketchButton>
                     )}
 
@@ -595,14 +616,14 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                     {isReveal && isHost && (
                         <div className="w-full flex flex-col gap-2">
                             <div className="text-sm font-bold bg-white/80 py-1 rounded-full text-gray-600 mb-1 animate-bounce">
-                                Target Correct Cards!
+                                {t.targetCorrect}
                             </div>
                             <SketchButton
                                 variant="secondary"
                                 onClick={handleNextPhase}
                                 className="w-full text-lg py-3"
                             >
-                                Confirm & Next <span className="material-symbols-outlined ml-2">check_circle</span>
+                                {t.nextRound} <span className="material-symbols-outlined ml-2">check_circle</span>
                             </SketchButton>
                         </div>
                     )}
@@ -610,14 +631,14 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                     {isWagerReveal && isHost && (
                         <div className="w-full flex flex-col gap-2">
                             <div className="text-sm font-bold bg-white/80 py-1 rounded-full text-gray-600 mb-1 animate-bounce">
-                                Judge Final Answers! (+/- Wager)
+                                {t.judgeFinal}
                             </div>
                             <SketchButton
                                 variant="secondary"
                                 onClick={handleEndGame}
                                 className="w-full text-lg py-3 bg-black text-white border-pop-yellow"
                             >
-                                FINISH GAME <span className="material-symbols-outlined ml-2">emoji_events</span>
+                                {t.finishGame} <span className="material-symbols-outlined ml-2">emoji_events</span>
                             </SketchButton>
                         </div>
                     )}
@@ -625,7 +646,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
 
                     {(isReveal || isWagerReveal) && !isHost && (
                         <div className="text-gray-500 font-bold bg-white/80 py-2 rounded-lg backdrop-blur-sm">
-                            Host is judging answers...
+                            {t.hostJudging}
                         </div>
                     )}
                 </div>

@@ -66,16 +66,16 @@ export const EndGame: React.FC<EndGameProps> = ({ gameState, onReset, onLeave, i
       <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background-light from-80% to-transparent dark:from-background-dark z-30 pointer-events-none">
         <div className="max-w-md mx-auto pointer-events-auto flex flex-col gap-3">
           <SketchButton onClick={onLeave} variant="secondary" fullWidth className="h-12 text-lg shadow-sketch bg-white text-gray-700 border-gray-400">
-            BACK TO HOME
+            {t.backToHome.toUpperCase()}
           </SketchButton>
 
           {isHost ? (
             <SketchButton onClick={onReset} variant="primary" fullWidth className="h-16 text-xl shadow-sketch">
-              PLAY AGAIN
+              {t.playAgain.toUpperCase()}
             </SketchButton>
           ) : (
             <div className="bg-white dark:bg-white/10 border-2 border-text-main dark:border-white rounded-xl p-4 text-center shadow-sketch animate-pulse">
-              <p className="font-bold uppercase tracking-widest text-text-main dark:text-white text-sm">Waiting for Host...</p>
+              <p className="font-bold uppercase tracking-widest text-text-main dark:text-white text-sm">{t.waitingForHostRestart}</p>
             </div>
           )}
         </div>

@@ -70,8 +70,43 @@ export const generateQuizQuestions = async (
         correctAnswer: { type: Type.STRING },
         hint: { type: Type.STRING },
         explanation: { type: Type.STRING },
+        translations: {
+          type: Type.OBJECT,
+          properties: {
+            en: {
+              type: Type.OBJECT,
+              properties: {
+                text: { type: Type.STRING },
+                options: { type: Type.ARRAY, items: { type: Type.STRING } },
+                hint: { type: Type.STRING },
+                explanation: { type: Type.STRING },
+                correctAnswer: { type: Type.STRING },
+              }
+            },
+            fr: {
+              type: Type.OBJECT,
+              properties: {
+                text: { type: Type.STRING },
+                options: { type: Type.ARRAY, items: { type: Type.STRING } },
+                hint: { type: Type.STRING },
+                explanation: { type: Type.STRING },
+                correctAnswer: { type: Type.STRING },
+              }
+            },
+            ar: {
+              type: Type.OBJECT,
+              properties: {
+                text: { type: Type.STRING },
+                options: { type: Type.ARRAY, items: { type: Type.STRING } },
+                hint: { type: Type.STRING },
+                explanation: { type: Type.STRING },
+                correctAnswer: { type: Type.STRING },
+              }
+            }
+          }
+        }
       },
-      required: ['id', 'text', 'type', 'correctAnswer', 'explanation'],
+      required: ['id', 'text', 'type', 'correctAnswer', 'explanation', 'translations'],
     },
   };
 
@@ -85,20 +120,26 @@ export const generateQuizQuestions = async (
   const prompt = `
     Generate ${count} quiz questions about "${theme}".
     Difficulty: ${difficulty}.
-    Target Language: ${language} (ISO 639-1).
     Question Type Constraint: ${typeInstruction}
     
-    Rules:
-    1. The question text MUST be in ${language}.
-    2. The options (for mc) MUST be in ${language}.
-    3. The correct answer MUST be in ${language}.
-    4. The hint MUST be in ${language}.
-    5. The explanation MUST be in ${language} and funny.
+    CRITICAL: You must allow players to play in their own language.
+    For EACH question, you MUST provide translations for: English (en), French (fr), and Arabic (ar).
     
-    For 'mc' (multiple choice) questions, provide 4 options in the 'options' array.
-    For 'open' questions, leave 'options' empty.
-    Provide a witty, sarcastic, or helpful 'hint' that doesn't give the answer away.
-    For 'explanation', provide a SHORT, HUMOROUS comment by the host revealing the answer. Make it sound like a game show host speaking in ${language}.
+    Populate the 'translations' object with keys 'en', 'fr', 'ar'.
+    For the main root fields (text, options, etc), use the requested language: "${language}".
+    
+    Rules for Translations:
+    - 'text': The question itself.
+    - 'options': 4 choices (only for 'mc'). Empty for 'open'.
+    - 'hint': Witty hint in that language.
+    - 'explanation': Short funny host comment in that language.
+    - 'correctAnswer': The answer text in that language.
+    
+    Rules:
+    1. The main root 'text' MUST be in ${language}.
+    2. The main root 'options' MUST be in ${language}.
+    3. The main root 'correctAnswer' MUST be in ${language}.
+    4. Provide a witty 'hint' and 'explanation' in all languages.
   `;
 
   try {
@@ -141,18 +182,47 @@ export const generateFinalQuestion = async (
       type: { type: Type.STRING, enum: ['open'] }, // Final question is always open-ended for drama
       correctAnswer: { type: Type.STRING },
       explanation: { type: Type.STRING },
+      translations: {
+        type: Type.OBJECT,
+        properties: {
+          en: {
+            type: Type.OBJECT,
+            properties: {
+              text: { type: Type.STRING },
+              explanation: { type: Type.STRING },
+              correctAnswer: { type: Type.STRING },
+            }
+          },
+          fr: {
+            type: Type.OBJECT,
+            properties: {
+              text: { type: Type.STRING },
+              explanation: { type: Type.STRING },
+              correctAnswer: { type: Type.STRING },
+            }
+          },
+          ar: {
+            type: Type.OBJECT,
+            properties: {
+              text: { type: Type.STRING },
+              explanation: { type: Type.STRING },
+              correctAnswer: { type: Type.STRING },
+            }
+          }
+        }
+      }
     },
-    required: ['id', 'text', 'type', 'correctAnswer', 'explanation'],
+    required: ['id', 'text', 'type', 'correctAnswer', 'explanation', 'translations'],
   };
 
   const prompt = `
     Generate 1 FINAL BOSS question about "${theme}".
     Difficulty: ${difficulty} (Make it harder than usual).
-    Language: ${language}.
     Type: Open Ended.
     
-    Ensure the 'text', 'correctAnswer', and 'explanation' are strictly in ${language}.
-    The explanation should be dramatic and declare the end of the game in ${language}.
+    Generate translations for English, French, and Arabic in the 'translations' object.
+    The main root fields should be in ${language}.
+    The explanation should be dramatic and declare the end of the game.
   `;
 
   try {
