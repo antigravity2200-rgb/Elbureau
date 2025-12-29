@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { GameState, GamePhase, Player, Question, Language } from '../types';
 import { TRANSLATIONS } from '../constants';
-import { updateRoomState, updatePlayerState } from '../services/firebase';
+import { updateRoomState, updatePlayerState } from '../services/supabaseService';
 import { SketchButton } from '../components/SketchButton';
 import { SketchCard } from '../components/SketchCard';
 import { Avatar } from '../components/Avatar';

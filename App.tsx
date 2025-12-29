@@ -6,7 +6,7 @@ import { GameRound } from './views/GameRound';
 import { EndGame } from './views/EndGame';
 import { SettingsModal } from './components/SettingsModal';
 import { generateQuizQuestions } from './services/geminiService';
-import { createRoom, joinRoom, subscribeToRoom, updateRoomState, resetRoom } from './services/firebase';
+import { createRoom, joinRoom, subscribeToRoom, updateRoomState, resetRoom, initSupabase } from './services/supabaseService';
 
 const getInitialLanguage = (): Language => {
   const saved = localStorage.getItem('elbureau_lang');
@@ -29,6 +29,7 @@ const INITIAL_CONFIG: GameConfig = {
 
 function App() {
   const [apiKey, setApiKey] = useState(localStorage.getItem('gemini_api_key') || '');
+
   const [playerName, setPlayerName] = useState(localStorage.getItem('elbureau_player_name') || '');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
@@ -175,8 +176,7 @@ function App() {
       setRoomId(code);
     } catch (e) {
       console.error(e);
-      // Re-throw to let Lobby handle UI state
-      throw e;
+      alert("Error joining room. Check code or if game has started.");
     }
   };
 
@@ -330,6 +330,10 @@ function App() {
         setLanguage={updateLanguage}
         playerName={playerName}
         setPlayerName={setPlayerName}
+        supabaseUrl={supabaseUrl}
+        setSupabaseUrl={setSupabaseUrl}
+        supabaseKey={supabaseKey}
+        setSupabaseKey={setSupabaseKey}
       />
     </div>
   );

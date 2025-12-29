@@ -22,15 +22,8 @@ const PEER_CONFIG = {
       { urls: 'stun:stun2.l.google.com:19302' },
       { urls: 'stun:stun3.l.google.com:19302' },
       { urls: 'stun:stun4.l.google.com:19302' },
-      { urls: 'stun:stun.l.google.com:19305' },
-      { urls: 'stun:stun1.l.google.com:19305' },
-      // Fallback open STUNs
-      { urls: 'stun:stun.services.mozilla.com' },
-    ],
-    // Force aggressive ICE gathering
-    iceCandidatePoolSize: 10,
-  },
-  debug: 2 // Print errors
+    ]
+  }
 };
 
 // --- INTERNAL HELPERS ---

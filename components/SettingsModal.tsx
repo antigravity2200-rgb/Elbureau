@@ -70,7 +70,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 
             {/* API Key */}
             <div>
-               <SketchInput
+              <SketchInput
                 label={t.enterApiKey}
                 type="password"
                 placeholder="AIza..."

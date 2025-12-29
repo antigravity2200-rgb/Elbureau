@@ -87,19 +87,8 @@ export const Lobby: React.FC<LobbyProps> = ({
     setIsBusy(true);
     try {
       await onJoinGame(code, effectiveName);
-    } catch (e: any) {
-      console.error("Join failed:", e);
-      let msg = "Could not join room.";
-
-      if (e.message?.includes("timed out")) {
-        msg = "Connection timed out. Firewalls might be blocking Peer2Peer. Try regular 4G/5G.";
-      } else if (e.type === 'peer-unavailable') {
-        msg = "Room not found. Check the code!";
-      } else {
-        msg = `Error: ${e.message || "Unknown connection error"}`;
-      }
-
-      alert(msg);
+    } catch (e) {
+      alert("Could not join room. Check code.");
       setIsBusy(false);
     }
   };
