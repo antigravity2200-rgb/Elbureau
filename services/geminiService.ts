@@ -34,6 +34,47 @@ const fetchWithRetry = async <T>(
   }
 };
 
+// Reusable translation schema block
+const createTranslationSchema = (includeOptions: boolean) => ({
+  type: Type.OBJECT,
+  properties: {
+    en: {
+      type: Type.OBJECT,
+      properties: {
+        text: { type: Type.STRING },
+        correctAnswer: { type: Type.STRING },
+        hint: { type: Type.STRING },
+        explanation: { type: Type.STRING },
+        ...(includeOptions ? { options: { type: Type.ARRAY, items: { type: Type.STRING } } } : {}),
+      },
+      required: ['text', 'correctAnswer', 'explanation'],
+    },
+    fr: {
+      type: Type.OBJECT,
+      properties: {
+        text: { type: Type.STRING },
+        correctAnswer: { type: Type.STRING },
+        hint: { type: Type.STRING },
+        explanation: { type: Type.STRING },
+        ...(includeOptions ? { options: { type: Type.ARRAY, items: { type: Type.STRING } } } : {}),
+      },
+      required: ['text', 'correctAnswer', 'explanation'],
+    },
+    ar: {
+      type: Type.OBJECT,
+      properties: {
+        text: { type: Type.STRING },
+        correctAnswer: { type: Type.STRING },
+        hint: { type: Type.STRING },
+        explanation: { type: Type.STRING },
+        ...(includeOptions ? { options: { type: Type.ARRAY, items: { type: Type.STRING } } } : {}),
+      },
+      required: ['text', 'correctAnswer', 'explanation'],
+    },
+  },
+  required: ['en', 'fr', 'ar'],
+});
+
 export const generateQuizQuestions = async (
   apiKey: string,
   theme: string,
@@ -46,18 +87,19 @@ export const generateQuizQuestions = async (
 
   const ai = new GoogleGenAI({ apiKey });
 
-  // System instruction to ensure personality and strict formatting
   const systemInstruction = `
     You are 'ElBureau', a chaotic, witty, and high-energy game show host AI.
     Your goal is to entertain, challenge, and slightly roast the players.
     Generate a quiz based on the requested theme.
     The output MUST be valid JSON.
-    IMPORTANT: You MUST generate all content (questions, options, hints, explanations) in the requested language: "${language}".
-    If the language is Arabic (ar), ensure all text is in proper Arabic script and culturally relevant if possible.
-    If the language is French (fr), ensure the content is in French.
+    
+    CRITICAL MULTILINGUAL REQUIREMENT:
+    You MUST generate COMPLETE translations for EVERY question in THREE languages: English (en), French (fr), and Arabic (ar).
+    Each translation object MUST contain: text, correctAnswer, hint, explanation.
+    For multiple choice questions, each translation MUST also contain the 'options' array translated.
+    DO NOT skip any language. All three (en, fr, ar) are REQUIRED.
   `;
 
-  // Schema definition for strictly typed JSON
   const responseSchema = {
     type: Type.ARRAY,
     items: {
@@ -70,41 +112,7 @@ export const generateQuizQuestions = async (
         correctAnswer: { type: Type.STRING },
         hint: { type: Type.STRING },
         explanation: { type: Type.STRING },
-        translations: {
-          type: Type.OBJECT,
-          properties: {
-            en: {
-              type: Type.OBJECT,
-              properties: {
-                text: { type: Type.STRING },
-                options: { type: Type.ARRAY, items: { type: Type.STRING } },
-                hint: { type: Type.STRING },
-                explanation: { type: Type.STRING },
-                correctAnswer: { type: Type.STRING },
-              }
-            },
-            fr: {
-              type: Type.OBJECT,
-              properties: {
-                text: { type: Type.STRING },
-                options: { type: Type.ARRAY, items: { type: Type.STRING } },
-                hint: { type: Type.STRING },
-                explanation: { type: Type.STRING },
-                correctAnswer: { type: Type.STRING },
-              }
-            },
-            ar: {
-              type: Type.OBJECT,
-              properties: {
-                text: { type: Type.STRING },
-                options: { type: Type.ARRAY, items: { type: Type.STRING } },
-                hint: { type: Type.STRING },
-                explanation: { type: Type.STRING },
-                correctAnswer: { type: Type.STRING },
-              }
-            }
-          }
-        }
+        translations: createTranslationSchema(true),
       },
       required: ['id', 'text', 'type', 'correctAnswer', 'explanation', 'translations'],
     },
@@ -122,24 +130,27 @@ export const generateQuizQuestions = async (
     Difficulty: ${difficulty}.
     Question Type Constraint: ${typeInstruction}
     
-    CRITICAL: You must allow players to play in their own language.
-    For EACH question, you MUST provide translations for: English (en), French (fr), and Arabic (ar).
+    CRITICAL MULTILINGUAL REQUIREMENT:
+    For EACH question, you MUST provide COMPLETE translations in the 'translations' object.
+    The 'translations' object MUST have THREE keys: 'en', 'fr', 'ar'.
     
-    Populate the 'translations' object with keys 'en', 'fr', 'ar'.
-    For the main root fields (text, options, etc), use the requested language: "${language}".
+    Each translation (en, fr, ar) MUST contain:
+    - 'text': The question translated to that language
+    - 'correctAnswer': The correct answer translated to that language
+    - 'hint': A witty hint in that language
+    - 'explanation': A funny host comment in that language
+    - 'options': (for MC only) The 4 choices translated to that language
     
-    Rules for Translations:
-    - 'text': The question itself.
-    - 'options': 4 choices (only for 'mc'). Empty for 'open'.
-    - 'hint': Witty hint in that language.
-    - 'explanation': Short funny host comment in that language.
-    - 'correctAnswer': The answer text in that language.
+    The ROOT level fields (text, options, correctAnswer, etc.) should be in: "${language}".
     
-    Rules:
-    1. The main root 'text' MUST be in ${language}.
-    2. The main root 'options' MUST be in ${language}.
-    3. The main root 'correctAnswer' MUST be in ${language}.
-    4. Provide a witty 'hint' and 'explanation' in all languages.
+    Example structure for translations:
+    {
+      "translations": {
+        "en": { "text": "...", "correctAnswer": "...", "hint": "...", "explanation": "...", "options": ["...", "...", "...", "..."] },
+        "fr": { "text": "...", "correctAnswer": "...", "hint": "...", "explanation": "...", "options": ["...", "...", "...", "..."] },
+        "ar": { "text": "...", "correctAnswer": "...", "hint": "...", "explanation": "...", "options": ["...", "...", "...", "..."] }
+      }
+    }
   `;
 
   try {
@@ -172,45 +183,24 @@ export const generateFinalQuestion = async (
 ): Promise<Question> => {
   const ai = new GoogleGenAI({ apiKey });
 
-  const systemInstruction = `You are 'ElBureau'. Generate ONE extremely challenging, high-stakes final quiz question in ${language}.`;
+  const systemInstruction = `
+    You are 'ElBureau'. Generate ONE extremely challenging, high-stakes final quiz question.
+    
+    CRITICAL MULTILINGUAL REQUIREMENT:
+    You MUST generate COMPLETE translations in THREE languages: English (en), French (fr), and Arabic (ar).
+    Each translation MUST contain: text, correctAnswer, explanation.
+    DO NOT skip any language. All three (en, fr, ar) are REQUIRED.
+  `;
 
   const responseSchema = {
     type: Type.OBJECT,
     properties: {
       id: { type: Type.STRING },
       text: { type: Type.STRING },
-      type: { type: Type.STRING, enum: ['open'] }, // Final question is always open-ended for drama
+      type: { type: Type.STRING, enum: ['open'] },
       correctAnswer: { type: Type.STRING },
       explanation: { type: Type.STRING },
-      translations: {
-        type: Type.OBJECT,
-        properties: {
-          en: {
-            type: Type.OBJECT,
-            properties: {
-              text: { type: Type.STRING },
-              explanation: { type: Type.STRING },
-              correctAnswer: { type: Type.STRING },
-            }
-          },
-          fr: {
-            type: Type.OBJECT,
-            properties: {
-              text: { type: Type.STRING },
-              explanation: { type: Type.STRING },
-              correctAnswer: { type: Type.STRING },
-            }
-          },
-          ar: {
-            type: Type.OBJECT,
-            properties: {
-              text: { type: Type.STRING },
-              explanation: { type: Type.STRING },
-              correctAnswer: { type: Type.STRING },
-            }
-          }
-        }
-      }
+      translations: createTranslationSchema(false),
     },
     required: ['id', 'text', 'type', 'correctAnswer', 'explanation', 'translations'],
   };
@@ -220,9 +210,21 @@ export const generateFinalQuestion = async (
     Difficulty: ${difficulty} (Make it harder than usual).
     Type: Open Ended.
     
-    Generate translations for English, French, and Arabic in the 'translations' object.
-    The main root fields should be in ${language}.
+    CRITICAL MULTILINGUAL REQUIREMENT:
+    The 'translations' object MUST have THREE keys: 'en', 'fr', 'ar'.
+    Each translation MUST contain: text, correctAnswer, explanation.
+    
+    The ROOT level fields should be in: "${language}".
     The explanation should be dramatic and declare the end of the game.
+    
+    Example structure:
+    {
+      "translations": {
+        "en": { "text": "...", "correctAnswer": "...", "explanation": "..." },
+        "fr": { "text": "...", "correctAnswer": "...", "explanation": "..." },
+        "ar": { "text": "...", "correctAnswer": "...", "explanation": "..." }
+      }
+    }
   `;
 
   try {

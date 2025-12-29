@@ -33,8 +33,9 @@ function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   // connection state
-  const [roomId, setRoomId] = useState<string | null>(null);
-  const [playerId, setPlayerId] = useState<string | null>(null);
+  const [roomId, setRoomId] = useState<string | null>(() => localStorage.getItem('elbureau_room_id'));
+  const [playerId, setPlayerId] = useState<string | null>(() => localStorage.getItem('elbureau_player_id'));
+  const [isReconnecting, setIsReconnecting] = useState(false);
 
   // The synchronized game state from Firebase
   const [gameState, setGameState] = useState<GameState>({
@@ -58,6 +59,54 @@ function App() {
   useEffect(() => {
     localStorage.setItem('elbureau_lang', gameState.config.language);
   }, [gameState.config.language]);
+
+  // --- SESSION PERSISTENCE ---
+  useEffect(() => {
+    if (roomId && playerId) {
+      localStorage.setItem('elbureau_room_id', roomId);
+      localStorage.setItem('elbureau_player_id', playerId);
+    }
+  }, [roomId, playerId]);
+
+  // Auto-rejoin on app load
+  useEffect(() => {
+    const savedRoomId = localStorage.getItem('elbureau_room_id');
+    const savedPlayerId = localStorage.getItem('elbureau_player_id');
+    const savedName = localStorage.getItem('elbureau_player_name');
+
+    if (savedRoomId && savedPlayerId && savedName && !isReconnecting) {
+      setIsReconnecting(true);
+      // Attempt to rejoin
+      const player: Player = {
+        id: savedPlayerId,
+        name: savedName,
+        score: 0,
+        avatarColor: AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)],
+        isHost: false, // Will be corrected by server state
+        betsAvailable: [],
+        currentBet: null,
+        currentAnswer: '',
+        isCorrect: null,
+        usedHint: false
+      };
+
+      joinRoom(savedRoomId, player)
+        .then(() => {
+          console.log('Reconnected to room:', savedRoomId);
+          setRoomId(savedRoomId);
+          setPlayerId(savedPlayerId);
+        })
+        .catch((e) => {
+          console.warn('Failed to reconnect, clearing session:', e);
+          // Clear invalid session
+          localStorage.removeItem('elbureau_room_id');
+          localStorage.removeItem('elbureau_player_id');
+          setRoomId(null);
+          setPlayerId(null);
+        })
+        .finally(() => setIsReconnecting(false));
+    }
+  }, []);
 
 
   // --- FIREBASE SUBSCRIPTION ---
@@ -179,6 +228,9 @@ function App() {
   };
 
   const handleLeave = () => {
+    // Clear session
+    localStorage.removeItem('elbureau_room_id');
+    localStorage.removeItem('elbureau_player_id');
     setRoomId(null);
     setPlayerId(null);
     setGameState({ ...gameState, phase: GamePhase.LOBBY, players: [] });

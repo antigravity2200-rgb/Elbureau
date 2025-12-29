@@ -117,7 +117,7 @@ export const Lobby: React.FC<LobbyProps> = ({
 
   if (view === 'waiting_room') {
     return (
-      <div className="flex flex-col h-full w-full max-w-md mx-auto relative">
+      <div className="flex flex-col h-full w-full max-w-md mx-auto relative pt-8">
         {/* Header */}
         <div className="flex items-center px-6 py-4 justify-between z-20">
           <div className="w-12"></div>
@@ -212,7 +212,7 @@ export const Lobby: React.FC<LobbyProps> = ({
     return (
       <div className="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden pb-32">
         {/* Header */}
-        <div className="sticky top-0 z-50 flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between border-b-2 border-paper-border dark:border-white/10">
+        <div className="sticky top-0 z-50 flex items-center bg-background-light dark:bg-background-dark p-4 pt-8 pb-2 justify-between border-b-2 border-paper-border dark:border-white/10">
           <button onClick={() => setView('home')} className="text-text-main dark:text-white flex size-12 shrink-0 items-center justify-center rounded-full border-2 border-transparent active:bg-black/5 hover:bg-black/5 transition-colors cursor-pointer">
             <span className="material-symbols-outlined text-3xl font-bold">arrow_back</span>
           </button>
@@ -418,7 +418,7 @@ export const Lobby: React.FC<LobbyProps> = ({
     return (
       <div className="relative flex min-h-[100dvh] w-full flex-col max-w-md mx-auto">
         {/* Header */}
-        <header className="flex items-center p-6 justify-between z-10">
+        <header className="flex items-center p-6 pt-12 justify-between z-10">
           <button onClick={() => setView('home')} className="group flex h-12 w-12 items-center justify-center rounded-xl bg-white dark:bg-white/10 border-2 border-text-main dark:border-white shadow-sketch hover:shadow-sketch-hover transition-all active:shadow-none active:translate-x-[4px] active:translate-y-[4px]">
             <span className="material-symbols-outlined text-2xl font-bold dark:text-white">arrow_back</span>
           </button>
@@ -491,7 +491,7 @@ export const Lobby: React.FC<LobbyProps> = ({
   // DEFAULT: HOME VIEW
   return (
     <div className="relative flex min-h-full flex-col max-w-md mx-auto h-full">
-      <header className="flex items-center justify-between p-6 z-20">
+      <header className="flex items-center justify-between p-6 pt-12 z-20">
         <div className="flex items-center gap-2 bg-paper-white dark:bg-white/10 px-3 py-1.5 rounded-full shadow-sketch border-2 border-text-main dark:border-white/50 cursor-pointer hover:-rotate-2 transition-transform">
           <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center overflow-hidden border-2 border-text-main dark:border-white/20">
             <span className="material-symbols-outlined text-text-main text-sm">sentiment_satisfied</span>

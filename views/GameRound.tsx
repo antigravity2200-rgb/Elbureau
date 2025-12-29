@@ -5,7 +5,7 @@ import { updateRoomState, updatePlayerState } from '../services/firebase';
 import { SketchButton } from '../components/SketchButton';
 import { SketchCard } from '../components/SketchCard';
 import { Avatar } from '../components/Avatar';
-import { generateFinalQuestion } from '../services/geminiService';
+import { generateFinalQuestion, validateAnswerWithAI } from '../services/geminiService';
 
 interface GameRoundProps {
     gameState: GameState;
@@ -39,6 +39,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
     const [answerInput, setAnswerInput] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [timeLeft, setTimeLeft] = useState(config.timerSeconds > 0 ? config.timerSeconds : 0);
+    const [tieBreakerOptions, setTieBreakerOptions] = useState<string[] | null>(null);
 
     // Reset local state on new question or phase change
     useEffect(() => {
@@ -134,7 +135,32 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
 
     const handleReveal = async () => {
         if (!isHost) return;
-        await updateRoomState(roomId, { phase: GamePhase.REVEAL });
+
+        // Auto-validate all answers using AI
+        const validatedPlayers = await Promise.all(
+            players.map(async (p) => {
+                if (!p.currentAnswer) return { ...p, isCorrect: false };
+
+                try {
+                    const isCorrect = await validateAnswerWithAI(
+                        gameState.apiKey,
+                        currentQuestion.text,
+                        currentQuestion.correctAnswer,
+                        p.currentAnswer,
+                        localLang
+                    );
+                    return { ...p, isCorrect };
+                } catch (e) {
+                    console.warn(`Validation failed for ${p.name}`, e);
+                    return { ...p, isCorrect: null }; // Host will manually judge
+                }
+            })
+        );
+
+        await updateRoomState(roomId, {
+            phase: GamePhase.REVEAL,
+            players: validatedPlayers
+        });
     };
 
     const toggleCorrectness = async (targetId: string) => {
@@ -223,6 +249,24 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
         });
 
         // 2. Set State to Generating
+        // TIE BREAKER: If there's a tie, don't auto-proceed. Show selection UI for Host.
+        const tiedDifficulties = (Object.entries(votes) as [string, number][])
+            .filter(([_, count]) => count === maxVotes)
+            .map(([diff]) => diff);
+
+        if (tiedDifficulties.length > 1 && isHost) {
+            // Update local state to show tie-breaker UI (we can reuse a state or specific room state if we want all to see)
+            // For simplicity, let's just use a prompt or a quick alert-based selection for now, 
+            // OR better: Update room state to a temporary "TIE_BREAKER" sub-state? 
+            // Simplest: Just set a local flag or use a verify step. 
+            // ACTUALLY: Let's just update the room state to indicate a tie, creating a mini-phase.
+            // But to keep it simple and robust without new enums:
+            // We'll add a 'tieBreaker' field to the game state or just handle it client-side for the host.
+            // Let's use a local state for the host to resolve the tie.
+            setTieBreakerOptions(tiedDifficulties);
+            return;
+        }
+
         await updateRoomState(roomId, {
             phase: GamePhase.WAGER_GENERATING,
             winningDifficulty: winningDiff
@@ -261,7 +305,32 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
 
     const handleWagerReveal = async () => {
         if (!isHost) return;
-        await updateRoomState(roomId, { phase: GamePhase.WAGER_REVEAL });
+
+        // Auto-validate all wager answers using AI
+        const validatedPlayers = await Promise.all(
+            players.map(async (p) => {
+                if (!p.currentAnswer) return { ...p, isCorrect: false };
+
+                try {
+                    const isCorrect = await validateAnswerWithAI(
+                        gameState.apiKey,
+                        currentQuestion.text,
+                        currentQuestion.correctAnswer,
+                        p.currentAnswer,
+                        localLang
+                    );
+                    return { ...p, isCorrect };
+                } catch (e) {
+                    console.warn(`Wager validation failed for ${p.name}`, e);
+                    return { ...p, isCorrect: null }; // Host will manually judge
+                }
+            })
+        );
+
+        await updateRoomState(roomId, {
+            phase: GamePhase.WAGER_REVEAL,
+            players: validatedPlayers
+        });
     };
 
     const handleEndGame = async () => {
@@ -296,10 +365,10 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
         : (me.currentBet !== null && !!me.currentAnswer);
 
     return (
-        <div className="flex flex-col h-full w-full max-w-lg mx-auto p-4 md:p-6 overflow-hidden">
+        <div className="flex flex-col h-full w-full max-w-lg mx-auto p-4 pt-12 md:p-6 overflow-hidden">
 
             {/* 1. TOP BAR: Progress & Score - Keep at top */}
-            <header className="flex-none flex items-center justify-between mb-2 z-10 scale-95 origin-top">
+            <header className="flex-none flex items-center justify-between mb-2 z-10 origin-top">
                 <div className="flex items-center gap-2 bg-white dark:bg-white/10 px-3 py-1 rounded-sketchy border-2 border-text-main dark:border-white shadow-sketch text-sm font-bold">
                     <span className="text-primary mr-1">Q</span>
                     {isWagerPhase ? t.wagerRound.split(' ')[0] : `${currentQuestionIndex + 1} / ${config.questionCount}`}
@@ -322,7 +391,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                                 {currentQuestion.category || (isWagerPhase ? t.wagerRound : "General")}
                             </div>
 
-                            <h2 className={`text-xl md:text-2xl font-black text-center leading-tight mt-2 line-clamp-4 ${isWagerPhase ? "text-pop-yellow" : "text-text-main dark:text-white"}`}>
+                            <h2 className={`text-2xl md:text-3xl font-black text-center leading-tight mt-3 line-clamp-4 ${isWagerPhase ? "text-pop-yellow" : "text-text-main dark:text-white"}`}>
                                 {currentQuestion.text}
                             </h2>
 
@@ -364,7 +433,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                                 <div className="flex items-center justify-between mb-2 px-1">
                                     <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">1. {t.wagerPoints}</label>
                                 </div>
-                                <div className="flex gap-2 overflow-x-auto pb-2 px-1 no-scrollbar justify-center py-2">
+                                <div className="flex gap-2 flex-wrap justify-center py-2">
                                     {me.betsAvailable.map(chipVal => {
                                         const isSelected = selectedBet === chipVal;
                                         return (
@@ -500,6 +569,22 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                             <h2 className="text-3xl font-black text-text-main dark:text-white mb-1">{t.wagerRound}</h2>
                             <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">{t.highStakes}</p>
                         </div>
+
+                        {/* SCOREBOARD PREVIEW */}
+                        <SketchCard className="bg-paper-white dark:bg-gray-700 max-h-40 overflow-y-auto" padding="p-2">
+                            <div className="grid grid-cols-2 gap-2">
+                                {players.map(p => (
+                                    <div key={p.id} className="flex items-center justify-between bg-white dark:bg-gray-800 p-2 rounded-lg border-2 border-gray-200">
+                                        <div className="flex items-center gap-2">
+                                            <Avatar size="xs" className={p.avatarColor} />
+                                            <span className="font-bold text-xs truncate max-w-[80px]">{p.name}</span>
+                                        </div>
+                                        <span className="font-black text-sm">{p.score}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </SketchCard>
+
                         {/* Wager Amount Selection */}
                         <SketchCard className="bg-white dark:bg-gray-800" padding="p-4">
                             <h3 className="text-lg font-black mb-3">1. {t.chooseWager}</h3>
@@ -558,7 +643,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                         )}
 
                         {/* Host Logic for Transition */}
-                        {isHost && players.every(p => p.wagerAmount !== undefined && p.wagerDifficulty !== undefined) && (
+                        {isHost && players.every(p => p.wagerAmount !== undefined && p.wagerDifficulty !== undefined) && !tieBreakerOptions && (
                             <SketchButton
                                 variant="primary"
                                 onClick={handleStartFinalRound}
@@ -566,6 +651,46 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                             >
                                 {t.generateFinalBtn}
                             </SketchButton>
+                        )}
+
+                        {/* TIE BREAKER UI */}
+                        {isHost && tieBreakerOptions && (
+                            <SketchCard className="bg-pop-yellow border-black animate-pulse" padding="p-4">
+                                <h3 className="text-lg font-black mb-3">TIE! Pick Difficulty:</h3>
+                                <div className="flex gap-2 justify-center">
+                                    {tieBreakerOptions.map(diff => (
+                                        <button
+                                            key={diff}
+                                            onClick={async () => {
+                                                setTieBreakerOptions(null);
+                                                await updateRoomState(roomId, {
+                                                    phase: GamePhase.WAGER_GENERATING,
+                                                    winningDifficulty: diff
+                                                });
+                                                // Trigger logic manually since we bypassed the vote calculation
+                                                try {
+                                                    const finalQ = await generateFinalQuestion(gameState.apiKey, config.theme, config.language, diff);
+                                                    await updateRoomState(roomId, {
+                                                        phase: GamePhase.WAGER_QUESTION,
+                                                        finalQuestion: finalQ,
+                                                        winningDifficulty: diff,
+                                                        players: players.map(p => ({ ...p, currentAnswer: '', isCorrect: null }))
+                                                    });
+                                                } catch (e) {
+                                                    console.error("Final Gen Error", e);
+                                                    await updateRoomState(roomId, {
+                                                        phase: GamePhase.WAGER_SETUP,
+                                                        loadingMessage: "Error generating. Try again."
+                                                    });
+                                                }
+                                            }}
+                                            className="px-4 py-2 bg-black text-white font-bold rounded-lg uppercase hover:scale-105 transition-transform"
+                                        >
+                                            {diff}
+                                        </button>
+                                    ))}
+                                </div>
+                            </SketchCard>
                         )}
                     </section>
                 )}

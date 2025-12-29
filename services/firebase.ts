@@ -14,6 +14,18 @@ let isHost = false;
 
 const ID_PREFIX = 'elbureau-game-v1-';
 
+const PEER_CONFIG = {
+  config: {
+    iceServers: [
+      { urls: 'stun:stun.l.google.com:19302' },
+      { urls: 'stun:stun1.l.google.com:19302' },
+      { urls: 'stun:stun2.l.google.com:19302' },
+      { urls: 'stun:stun3.l.google.com:19302' },
+      { urls: 'stun:stun4.l.google.com:19302' },
+    ]
+  }
+};
+
 // --- INTERNAL HELPERS ---
 
 const cleanup = () => {
@@ -109,7 +121,7 @@ export const createRoom = async (
     currentQuestionIndex: 0
   };
 
-  peer = new Peer(peerId);
+  peer = new Peer(peerId, PEER_CONFIG);
 
   return new Promise((resolve, reject) => {
     peer.on('open', (id: string) => {
@@ -155,7 +167,7 @@ export const joinRoom = async (
 
   isHost = false;
   // Create a random client peer
-  peer = new Peer();
+  peer = new Peer(PEER_CONFIG);
 
   return new Promise((resolve, reject) => {
     peer.on('open', () => {
