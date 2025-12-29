@@ -6,6 +6,34 @@ const cleanJson = (text: string) => {
   return text.replace(/```json/g, '').replace(/```/g, '').trim();
 };
 
+// Helper for retry logic
+const fetchWithRetry = async <T>(
+  operation: () => Promise<T>,
+  retries = 3,
+  delay = 1000
+): Promise<T> => {
+  try {
+    return await operation();
+  } catch (error: any) {
+    if (retries <= 0) throw error;
+
+    // Check if error is related to quota (429) or overload (503)
+    const isRetryable =
+      error?.status === 429 ||
+      error?.status === 503 ||
+      error?.response?.status === 429 ||
+      error?.message?.includes('429') ||
+      error?.message?.includes('Quota exceeded');
+
+    if (!isRetryable) throw error;
+
+    console.warn(`API Limit hit. Retrying in ${delay}ms... (${retries} attempts left)`);
+    await new Promise(resolve => setTimeout(resolve, delay));
+
+    return fetchWithRetry(operation, retries - 1, delay * 2); // Exponential backoff
+  }
+};
+
 export const generateQuizQuestions = async (
   apiKey: string,
   theme: string,
@@ -74,15 +102,15 @@ export const generateQuizQuestions = async (
   `;
 
   try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash-exp',
+    const response = await fetchWithRetry(() => ai.models.generateContent({
+      model: 'gemini-2.5-flash',
       contents: prompt,
       config: {
         systemInstruction,
         responseMimeType: "application/json",
         responseSchema: responseSchema,
       },
-    });
+    }));
 
     if (response.text) {
       const questions = JSON.parse(cleanJson(response.text)) as Question[];
@@ -128,15 +156,15 @@ export const generateFinalQuestion = async (
   `;
 
   try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash-exp', // Updated to latest reliable experimental or use 'gemini-1.5-flash'
+    const response = await fetchWithRetry(() => ai.models.generateContent({
+      model: 'gemini-2.5-flash',
       contents: prompt,
       config: {
         systemInstruction,
         responseMimeType: "application/json",
         responseSchema: responseSchema,
       },
-    });
+    }));
 
     if (response.text) {
       return JSON.parse(cleanJson(response.text)) as Question;
@@ -170,10 +198,10 @@ export const validateAnswerWithAI = async (
   `;
 
   try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+    const response = await fetchWithRetry(() => ai.models.generateContent({
+      model: 'gemini-2.5-flash',
       contents: prompt,
-    });
+    }));
     const text = response.text?.trim().toUpperCase();
     return text?.includes("TRUE") || false;
   } catch (e) {
