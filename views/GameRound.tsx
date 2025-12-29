@@ -236,6 +236,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                                             className={`
                         flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center
                         font-black text-lg border-2 transition-all transform
+                        touch-action-manipulation select-none
                         ${isSelected
                                                     ? 'bg-primary text-black border-black shadow-sketch scale-110 -translate-y-2 z-10'
                                                     : 'bg-white text-gray-600 border-gray-300 hover:border-black hover:-translate-y-1'
@@ -266,6 +267,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                                                 disabled={hasSubmitted}
                                                 className={`
                             p-2 rounded-xl border-2 text-sm font-bold text-center transition-all
+                            touch-action-manipulation select-none
                             ${answerInput === opt
                                                         ? 'bg-text-main text-white border-text-main shadow-sketch scale-[1.02]'
                                                         : 'bg-white text-text-main border-gray-300 hover:border-text-main'

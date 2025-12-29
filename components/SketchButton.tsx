@@ -14,14 +14,15 @@ export const SketchButton: React.FC<SketchButtonProps> = ({
   className = '',
   ...props
 }) => {
-  // Base classes with new design system
+  // Base classes with new design system + mobile touch optimization
   const baseClasses = `
     relative group flex items-center justify-center 
     font-display font-black tracking-wide uppercase 
     border-[3px] border-text-main filter 
     transition-all duration-150 ease-in-out
+    touch-action-manipulation select-none
     disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none disabled:translate-y-0
-    active:translate-x-[2px] active:translate-y-[2px] active:shadow-sketch-active
+    active:translate-x-[1px] active:translate-y-[1px] active:shadow-sketch-active
   `;
 
   // Specific variants based on new colors
