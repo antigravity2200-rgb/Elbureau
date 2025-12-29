@@ -16,19 +16,10 @@ interface GameRoundProps {
 export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomId }) => {
     const { config, players, questions, currentQuestionIndex, phase } = gameState;
 
-    // Detect User Language
-    const [localLang, setLocalLang] = useState<Language>(config.language);
-    useEffect(() => {
-        try {
-            const browserLang = navigator.language.split('-')[0] as Language;
-            if (Object.values(Language).includes(browserLang)) {
-                setLocalLang(browserLang);
-            }
-        } catch (e) {
-            console.warn("Language detection failed", e);
-        }
-    }, []);
+    const { config, players, questions, currentQuestionIndex, phase } = gameState;
 
+    // Strict Language from Config
+    const localLang = config.language;
     const t = TRANSLATIONS[localLang];
 
     const me = players.find(p => p.id === playerId);
@@ -195,7 +186,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
     };
 
     const toggleCorrectness = async (targetId: string) => {
-        if (!isHost || phase !== GamePhase.REVEAL) return;
+        if (!isHost || (phase !== GamePhase.REVEAL && phase !== GamePhase.WAGER_REVEAL)) return;
 
         // Toggle the target player's isCorrect status
         const updatedPlayers = players.map(p => {
