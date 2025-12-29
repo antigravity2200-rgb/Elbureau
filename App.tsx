@@ -175,7 +175,8 @@ function App() {
       setRoomId(code);
     } catch (e) {
       console.error(e);
-      alert("Error joining room. Check code or if game has started.");
+      // Re-throw to let Lobby handle UI state
+      throw e;
     }
   };
 
