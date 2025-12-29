@@ -75,28 +75,35 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
         if (!selectedBet || !answerInput.trim()) return;
         setIsSubmitting(true);
 
-        if (isHost) {
-            // Host can update room state directly
-            const updatedPlayers = players.map(p =>
-                p.id === playerId ? { ...p, currentBet: selectedBet, currentAnswer: answerInput } : p
-            );
+        try {
+            if (isHost) {
+                // Host can update room state directly
+                const updatedPlayers = players.map(p =>
+                    p.id === playerId ? { ...p, currentBet: selectedBet, currentAnswer: answerInput } : p
+                );
 
-            // Check if all players have submitted BOTH
-            const allDone = updatedPlayers.every(p => p.currentBet !== null && !!p.currentAnswer);
+                // Check if all players have submitted BOTH
+                const allDone = updatedPlayers.every(p => p.currentBet !== null && !!p.currentAnswer);
 
-            // Transition to PREVIEW first, then REVEAL
-            await updateRoomState(roomId, {
-                players: updatedPlayers,
-                phase: allDone ? GamePhase.PREVIEW : GamePhase.BETTING
-            });
-        } else {
-            // Joined players send update to host via P2P
-            await updatePlayerState(roomId, playerId, {
-                currentBet: selectedBet,
-                currentAnswer: answerInput
-            });
+                // Transition to PREVIEW first, then REVEAL
+                await updateRoomState(roomId, {
+                    players: updatedPlayers,
+                    phase: allDone ? GamePhase.PREVIEW : GamePhase.BETTING
+                });
+            } else {
+                // Joined players send update to host via P2P
+                await updatePlayerState(roomId, playerId, {
+                    currentBet: selectedBet,
+                    currentAnswer: answerInput
+                });
+            }
+            // Note: We do NOT set isSubmitting(false) here. 
+            // We wait for the state update to come back, which will toggle 'hasSubmitted' and remove the button.
+        } catch (e) {
+            console.error("Submission error:", e);
+            alert("Failed to submit answer: " + (e as any).message);
+            setIsSubmitting(false); // Allow retry
         }
-        setIsSubmitting(false);
     };
 
     const handleReveal = async () => {

@@ -255,6 +255,9 @@ export const updatePlayerState = async (
     // Client requesting update for themselves
     if (hostConnection && hostConnection.open) {
       hostConnection.send({ type: 'PLAYER_UPDATE', playerId, updates });
+    } else {
+      console.error("Connection to host lost", hostConnection);
+      throw new Error("Connection to host lost. Please try reconnecting.");
     }
   }
 };
