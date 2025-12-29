@@ -330,10 +330,6 @@ function App() {
         setLanguage={updateLanguage}
         playerName={playerName}
         setPlayerName={setPlayerName}
-        supabaseUrl={supabaseUrl}
-        setSupabaseUrl={setSupabaseUrl}
-        supabaseKey={supabaseKey}
-        setSupabaseKey={setSupabaseKey}
       />
     </div>
   );
