@@ -75,7 +75,7 @@ export const generateQuizQuestions = async (
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: 'gemini-2.0-flash-exp',
       contents: prompt,
       config: {
         systemInstruction,
@@ -129,7 +129,7 @@ export const generateFinalQuestion = async (
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
+      model: 'gemini-2.0-flash-exp', // Updated to latest reliable experimental or use 'gemini-1.5-flash'
       contents: prompt,
       config: {
         systemInstruction,

@@ -67,6 +67,7 @@ export interface GameState {
   questions: Question[];
   currentQuestionIndex: number;
   finalQuestion?: Question;
+  winningDifficulty?: string;
   loadingMessage?: string;
 }
 

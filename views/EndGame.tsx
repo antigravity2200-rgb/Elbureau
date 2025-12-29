@@ -8,7 +8,6 @@ import { Avatar } from '../components/Avatar';
 interface EndGameProps {
   gameState: GameState;
   onReset: () => void;
-  onLeave: () => void;
   isHost: boolean;
 }
 
@@ -32,7 +31,7 @@ export const EndGame: React.FC<EndGameProps> = ({ gameState, onReset, onLeave, i
         <h2 className="font-display font-black text-6xl text-text-main dark:text-white drop-shadow-sm">{t.gameOver}</h2>
       </div>
 
-      <div className="flex-1 w-full flex flex-col items-center justify-start min-h-0 gap-6 max-w-md mx-auto overflow-y-auto no-scrollbar pb-32">
+      <div className="flex-1 w-full flex flex-col items-center justify-start min-h-0 gap-6 max-w-md mx-auto overflow-y-auto no-scrollbar pb-20">
 
         {/* Winner Card */}
         <div className="relative w-full pt-8">
@@ -66,7 +65,7 @@ export const EndGame: React.FC<EndGameProps> = ({ gameState, onReset, onLeave, i
       {/* Footer Action */}
       <div className="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background-light from-80% to-transparent dark:from-background-dark z-30 pointer-events-none">
         <div className="max-w-md mx-auto pointer-events-auto flex flex-col gap-3">
-          <SketchButton onClick={onLeave} variant="secondary" fullWidth className="h-14 text-lg border-2 border-black/50 text-black/70 hover:text-black">
+          <SketchButton onClick={onLeave} variant="secondary" fullWidth className="h-12 text-lg shadow-sketch bg-white text-gray-700 border-gray-400">
             BACK TO HOME
           </SketchButton>
 
