@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Host: Game Configuration</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&amp;family=Spline+Sans:wght@300..700&amp;family=Architects+Daughter&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f4d125",
+              "background-light": "#f8f8f5",
+              "background-dark": "#221f10",
+              "paper-border": "#181711", 
+              "text-main": "#181711",
+            },
+            fontFamily: {
+              "display": ["Architects Daughter", "cursive"],
+              "body": ["Spline Sans", "sans-serif"],
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem", 
+              "lg": "0.75rem", 
+              "xl": "1rem", 
+              "2xl": "1.5rem",
+              "full": "9999px"
+            },
+            boxShadow: {
+                'sketch': '3px 3px 0px 0px #181711',
+                'sketch-sm': '2px 2px 0px 0px #181711',
+                'sketch-lg': '5px 5px 0px 0px #181711',
+                'sketch-hover': '5px 5px 0px 0px #181711',
+                'sketch-active': '1px 1px 0px 0px #181711',
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+            background-image: radial-gradient(#e6e4db 1px, transparent 1px);
+            background-size: 20px 20px;
+        }input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #f4d125;
+            cursor: pointer;
+            border: 2px solid #181711;
+            box-shadow: 2px 2px 0px 0px #181711;
+            margin-top: -10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-body text-text-main dark:text-white antialiased">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden pb-32">
+<div class="sticky top-0 z-50 flex items-center bg-background-light dark:bg-background-dark p-4 pb-2 justify-between border-b-2 border-paper-border dark:border-white/10">
+<div class="text-text-main dark:text-white flex size-12 shrink-0 items-center justify-center rounded-full border-2 border-transparent active:bg-black/5 hover:bg-black/5 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-3xl font-bold">arrow_back</span>
+</div>
+<h2 class="text-text-main dark:text-white text-2xl font-display font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-12">Game Setup</h2>
+</div>
+<div class="flex flex-col pt-6">
+<h3 class="text-text-main dark:text-white text-xl font-display font-bold leading-tight tracking-wide px-5 pb-4 transform -rotate-1">Choose Your Vibe</h3>
+<div class="flex w-full overflow-x-auto px-5 py-4 no-scrollbar scroll-pl-5">
+<div class="flex min-h-min flex-row items-start justify-start gap-4 pr-5">
+<div class="group flex flex-col justify-center gap-2 w-32 cursor-pointer transition-transform hover:-translate-y-1">
+<div class="relative w-full aspect-[3/4] bg-black rounded-xl overflow-hidden border-2 border-paper-border shadow-sketch group-hover:shadow-sketch-hover transition-all">
+<div class="absolute inset-0 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 opacity-90"></div>
+<div class="absolute inset-0 flex flex-col items-center justify-center p-2 text-center">
+<span class="material-symbols-outlined text-white text-4xl mb-2 drop-shadow-md">auto_awesome</span>
+<span class="text-white text-sm font-display font-bold leading-tight drop-shadow-md">AI Custom</span>
+</div>
+</div>
+</div>
+<div class="group flex flex-col justify-center gap-2 w-32 cursor-pointer transition-transform hover:-translate-y-1">
+<div class="relative w-full aspect-[3/4] bg-white dark:bg-white/5 rounded-xl overflow-hidden border-2 border-paper-border shadow-sketch group-hover:shadow-sketch-hover transition-all">
+<div class="w-full h-full bg-center bg-cover grayscale group-hover:grayscale-0 transition-all duration-300" data-alt="Colorful abstract pattern representing pop culture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC6Agwk2UBozDgDdAeL6XvMEHZq7T_dx8zrzeemHX7iNWhrgVvRnMCg0R3AP0An6sktTRnW8SInGSiTHxhdk-Q9AW2gkjXWwGxC0FiZ-Cx1iKOaA6OhbMv6pb9kd_ipZTugs4N4NwuZvibUlpIJkaTFAu74ZCp9xO4EeB2dzzoPfriRcn199Xm2tj1NJ64BkkaFVjVW5J8K0vAeEuWFbuY-czAYuCwg5ydWYPhcfn2lMtONWebSxYdFsCUnpeGyHRB8UpHf4pH8lxtv");'></div>
+<div class="absolute bottom-0 w-full bg-white border-t-2 border-paper-border p-2 text-center">
+<p class="text-text-main text-sm font-display font-bold truncate">Pop Culture</p>
+</div>
+</div>
+</div>
+<div class="group flex flex-col justify-center gap-2 w-32 cursor-pointer transform -translate-y-1">
+<div class="relative w-full aspect-[3/4] bg-white rounded-xl overflow-hidden border-2 border-paper-border shadow-sketch-lg ring-2 ring-primary ring-offset-2 ring-offset-background-light">
+<div class="absolute top-2 right-2 bg-primary text-black border-2 border-paper-border text-[10px] font-display font-bold px-2 py-1 rounded-md z-10 shadow-sketch-sm -rotate-6">PICKED!</div>
+<div class="w-full h-full bg-center bg-cover" data-alt="Ancient columns or historical artifact texture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDpUIY8zhIRb_mVo-kdo2DQ-15zkLvetQOwR5x70bRxy0Jn3E1ThO96Rh3QO6XZOPt4GjUOPqT772j7w4Zh_7UGvWdVHrKAHLGB1o_isgkJXrOFkIStwNas3cnhR0wZcdewN2VIwTZAtWmxWpHU22UtxQcohChJ0xAe-FEgda6IjVjRLMGaVPqh_IPVFPWXxx26j5HciQ0gRI4MoJWq8ZZeMN7un8J_ROoyzqyF0FeA_W61v-tUrX0J8SqlIZupj6agvNEyDa-FMSiR");'></div>
+<div class="absolute bottom-0 w-full bg-primary border-t-2 border-paper-border p-2 text-center">
+<p class="text-text-main text-sm font-display font-bold truncate">History</p>
+</div>
+</div>
+</div>
+<div class="group flex flex-col justify-center gap-2 w-32 cursor-pointer transition-transform hover:-translate-y-1">
+<div class="relative w-full aspect-[3/4] bg-white dark:bg-white/5 rounded-xl overflow-hidden border-2 border-paper-border shadow-sketch group-hover:shadow-sketch-hover transition-all">
+<div class="w-full h-full bg-center bg-cover grayscale group-hover:grayscale-0 transition-all duration-300" data-alt="Abstract molecular structure or laboratory equipment" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBZ08jRVGEIkqz6RrUgpfDBUNAtFtNSUwTwMwfYmd-vlUUTPgep0Z3uNrnG96JNff1dkoXY5SoF-3JKqvfeIMiJclAO3-FIuTDSNakpb7Bj0d3xT9TeVymB1fIt58uPaQHCuolxGkkPXaQosyj3pE0tXS7tWLI9P3aO9zb3uU_YCFpbelvziem4jr21tvhlixA2-cgCkXJx8FWs6y9V-7gAjtwqVfNeI7xGkm8kdJ0H4xvHlcq0L9qfs4TeeVVeCsEbbY5cXlHJv_YW");'></div>
+<div class="absolute bottom-0 w-full bg-white border-t-2 border-paper-border p-2 text-center">
+<p class="text-text-main text-sm font-display font-bold truncate">Science</p>
+</div>
+</div>
+</div>
+<div class="group flex flex-col justify-center gap-2 w-32 cursor-pointer transition-transform hover:-translate-y-1">
+<div class="relative w-full aspect-[3/4] bg-white dark:bg-white/5 rounded-xl overflow-hidden border-2 border-paper-border shadow-sketch group-hover:shadow-sketch-hover transition-all">
+<div class="w-full h-full bg-center bg-cover grayscale group-hover:grayscale-0 transition-all duration-300" data-alt="Action shot of sports stadium or equipment" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDZqdjKOFC7ZleSrdmG8te2yqwJfySguFZ1F1P4giSux5S1yxEg5nJOWgixkSeXLGIB2RU3JKtTbM5ZiCESNx0GBRfoqpLHU505TFycMFRT7Jj6axsqq2ovnzL8oKMZtE8B06aCO7letcB_kagm_JCchK1zqYoDLTB-XJ2pM1AUMsmXNaO9NCiccc-2WgRfE64YITIKTKMPpjtwSdlx8s9Ld7DhbkdJBKtMWNgfatKF568vNUzstSXjsoxVAy26hC2_eEd-246LieJa");'></div>
+<div class="absolute bottom-0 w-full bg-white border-t-2 border-paper-border p-2 text-center">
+<p class="text-text-main text-sm font-display font-bold truncate">Sports</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="h-6 w-full"></div>
+<div class="flex flex-col">
+<h3 class="text-text-main dark:text-white text-xl font-display font-bold leading-tight tracking-wide px-5 pb-4 transform rotate-1">The Nitty Gritty</h3>
+<div class="px-5 mb-6">
+<div class="bg-white dark:bg-white/5 rounded-xl p-5 border-2 border-paper-border shadow-sketch">
+<div class="flex w-full items-center justify-between mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-text-main text-2xl">quiz</span>
+<p class="text-text-main dark:text-white text-lg font-display font-bold">How many Qs?</p>
+</div>
+<span class="bg-primary text-text-main border-2 border-paper-border px-3 py-1 rounded-lg text-sm font-bold shadow-sketch-sm rotate-2">15</span>
+</div>
+<div class="flex items-center gap-4 px-2">
+<span class="text-sm font-bold font-display text-text-main">5</span>
+<div class="relative flex h-6 flex-1 items-center">
+<div class="h-3 w-full rounded-full border-2 border-paper-border bg-gray-100 overflow-hidden relative">
+<div class="absolute top-0 left-0 h-full bg-primary w-[32%] border-r-2 border-paper-border"></div>
+</div>
+<div class="absolute left-[32%] size-6 rounded-full bg-primary border-2 border-paper-border shadow-sketch-sm transform -translate-x-1/2 cursor-pointer flex items-center justify-center hover:scale-110 transition-transform"></div>
+</div>
+<span class="text-sm font-bold font-display text-text-main">50</span>
+</div>
+</div>
+</div>
+<div class="px-5 mb-2">
+<div class="flex flex-col gap-2">
+<p class="text-text-main dark:text-white text-sm font-display font-bold ml-1">Difficulty Level</p>
+<div class="flex p-2 bg-white dark:bg-white/5 border-2 border-paper-border rounded-xl shadow-sketch gap-2">
+<button class="flex-1 py-2 rounded-lg text-text-main font-display font-bold text-sm hover:bg-gray-100 border-2 border-transparent hover:border-paper-border transition-all">Easy</button>
+<button class="flex-1 py-2 rounded-lg bg-primary text-black font-display font-bold text-sm border-2 border-paper-border shadow-sketch-sm transform -translate-y-1">Medium</button>
+<button class="flex-1 py-2 rounded-lg text-text-main font-display font-bold text-sm hover:bg-gray-100 border-2 border-transparent hover:border-paper-border transition-all">Hard</button>
+<button class="flex-1 py-2 rounded-lg text-text-main font-display font-bold text-sm hover:bg-gray-100 border-2 border-transparent hover:border-paper-border transition-all">Mixed</button>
+</div>
+</div>
+</div>
+</div>
+<div class="h-8 w-full"></div>
+<div class="flex flex-col">
+<h3 class="text-text-main dark:text-white text-xl font-display font-bold leading-tight tracking-wide px-5 pb-4 transform -rotate-1">House Rules</h3>
+<div class="px-5 flex flex-col gap-4">
+<div class="flex items-center justify-between p-4 bg-white dark:bg-white/5 rounded-xl border-2 border-paper-border shadow-sketch hover:shadow-sketch-hover transition-all cursor-pointer group">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-xl group-hover:rotate-12 transition-transform">timer</span>
+<p class="text-text-main dark:text-white text-lg font-display font-bold">Time Limit</p>
+</div>
+<p class="text-xs font-bold text-text-main/60 dark:text-white/60 pl-7 font-display">30s per question</p>
+</div>
+<div class="relative h-8 w-14 rounded-full bg-primary border-2 border-paper-border cursor-pointer transition-colors shadow-sketch-sm">
+<div class="absolute right-1 top-1 size-5 rounded-full bg-white border-2 border-paper-border shadow-sm transition-all"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-white dark:bg-white/5 rounded-xl border-2 border-paper-border shadow-sketch hover:shadow-sketch-hover transition-all cursor-pointer group">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors">lightbulb</span>
+<p class="text-text-main dark:text-white text-lg font-display font-bold">Allow Hints</p>
+</div>
+<p class="text-xs font-bold text-text-main/60 dark:text-white/60 pl-7 font-display">Costs 50 points</p>
+</div>
+<div class="relative h-8 w-14 rounded-full bg-gray-200 border-2 border-paper-border cursor-pointer transition-colors shadow-inner">
+<div class="absolute left-1 top-1 size-5 rounded-full bg-white border-2 border-paper-border shadow-sm transition-all"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-white dark:bg-white/5 rounded-xl border-2 border-paper-border shadow-sketch hover:shadow-sketch-hover transition-all cursor-pointer group">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-xl group-hover:-translate-y-1 transition-transform">rocket_launch</span>
+<p class="text-text-main dark:text-white text-lg font-display font-bold">Crazy Scoring</p>
+</div>
+<p class="text-xs font-bold text-text-main/60 dark:text-white/60 pl-7 font-display">Streak bonuses active</p>
+</div>
+<div class="relative h-8 w-14 rounded-full bg-primary border-2 border-paper-border cursor-pointer transition-colors shadow-sketch-sm">
+<div class="absolute right-1 top-1 size-5 rounded-full bg-white border-2 border-paper-border shadow-sm transition-all"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="h-8 w-full"></div>
+<div class="flex flex-col pb-8">
+<h3 class="text-text-main dark:text-white text-xl font-display font-bold leading-tight tracking-wide px-5 pb-4 transform rotate-1">Mix It Up</h3>
+<div class="px-5 flex flex-wrap gap-3">
+<button class="flex items-center gap-2 px-4 py-3 bg-primary text-black rounded-lg text-sm font-display font-bold border-2 border-paper-border shadow-sketch-sm hover:shadow-sketch hover:-translate-y-0.5 transition-all">
+<span class="material-symbols-outlined text-[20px] font-bold">check</span>
+                    Multiple Choice
+                </button>
+<button class="flex items-center gap-2 px-4 py-3 bg-primary text-black rounded-lg text-sm font-display font-bold border-2 border-paper-border shadow-sketch-sm hover:shadow-sketch hover:-translate-y-0.5 transition-all -rotate-1">
+<span class="material-symbols-outlined text-[20px] font-bold">check</span>
+                    True / False
+                </button>
+<button class="flex items-center gap-2 px-4 py-3 bg-white text-text-main/80 rounded-lg text-sm font-display font-bold border-2 border-paper-border border-dashed hover:border-solid hover:bg-gray-50 transition-all">
+                    Open Ended
+                </button>
+<button class="flex items-center gap-2 px-4 py-3 bg-white text-text-main/80 rounded-lg text-sm font-display font-bold border-2 border-paper-border border-dashed hover:border-solid hover:bg-gray-50 transition-all rotate-1">
+                    Rapid Fire
+                </button>
+<button class="flex items-center gap-2 px-4 py-3 bg-white text-text-main/80 rounded-lg text-sm font-display font-bold border-2 border-paper-border border-dashed hover:border-solid hover:bg-gray-50 transition-all">
+                    Custom Answer
+                </button>
+</div>
+</div>
+<div class="fixed bottom-0 left-0 right-0 p-5 pt-10 z-20 pointer-events-none bg-gradient-to-t from-background-light from-60% to-transparent">
+<button class="pointer-events-auto w-full bg-primary text-black text-xl font-display font-bold py-4 rounded-xl border-2 border-paper-border shadow-sketch-lg hover:shadow-sketch hover:translate-y-1 active:shadow-sketch-active active:translate-y-[4px] transition-all flex items-center justify-center gap-3">
+<span>LAUNCH GAME</span>
+<span class="material-symbols-outlined text-2xl animate-pulse">rocket_launch</span>
+</button>
+</div>
+</div>
+
+</body></html>

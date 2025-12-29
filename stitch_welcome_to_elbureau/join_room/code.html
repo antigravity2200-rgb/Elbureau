@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Join Room - ElBureau</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&amp;family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f4d125",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#221f10",
+                    },
+                    fontFamily: {
+                        "display": ["Fredoka", "sans-serif"],
+                        "body": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem",
+                        "sketchy": "0.8rem",
+                    },
+                    boxShadow: {
+                        'sharp': '4px 4px 0px 0px rgba(0,0,0,1)',
+                        'sharp-hover': '6px 6px 0px 0px rgba(0,0,0,1)',
+                        'sharp-dark': '4px 4px 0px 0px #ffffff',
+                        'sharp-dark-hover': '6px 6px 0px 0px #ffffff',
+                    }
+                },
+            },
+        }
+    </script>
+<style>input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0
+        }
+        input[type=number] {
+            -moz-appearance: textfield
+        }.paper-texture {
+            background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuAjCm7tZZpsHusicpa8sMC8dmaXFPFuf8bG2CYPJAhfcHw6Wc6zv8ztHq_Vmj6BNmneY3-AQ4sCEqJ1bcs8XQKfxDE8FLzuVkLUkVyqqFwS2S7LAAzVZptVhJozoJ24Ek-r2nHvabCZ-C4_Ke1KgjpoyZlHtI6GqlakcXFEPNs4WGozU41LegTdmbD807SZXV_r9dwq420gQGq41D6U0CHcDckzudu_CSQKTs_id0s8kfGpyLyiqyLDH7vNwgJBl5dJnlU_ZVLzuolZ);
+            pointer-events: none;
+        }body {
+            cursor: default;
+        }
+        button, a {
+            cursor: pointer;
+        }@keyframes subtle-shake {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-body text-[#181711] dark:text-[#f0f0e8] antialiased overflow-x-hidden selection:bg-primary selection:text-black">
+<div class="paper-texture fixed inset-0 z-50 mix-blend-multiply dark:mix-blend-overlay opacity-80"></div>
+<div class="relative flex min-h-[100dvh] w-full flex-col max-w-md mx-auto">
+<header class="flex items-center p-6 justify-between z-10">
+<button class="group flex h-12 w-12 items-center justify-center rounded-xl bg-white dark:bg-[#2c291d] border-2 border-black dark:border-[#f0f0e8] shadow-sharp dark:shadow-sharp-dark transition-all active:shadow-none active:translate-x-[4px] active:translate-y-[4px]">
+<span class="material-symbols-outlined text-2xl font-bold dark:text-white" data-weight="700">arrow_back</span>
+</button>
+<div class="w-12"></div> 
+</header>
+<main class="flex-1 flex flex-col items-center px-6 pt-4 pb-8 z-10 w-full">
+<div class="relative mb-10 mt-2">
+<div class="absolute inset-0 bg-primary rounded-sketchy border-2 border-black dark:border-[#f0f0e8] rotate-6 translate-x-2 translate-y-1"></div>
+<div class="relative h-36 w-36 bg-white dark:bg-[#2c291d] rounded-sketchy border-2 border-black dark:border-[#f0f0e8] shadow-sharp dark:shadow-sharp-dark flex items-center justify-center overflow-hidden -rotate-3 transition-transform duration-300 hover:rotate-0">
+<img alt="Game Icon" class="h-full w-full object-cover" data-alt="Abstract colorful confetti and game shapes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-ZabZZu2MkyBDzr7pML08hcXjjhOcDpP8oR7rjWsu1JEajsadXer6b2QEnGZ4BFYlk_hvOur7BBI2KQjK5zordxmQfQsb017cR7F-0bzhdt5MV3t6SRQEovEjyMWqsw0PH4QGHfGWQIkxLG22Pywc39EehvvsUQHsy3vrRtaP28kbA5Yx7szxuuQ5UgcY2RriZdc1mjYP7phFrpp9OyKXRa76MJmz6qe9qEjLKVWN6KlC8LJLNVKzwgNj6WNE-MW9bUMyYnOSuLSv"/>
+</div>
+</div>
+<div class="text-center mb-10 space-y-2">
+<h1 class="text-4xl font-display font-black tracking-wide uppercase text-[#181711] dark:text-white drop-shadow-sm rotate-1">Join the Fun!</h1>
+<p class="text-lg text-gray-600 dark:text-gray-300 font-medium font-display">Enter the magic code from the host.</p>
+</div>
+<div class="w-full max-w-[340px] mb-10">
+<fieldset class="flex justify-between gap-3">
+<div class="relative group">
+<input autofocus="" class="flex h-16 w-[4.5rem] text-center bg-white dark:bg-[#2c291d] rounded-xl text-3xl font-display font-bold text-[#181711] dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-600 border-2 border-black dark:border-[#f0f0e8] shadow-sharp dark:shadow-sharp-dark outline-none transition-all focus:translate-x-[4px] focus:translate-y-[4px] focus:shadow-none focus:ring-0 focus:border-primary" max="9" maxlength="1" min="0" oninput="if(this.value.length &gt; this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value.length === 1) this.parentElement.nextElementSibling?.querySelector('input')?.focus();" onkeydown="if(event.key==='Backspace' &amp;&amp; this.value===''){ this.parentElement.previousElementSibling?.querySelector('input')?.focus(); }" placeholder="?" type="number"/>
+</div>
+<div class="relative group">
+<input class="flex h-16 w-[4.5rem] text-center bg-white dark:bg-[#2c291d] rounded-xl text-3xl font-display font-bold text-[#181711] dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-600 border-2 border-black dark:border-[#f0f0e8] shadow-sharp dark:shadow-sharp-dark outline-none transition-all focus:translate-x-[4px] focus:translate-y-[4px] focus:shadow-none focus:ring-0 focus:border-primary" max="9" maxlength="1" min="0" oninput="if(this.value.length &gt; this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value.length === 1) this.parentElement.nextElementSibling?.querySelector('input')?.focus();" onkeydown="if(event.key==='Backspace' &amp;&amp; this.value===''){ this.parentElement.previousElementSibling?.querySelector('input')?.focus(); }" placeholder="?" type="number"/>
+</div>
+<div class="relative group">
+<input class="flex h-16 w-[4.5rem] text-center bg-white dark:bg-[#2c291d] rounded-xl text-3xl font-display font-bold text-[#181711] dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-600 border-2 border-black dark:border-[#f0f0e8] shadow-sharp dark:shadow-sharp-dark outline-none transition-all focus:translate-x-[4px] focus:translate-y-[4px] focus:shadow-none focus:ring-0 focus:border-primary" max="9" maxlength="1" min="0" oninput="if(this.value.length &gt; this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value.length === 1) this.parentElement.nextElementSibling?.querySelector('input')?.focus();" onkeydown="if(event.key==='Backspace' &amp;&amp; this.value===''){ this.parentElement.previousElementSibling?.querySelector('input')?.focus(); }" placeholder="?" type="number"/>
+</div>
+<div class="relative group">
+<input class="flex h-16 w-[4.5rem] text-center bg-white dark:bg-[#2c291d] rounded-xl text-3xl font-display font-bold text-[#181711] dark:text-white placeholder:text-gray-300 dark:placeholder:text-gray-600 border-2 border-black dark:border-[#f0f0e8] shadow-sharp dark:shadow-sharp-dark outline-none transition-all focus:translate-x-[4px] focus:translate-y-[4px] focus:shadow-none focus:ring-0 focus:border-primary" max="9" maxlength="1" min="0" oninput="if(this.value.length &gt; this.maxLength) this.value = this.value.slice(0, this.maxLength); if(this.value.length === 1) this.blur();" onkeydown="if(event.key==='Backspace' &amp;&amp; this.value===''){ this.parentElement.previousElementSibling?.querySelector('input')?.focus(); }" placeholder="?" type="number"/>
+</div>
+</fieldset>
+</div>
+<div class="w-full mt-auto mb-4">
+<button class="group relative flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-16 bg-primary text-black text-xl font-display font-black tracking-wider uppercase border-2 border-black dark:border-[#f0f0e8] shadow-sharp dark:shadow-sharp-dark transition-all hover:shadow-sharp-hover dark:hover:shadow-sharp-dark-hover hover:-translate-y-0.5 active:translate-x-[4px] active:translate-y-[4px] active:shadow-none">
+<span class="relative z-10 flex items-center gap-2">
+                        Enter Room
+                        <span class="material-symbols-outlined text-2xl font-bold group-hover:rotate-12 transition-transform">arrow_forward</span>
+</span>
+<div class="absolute inset-0 opacity-10" style="background-image: repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 50%); background-size: 10px 10px;"></div>
+</button>
+</div>
+<div class="mt-4 text-center pb-6">
+<a class="inline-flex items-center gap-1.5 text-sm font-display font-bold text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-primary transition-colors" href="#">
+                    No code? 
+                    <span class="relative">
+                        Host a game
+                        <svg class="absolute -bottom-1 left-0 w-full h-1 text-primary" preserveAspectRatio="none" viewBox="0 0 100 10">
+<path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" stroke-width="3"></path>
+</svg>
+</span>
+</a>
+</div>
+</main>
+</div>
+
+</body></html>

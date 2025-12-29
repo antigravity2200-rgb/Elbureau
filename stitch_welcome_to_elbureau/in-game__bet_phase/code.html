@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElBureau - Bet Phase</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f4d125",
+                        "primary-dark": "#dcb910",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#221f10",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#2d2a1d",
+                        "ink": "#181711",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "1rem", 
+                        "lg": "1.5rem", 
+                        "xl": "2rem", 
+                        "2xl": "2.5rem",
+                        "3xl": "3rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        'paper': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                        'sketch': '3px 3px 0px 0px #181711',
+                        'sketch-lg': '5px 5px 0px 0px #181711',
+                        'sketch-sm': '2px 2px 0px 0px #181711',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }.bg-paper-texture {
+            background-image: radial-gradient(#d4d4cd 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-ink dark:text-gray-100 font-display transition-colors duration-200 bg-paper-texture">
+<div class="relative flex h-full min-h-screen w-full flex-col overflow-x-hidden max-w-md mx-auto shadow-2xl bg-background-light/95 dark:bg-background-dark border-x-2 border-ink/10">
+<header class="flex items-center px-6 pt-6 pb-2 justify-between z-20">
+<button class="bg-surface-light dark:bg-surface-dark text-ink dark:text-white border-2 border-ink dark:border-gray-600 rounded-full h-12 w-12 flex items-center justify-center shadow-sketch hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all duration-200">
+<span class="material-symbols-outlined text-[28px]">pause</span>
+</button>
+<div class="flex flex-col items-center">
+<span class="text-xs font-bold tracking-wider uppercase text-gray-500 mb-0.5">In-Game</span>
+<h2 class="text-ink dark:text-white text-xl font-black leading-tight tracking-tight uppercase transform -skew-x-6">Round 3/10</h2>
+</div>
+<div class="flex items-center justify-end">
+<div class="bg-primary px-4 py-2 rounded-xl border-2 border-ink shadow-sketch transform rotate-2">
+<p class="text-ink text-sm font-black leading-none tracking-wide">450 PTS</p>
+</div>
+</div>
+</header>
+<div class="px-6 py-6">
+<div class="flex gap-4 justify-center items-end">
+<div class="flex flex-col items-center gap-1">
+<div class="flex h-16 w-20 items-center justify-center rounded-xl bg-surface-light dark:bg-surface-dark border-2 border-ink dark:border-gray-500 shadow-sketch">
+<p class="text-ink dark:text-white text-3xl font-black tracking-tight">00</p>
+</div>
+<p class="text-ink dark:text-gray-300 text-[10px] font-bold uppercase tracking-wider bg-white dark:bg-surface-dark px-2 border border-ink dark:border-gray-600 rounded-md -mt-3 z-10 shadow-sm">Min</p>
+</div>
+<div class="flex h-16 items-center justify-center pb-2">
+<span class="text-3xl font-black text-ink dark:text-gray-300 animate-pulse">:</span>
+</div>
+<div class="flex flex-col items-center gap-1">
+<div class="flex h-16 w-20 items-center justify-center rounded-xl bg-primary shadow-sketch border-2 border-ink">
+<p class="text-ink text-3xl font-black tracking-tight">15</p>
+</div>
+<p class="text-ink text-[10px] font-bold uppercase tracking-wider bg-white px-2 border border-ink rounded-md -mt-3 z-10 shadow-sm">Sec</p>
+</div>
+</div>
+</div>
+<main class="flex-1 flex flex-col px-6 pb-32">
+<div class="text-center py-4 mb-2">
+<h1 class="text-ink dark:text-white text-[32px] font-black leading-tight tracking-tight mb-3 drop-shadow-sm">
+                    Place Your Bet!
+                </h1>
+<div class="inline-block bg-white dark:bg-white/10 border-2 border-dashed border-gray-400 dark:border-gray-600 rounded-lg px-4 py-2 transform -rotate-1">
+<p class="text-gray-600 dark:text-gray-300 text-sm font-bold leading-relaxed">
+                        High Risk <span class="text-primary-dark font-black text-lg align-middle mx-1">=</span> High Reward
+                    </p>
+</div>
+</div>
+<div class="flex justify-center -space-x-4 mb-8 py-4">
+<img class="w-12 h-12 rounded-full border-2 border-ink bg-white object-cover z-30 hover:scale-110 transition-transform" data-alt="Avatar of Player 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaX8QuylWKhZIXqLBsoHZsObuOyjzVhJ-lLH1mZUVxcW1FYjernUNfgzwzP-f0FvtGTw3ZyrNLw6QhL_DkWg_rej3pCerJI0HdbZosxiRYh2neT_cW1qwwhkcMu3Gw7U0UP_CRDdq-gGSNN9aMkHiGmzqQq4_G-Tlbp1QZN58ipwxO18JZ91v4A4pXlYD2cOpH_qEP4E1pnaA9OA4f-Sqkp4WVC3UVj0QEqlV-LA5ge1CePMPXH7KuXXrtsM3GYoZCwOsVXJvsunl7"/>
+<img class="w-12 h-12 rounded-full border-2 border-ink bg-white object-cover grayscale z-20 hover:scale-110 transition-transform" data-alt="Avatar of Player 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDup_1yRazLoVfdg7YWAGV80VqD9EgHR5Xy2U2jAQPhM8l1j2wTXPzLr7Uuq-Q7qdBZHaHbmAMjPFb9-0zL5m-BwlypLWVf1ZZABes4yabdeUdwRrmxCVqrnhrEsVer2BNUg7AHFJAqz-1uJureNOomWILw5VzjydIROy6QqiXLz4qo6eGb-YFAxqZxUqB2rCpV2r2EPfsyercPnaF1NDN72GHls3tnOA4QYdSfRW0QDwuBJMgTDXnaBgTRKnFiYgJFPWyHNssd8NaI"/>
+<img class="w-12 h-12 rounded-full border-2 border-ink bg-white object-cover z-10 hover:scale-110 transition-transform" data-alt="Avatar of Player 3" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuKScIpQHchlT6Q5Xwna0aq3Ztv1nS3kihLUtIjB5VJHJhuv3__8DZ7iasVk4qGSNYnXUvQ4Yi-hL9-8j96Pb38hqz8sr0oFgdDPthdLNUbw2dtkZGwpqvJvTAd7oGhkgTuoricP756c1QNv6udR9hGnFHUf_pj4e968UGw4ksg8hLdI9K5S78MKR7IKhI35Qp1-owERVfwnJqeDKCiXTnRn6w-_C54_z_JvPXH_836INU6x1TnMPLmF7IvJdtjIq3ZNLCIyBgtzdQ"/>
+<div class="w-12 h-12 rounded-full border-2 border-ink bg-primary flex items-center justify-center text-xs font-black text-ink z-0 relative shadow-sketch-sm">
+                    +2
+                </div>
+</div>
+<div class="grid grid-cols-4 gap-3 place-items-center mb-6">
+<button class="group relative flex h-16 w-16 items-center justify-center rounded-xl bg-surface-light dark:bg-surface-dark shadow-sketch hover:-translate-y-1 hover:shadow-sketch-lg transition-all duration-200 border-2 border-ink dark:border-gray-500 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
+<span class="text-ink dark:text-white text-xl font-bold group-hover:scale-110 transition-transform">1</span>
+</button>
+<button class="group relative flex h-16 w-16 items-center justify-center rounded-xl bg-surface-light dark:bg-surface-dark shadow-sketch hover:-translate-y-1 hover:shadow-sketch-lg transition-all duration-200 border-2 border-ink dark:border-gray-500 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
+<span class="text-ink dark:text-white text-xl font-bold group-hover:scale-110 transition-transform">2</span>
+</button>
+<div class="relative flex h-16 w-16 items-center justify-center rounded-xl bg-gray-100 dark:bg-white/5 border-2 border-dashed border-gray-400 dark:border-gray-600 opacity-70">
+<span class="text-gray-400 text-xl font-bold">3</span>
+<div class="absolute -top-2 -right-2 h-7 w-7 rounded-full border-2 border-ink bg-white dark:border-gray-800 overflow-hidden shadow-sm">
+<img class="h-full w-full object-cover" data-alt="Small avatar of player who took this number" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYdBih4cYJWoYnzmmliwWkbzGlXuZQrETI-XIeC4J5-7iv3ncgCfBXU2pKeYK-KQgVXHDG5YePKBrgjv51R0tN6beWOfFi6cH7TEpjVB64ZtDIp4pbm5rIlCPzu6yg4ZPz8U9IGA98-ST2ubGnk4E5AYrl5d4Qf_J--4FIwuKEAoVULd1QZpgx7jbQdT8GcmvyQ2Rk-zE_LfJPxQJVhMoqETvikzF13z4M-e8GQsua9RS7dAjmAMQJvc36521STAKqEuvElP1JUXVd"/>
+</div>
+</div>
+<button class="group relative flex h-16 w-16 items-center justify-center rounded-xl bg-surface-light dark:bg-surface-dark shadow-sketch hover:-translate-y-1 hover:shadow-sketch-lg transition-all duration-200 border-2 border-ink dark:border-gray-500 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
+<span class="text-ink dark:text-white text-xl font-bold group-hover:scale-110 transition-transform">4</span>
+</button>
+<button class="group relative flex h-16 w-16 items-center justify-center rounded-xl bg-surface-light dark:bg-surface-dark shadow-sketch hover:-translate-y-1 hover:shadow-sketch-lg transition-all duration-200 border-2 border-ink dark:border-gray-500 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
+<span class="text-ink dark:text-white text-xl font-bold group-hover:scale-110 transition-transform">5</span>
+</button>
+<div class="relative flex h-16 w-16 items-center justify-center rounded-xl bg-gray-100 dark:bg-white/5 border-2 border-dashed border-gray-400 dark:border-gray-600 opacity-70">
+<span class="text-gray-400 text-xl font-bold">6</span>
+<div class="absolute -top-2 -right-2 h-7 w-7 rounded-full border-2 border-ink bg-white dark:border-gray-800 overflow-hidden shadow-sm">
+<img class="h-full w-full object-cover" data-alt="Small avatar of player who took this number" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSR9Vi3pjwhdA8giy861MvTuYi78JWxfwskfHCxIWQQQmfLNSl3hP0DMagUEXX_J2cpj9c5Fg4vrpFlJPNBib0yxk0YFi7jNCtdpatza-ZtNewmFL1gisFuEedJOg4C5S-oXv9T_XPJzdsfLtN91RAIY8YVRVArR4xcAO1tLQq2CEdHw8CnyciaUPFeXy9KFwV-IsPan_WjAP9E5eWJK_MYsS_SaLaJDSxeXHvIB2rmYQ1BG5BnBlEMhb06qg2ZozWKBrhoNmmVDb-"/>
+</div>
+</div>
+<button class="group relative flex h-20 w-20 items-center justify-center rounded-2xl bg-primary shadow-sketch-lg -mt-2 -mb-2 z-10 border-4 border-ink hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+<span class="text-ink text-4xl font-black">7</span>
+<div class="absolute -bottom-3 bg-ink text-white text-[10px] px-2.5 py-1 rounded-lg border-2 border-white font-black uppercase tracking-wider shadow-sm">YOU</div>
+</button>
+<button class="group relative flex h-16 w-16 items-center justify-center rounded-xl bg-surface-light dark:bg-surface-dark shadow-sketch hover:-translate-y-1 hover:shadow-sketch-lg transition-all duration-200 border-2 border-ink dark:border-gray-500 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
+<span class="text-ink dark:text-white text-xl font-bold group-hover:scale-110 transition-transform">8</span>
+</button>
+<button class="group relative flex h-16 w-16 items-center justify-center rounded-xl bg-surface-light dark:bg-surface-dark shadow-sketch hover:-translate-y-1 hover:shadow-sketch-lg transition-all duration-200 border-2 border-ink dark:border-gray-500 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
+<span class="text-ink dark:text-white text-xl font-bold group-hover:scale-110 transition-transform">9</span>
+</button>
+<button class="group relative flex h-16 w-16 items-center justify-center rounded-xl bg-surface-light dark:bg-surface-dark shadow-sketch hover:-translate-y-1 hover:shadow-sketch-lg transition-all duration-200 border-2 border-ink dark:border-gray-500 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none">
+<span class="text-ink dark:text-white text-xl font-bold group-hover:scale-110 transition-transform">10</span>
+</button>
+</div>
+<div class="flex items-center justify-center gap-2 mt-4 opacity-80 bg-white dark:bg-white/5 inline-flex mx-auto px-4 py-1.5 rounded-full border border-ink/20 dark:border-white/20 shadow-sm w-full max-w-[200px]">
+<span class="material-symbols-outlined text-sm text-ink dark:text-gray-300">info</span>
+<p class="text-xs text-ink dark:text-gray-300 font-bold">Bet resets every round</p>
+</div>
+</main>
+<div class="fixed bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background-light via-background-light/90 to-transparent dark:from-background-dark dark:via-background-dark/90 pt-12 max-w-md mx-auto pointer-events-none">
+<button class="pointer-events-auto w-full flex items-center justify-between px-3 pl-3 bg-ink dark:bg-surface-light rounded-2xl h-20 shadow-sketch-lg border-2 border-ink hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_#181711] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all duration-200 group">
+<div class="h-14 w-14 flex items-center justify-center rounded-xl bg-primary border-2 border-ink group-hover:rotate-6 transition-transform duration-300">
+<span class="material-symbols-outlined text-ink text-2xl font-bold">lock</span>
+</div>
+<div class="flex flex-col items-start pl-2">
+<span class="text-white dark:text-ink text-lg font-black tracking-wide uppercase">Lock In Bet: 7</span>
+<span class="text-gray-400 text-xs font-bold uppercase tracking-widest group-hover:text-primary transition-colors">Tap to confirm</span>
+</div>
+<div class="h-14 w-14 flex items-center justify-center">
+<span class="material-symbols-outlined text-white dark:text-ink group-hover:translate-x-1 transition-transform">arrow_forward_ios</span>
+</div>
+</button>
+</div>
+</div>
+</body></html>

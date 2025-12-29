@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElBureau Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f4d125",
+                        "primary-dark": "#e0be10",
+                        "background-light": "#f8f8f5", // Creamy white
+                        "background-dark": "#221f10",  // Dark brownish-black
+                        "paper": "#ffffff",
+                        "paper-dark": "#2d2a1d",
+                        "text-main": "#181711",
+                        "text-main-dark": "#f0f0f0",
+                        "text-sub": "#8a8360",
+                        "text-sub-dark": "#a39e85",
+                        "accent-blue": "#4aa9ff",
+                        "accent-red": "#ff5c5c",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"],
+                        "marker": ["Permanent Marker", "cursive"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "1.5rem", "xl": "2rem", "2xl": "3rem", "full": "9999px"},
+                    backgroundImage: {
+                        'paper-pattern': "url('data:image/svg+xml,%3Csvg width=\\'100\\' height=\\'100\\' viewBox=\\'0 0 100 100\\' xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Cpath d=\\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\\' fill=\\'%239C92AC\\' fill-opacity=\\'0.03\\' fill-rule=\\'evenodd\\'/%3E%3C/svg%3E')",
+                    },
+                    boxShadow: {
+                        'sketch': '2px 3px 0px 0px #181711',
+                        'sketch-lg': '4px 5px 0px 0px #181711',
+                        'sketch-sm': '1px 2px 0px 0px #181711',
+                        'sketch-dark': '2px 3px 0px 0px #000000',
+                    }
+                },
+            },
+        }
+    </script>
+<style>.no-scrollbar::-webkit-scrollbar {
+    display: none
+    }
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none
+    }
+.sketch-border {
+    border: 2px solid #181711
+    }
+.dark .sketch-border {
+    border: 2px solid #f0f0f0
+    }
+.dark .shadow-sketch, .dark .shadow-sketch-lg, .dark .shadow-sketch-sm {
+    box-shadow: 2px 3px 0 0 #f0f0f0
+    }.sketch-checkbox:checked {
+    background-color: #f4d125;
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDTdW06D9pCaQ8mPbrh8CmSY-m8e6WzVdf9490EjZLtQxyOJPYO8pamD__3yWSuwYoCisqMnmSk0FJVgDnzUi5au8dRf8t_CtOfi0BryB_RR1xuFnyZGkKEzhU-fYzgzlsGL2wxet-YjeRD_WBmLKiHKpvohse_QAUhoQKo1CTNNMKrC79xoAx2kfz1JAw54A5JT6DDRjd6Y6xxKB1e80EqfV9esgn5q-JbUyG11MNH2ShxrIRX0Eo5yoyU3agogyxciuPt_YeXURMl)
+    }</style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display text-text-main dark:text-text-main-dark">
+<div class="relative flex h-full min-h-screen w-full flex-col bg-background-light dark:bg-background-dark bg-paper-pattern overflow-x-hidden transition-colors duration-300">
+<header class="sticky top-0 z-10 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-b-2 border-text-main dark:border-text-main-dark">
+<div class="flex items-center p-4 pb-2 justify-between max-w-lg mx-auto w-full">
+<button class="sketch-border bg-white dark:bg-stone-800 text-text-main dark:text-text-main-dark flex size-12 shrink-0 items-center justify-center rounded-xl hover:translate-y-0.5 hover:shadow-none shadow-sketch transition-all">
+<span class="material-symbols-outlined" style="font-size: 28px;">arrow_back</span>
+</button>
+<div class="relative -rotate-1">
+<h2 class="text-text-main dark:text-text-main-dark text-3xl font-marker leading-tight tracking-[-0.015em] flex-1 text-center drop-shadow-sm">Backstage</h2>
+<div class="absolute -bottom-1 left-0 w-full h-1 bg-primary skew-x-12 opacity-70 -z-10"></div>
+</div>
+<div class="flex w-12 items-center justify-end">
+<button class="flex size-12 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-transparent text-text-main dark:text-text-main-dark hover:rotate-90 transition-transform duration-300">
+<span class="material-symbols-outlined" style="font-size: 32px; font-weight: 700;">close</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-lg mx-auto p-4 flex flex-col gap-6">
+<section class="bg-paper dark:bg-paper-dark rounded-xl sketch-border shadow-sketch p-6 relative overflow-visible">
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-stone-200/50 rotate-2 backdrop-blur-sm border-l border-r border-white/40"></div>
+<div class="flex items-center gap-3 mb-4">
+<div class="sketch-border bg-primary p-2 rounded-lg shadow-sketch-sm text-text-main -rotate-3">
+<span class="material-symbols-outlined">psychology</span>
+</div>
+<h2 class="text-text-main dark:text-text-main-dark text-xl font-bold font-marker leading-tight">The Brain</h2>
+</div>
+<p class="text-text-main dark:text-text-main-dark text-sm font-medium leading-normal mb-4 border-l-4 border-primary pl-3">
+                This powers the quiz master! Enter your Gemini API key below to start the show.
+            </p>
+<div class="flex flex-col gap-3">
+<div class="relative group">
+<input class="w-full h-14 bg-stone-50 dark:bg-stone-800 text-text-main dark:text-text-main-dark rounded-xl sketch-border focus:ring-0 focus:shadow-sketch transition-all px-6 placeholder:text-text-sub/50 text-base font-bold font-mono" placeholder="Paste your key here..." type="password" value="AIzaSy...5H9s"/>
+<button class="absolute right-3 top-3 bottom-3 aspect-square flex items-center justify-center text-text-main hover:text-primary transition-colors bg-white dark:bg-stone-700 sketch-border rounded-lg shadow-sketch-sm active:translate-y-0.5 active:shadow-none">
+<span class="material-symbols-outlined text-sm">visibility_off</span>
+</button>
+</div>
+<div class="flex justify-end mt-2">
+<button class="flex items-center justify-center gap-2 h-10 px-6 bg-primary text-text-main sketch-border rounded-xl font-bold font-marker text-sm shadow-sketch hover:translate-y-[-2px] hover:shadow-sketch-lg active:translate-y-[2px] active:shadow-none transition-all">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span>Verify &amp; Save</span>
+</button>
+</div>
+</div>
+<svg class="absolute -bottom-2 -right-2 w-12 h-12 text-stone-300 dark:text-stone-600 -z-10 rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</section>
+<section class="bg-paper dark:bg-paper-dark rounded-xl sketch-border shadow-sketch p-6 relative">
+<div class="absolute -top-3 right-8 w-16 h-5 bg-stone-200/50 -rotate-3 backdrop-blur-sm"></div>
+<div class="flex items-center gap-3 mb-5">
+<div class="sketch-border bg-accent-blue p-2 rounded-lg shadow-sketch-sm text-text-main rotate-2">
+<span class="material-symbols-outlined">translate</span>
+</div>
+<h2 class="text-text-main dark:text-text-main-dark text-xl font-bold font-marker leading-tight">The Voice</h2>
+</div>
+<div class="flex gap-4 overflow-x-auto no-scrollbar pb-4 px-1">
+<button class="group relative flex flex-col items-center gap-2 min-w-[100px] p-3 rounded-xl bg-primary/10 sketch-border shadow-sketch active:shadow-none active:translate-y-1 transition-all">
+<div class="size-12 rounded-full sketch-border overflow-hidden relative bg-white">
+<img alt="Flag of USA" class="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all" data-alt="Close up of American Flag texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBnyF6T-j16tcXl9Mvg9PB3zg1ClIp2HwZhWscI0cCEZhQCVipjGPK1baDciBa6qbWw-mXt-WGjucpR7-h4eHiSSmSF_48vcorTiV-tTv4wlospd9YXpd2v2nadaVjaKEs_pbbmY3kJiFG8J4QsC7N-xQCq35hD1ojTHWGqla3aCnpbd0HHu6mHpA3j87UntDvPDzx4Pm8UX0d84r7NjCORrOb-bT473SQWeH6Mv7_6bcPQ_HqX3FVkCPMXFhfhXTrEcwp_a96gdzx"/>
+</div>
+<span class="text-sm font-bold font-marker text-text-main dark:text-text-main-dark">English</span>
+<div class="absolute -top-2 -right-2 bg-primary sketch-border text-text-main rounded-full size-6 flex items-center justify-center shadow-sketch-sm">
+<span class="material-symbols-outlined text-[16px] font-bold">check</span>
+</div>
+</button>
+<button class="group relative flex flex-col items-center gap-2 min-w-[100px] p-3 rounded-xl bg-white dark:bg-stone-800 sketch-border hover:shadow-sketch active:translate-y-1 transition-all">
+<div class="size-12 rounded-full sketch-border overflow-hidden relative bg-stone-100">
+<img alt="Flag of France" class="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all" data-alt="Close up of French Flag texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD58nB5ZKqC-RP43FG3iOLeQmADbH5dk9dFQBYABy2v6w_N3N5cD6YlteQelxGeRfEr9G3-3sYwY3Wus7xcH__34LFpGxRVEAXAlCx1qnE-uen_ihuy7en9xjOjKhN-0g1MmSY9fkiL6vF8QRSrjeWzfgqMcvCzBtGEcoNEw1WdG1gA1EeKEIxZy8OYuo-lGE_y-C2qmb10cae3CIYzGnvOIuIqSzMlyFlMw60RoFOQBpZL5NvhL_fWgFMt-LblQUFMOWMhEnNvvmIW"/>
+</div>
+<span class="text-sm font-bold text-text-sub dark:text-text-sub-dark group-hover:text-text-main dark:group-hover:text-text-main-dark">Français</span>
+</button>
+<button class="group relative flex flex-col items-center gap-2 min-w-[100px] p-3 rounded-xl bg-white dark:bg-stone-800 sketch-border hover:shadow-sketch active:translate-y-1 transition-all">
+<div class="size-12 rounded-full sketch-border overflow-hidden relative bg-stone-100">
+<img alt="Flag of Saudi Arabia" class="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all" data-alt="Close up of Saudi Arabia Flag texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYiZ_EqxCtMK1pI0SiHCxMTejWUI76zkrHhAcU24EJVBpLDuqC2_WbTZfxZY7kHK04VGBAYtjZmVU48PeANnqgj5KoVIbdnycYunZ9nVKTkVu-by62k7KAw6bX_HFqb421T8BIIjQLf5p3x9-F3yiASFZhqYPbZKWW0xSJTvz9XQJsl30PwzJRjnjdK_UBn4wqey2kuB5PJD_z24ckf4pu1xvnCOe3HVp3_MdbzTiQtvqM6MMHHvdKcxbQc45KGceAgsa4l26pg_Z6"/>
+</div>
+<span class="text-sm font-bold text-text-sub dark:text-text-sub-dark group-hover:text-text-main dark:group-hover:text-text-main-dark">العربية</span>
+</button>
+</div>
+</section>
+<section class="bg-paper dark:bg-paper-dark rounded-xl sketch-border shadow-sketch divide-y-2 divide-text-main dark:divide-text-main-dark overflow-hidden">
+<div class="p-5 pb-4 bg-stone-50 dark:bg-stone-800/50">
+<div class="flex items-center gap-3">
+<div class="sketch-border bg-accent-red p-2 rounded-lg shadow-sketch-sm text-text-main -rotate-1">
+<span class="material-symbols-outlined">equalizer</span>
+</div>
+<h2 class="text-text-main dark:text-text-main-dark text-xl font-bold font-marker leading-tight">The Vibe</h2>
+</div>
+</div>
+<div class="flex items-center justify-between p-5 py-4 hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors">
+<div class="flex flex-col">
+<span class="text-lg font-bold text-text-main dark:text-text-main-dark font-marker">Sound Effects</span>
+<span class="text-xs text-text-sub dark:text-text-sub-dark font-bold uppercase tracking-wider">Buzzer noises &amp; applause</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer sketch-checkbox" type="checkbox" value=""/>
+<div class="w-14 h-8 bg-stone-200 sketch-border peer-focus:outline-none rounded-full peer dark:bg-stone-700 peer-checked:after:translate-x-full peer-checked:after:border-text-main after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-text-main after:border-2 after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary shadow-inner"></div>
+</label>
+</div>
+<div class="flex items-center justify-between p-5 py-4 hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors">
+<div class="flex flex-col">
+<span class="text-lg font-bold text-text-main dark:text-text-main-dark font-marker">Music</span>
+<span class="text-xs text-text-sub dark:text-text-sub-dark font-bold uppercase tracking-wider">Funky game show loops</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer sketch-checkbox" type="checkbox" value=""/>
+<div class="w-14 h-8 bg-stone-200 sketch-border peer-focus:outline-none rounded-full peer dark:bg-stone-700 peer-checked:after:translate-x-full peer-checked:after:border-text-main after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-text-main after:border-2 after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary shadow-inner"></div>
+</label>
+</div>
+<div class="flex items-center justify-between p-5 py-4 hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors">
+<div class="flex flex-col">
+<span class="text-lg font-bold text-text-main dark:text-text-main-dark font-marker">Haptics</span>
+<span class="text-xs text-text-sub dark:text-text-sub-dark font-bold uppercase tracking-wider">Vibrate on buzzers</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer sketch-checkbox" type="checkbox" value=""/>
+<div class="w-14 h-8 bg-stone-200 sketch-border peer-focus:outline-none rounded-full peer dark:bg-stone-700 peer-checked:after:translate-x-full peer-checked:after:border-text-main after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-text-main after:border-2 after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary shadow-inner"></div>
+</label>
+</div>
+</section>
+<div class="h-4"></div>
+</main>
+<div class="sticky bottom-0 bg-background-light/95 dark:bg-background-dark/95 backdrop-blur-md border-t-2 border-text-main dark:border-text-main-dark p-4 pb-8 z-20">
+<div class="max-w-lg mx-auto w-full flex flex-col items-center gap-4">
+<button class="w-full h-16 bg-primary text-text-main text-xl font-marker rounded-xl sketch-border shadow-sketch-lg hover:translate-y-[-2px] hover:shadow-[6px_7px_0px_0px_rgba(24,23,17,1)] active:translate-y-[2px] active:shadow-sketch-sm transition-all flex items-center justify-center gap-3 group">
+<span class="material-symbols-outlined group-hover:rotate-12 transition-transform">save</span>
+                Save All Changes
+            </button>
+<div class="flex items-center gap-4 text-xs font-bold text-text-sub dark:text-text-sub-dark uppercase tracking-wide">
+<a class="hover:text-primary transition-colors hover:underline decoration-2 underline-offset-2" href="#">Privacy</a>
+<span>•</span>
+<a class="hover:text-primary transition-colors hover:underline decoration-2 underline-offset-2" href="#">Terms</a>
+<span>•</span>
+<span class="font-mono">v2.4.0</span>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

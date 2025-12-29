@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElBureau - Player Lobby</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f4d125",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#221f10",
+                        "paper-cream": "#fdfbf7",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                    backgroundImage: {
+                        'paper-texture': "url('https://www.transparenttextures.com/patterns/cream-paper.png')", 
+                    }
+                },
+            },
+        }
+    </script>
+<style>.bg-paper-texture {
+    background-color: #f8f8f5;
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDWPm_LqfJwjPmPVKZ2z9bVcpiGEnVBUItSMVYhYQyzVZ3CRz_nYZ8acN0F8w72KZFl_NyFq1aSMYq_r4JOfEJ1fmSDY7M8yaQPgNIaWFMs_us3V1iP64kjsz1LAOSx6s4YPlCokHXjLWRq1srM8CDvIvEC_assozQ0onCYvFPN4E_Oor2I0uS1cBe7QNcymlLpMcWuLwOictNMKTMg38UsgneYHPquKBSR6PEUtOTdQqG1mB-_PIDUw301F-hl-VmemodG84iEZNuk)
+    }
+.dark .bg-paper-texture {
+    background-color: #221f10;
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuB9M3JQ61UoTQVxXoTRkEy7tC3s_lC_UXFzF1bAZYoLRhvTByLdkvfwZbEy1WhqRFoYtutaRcp_v1cJpV48fCC29q41sF6w1uvJa9eH99dfO1_JhVbqO8sHD5TfxHGX0-Cw_wIqwzDoH2B0Rko6zHQrHyDfgcLYkyjxE-eQ058YuzIyoktUpCO6WKGxzJzNHHfgp5wxTe3awSXfuuk8l6J_zBnkjJ0_HhB0STSkTaWZCRAZWbu_ss0uk2X9FVayyhkc3ooSoO5luWKZ);}@keyframes pulse-yellow {
+    0%, 100% {
+        background-color: #fff;
+        transform: scale(1);
+        } 50% {
+        background-color: #fefce8;transform: scale(1.02);
+        }
+    }
+.animate-pulse-slow {
+    animation: pulse-yellow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite
+    }::-webkit-scrollbar {
+    width: 8px
+    }
+::-webkit-scrollbar-track {
+    background: transparent
+    }
+::-webkit-scrollbar-thumb {
+    background: #000;
+    border-radius: 4px
+    }
+body {
+    min-height: max(884px, 100dvh)
+    }</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-[#181711] dark:text-white antialiased">
+<div class="relative flex h-full min-h-screen w-full flex-col bg-paper-texture group/design-root overflow-x-hidden">
+<div class="flex items-center p-4 pb-2 justify-between sticky top-0 z-10 backdrop-blur-sm bg-background-light/90 dark:bg-background-dark/90 border-b-2 border-transparent">
+<button class="text-[#181711] dark:text-white flex size-12 shrink-0 items-center justify-center rounded-full bg-white dark:bg-neutral-800 border-2 border-[#181711] dark:border-white shadow-[2px_2px_0px_0px_#181711] dark:shadow-[2px_2px_0px_0px_#ffffff] hover:translate-y-0.5 hover:shadow-none transition-all">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h2 class="text-[#181711] dark:text-white text-xl font-black leading-tight tracking-tight flex-1 text-center uppercase">ElBureau</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex size-12 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-white dark:bg-neutral-800 border-2 border-[#181711] dark:border-white shadow-[2px_2px_0px_0px_#181711] dark:shadow-[2px_2px_0px_0px_#ffffff] hover:translate-y-0.5 hover:shadow-none transition-all text-[#181711] dark:text-white">
+<span class="material-symbols-outlined text-[24px]">settings</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center pt-8 pb-8 px-4">
+<div class="inline-flex items-center justify-center px-5 py-2 rounded-lg bg-primary text-black font-black text-sm mb-6 border-2 border-[#181711] shadow-[4px_4px_0px_0px_#181711] -rotate-2">
+<span class="material-symbols-outlined text-[20px] mr-2 animate-spin">sync</span>
+                WAITING FOR HOST
+            </div>
+<h1 class="text-[#181711] dark:text-white tracking-tighter text-[40px] font-black leading-tight px-4 text-center drop-shadow-sm">
+                You're in!
+            </h1>
+<p class="text-[#181711] dark:text-white text-lg font-medium leading-normal pt-2 px-4 text-center max-w-xs">
+                Sit tight. The Bureau Chief is preparing the paperwork.
+            </p>
+</div>
+<div class="px-6 py-2 w-full max-w-md mx-auto">
+<div class="relative bg-white dark:bg-neutral-800 rounded-xl overflow-hidden border-3 border-[#181711] dark:border-white shadow-[6px_6px_0px_0px_#181711] dark:shadow-[6px_6px_0px_0px_#ffffff] rotate-1 hover:rotate-0 transition-transform duration-300">
+<div class="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-background-light dark:bg-background-dark rounded-full border-r-3 border-[#181711] dark:border-white"></div>
+<div class="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-background-light dark:bg-background-dark rounded-full border-l-3 border-[#181711] dark:border-white"></div>
+<div class="flex flex-col items-center justify-center py-8">
+<span class="text-xs font-black tracking-[0.2em] text-[#181711] dark:text-white mb-2 uppercase border-b-2 border-primary">Room Access Code</span>
+<div class="flex items-center gap-3 mt-2">
+<h2 class="text-6xl font-black text-[#181711] dark:text-white tracking-widest font-mono" style="text-shadow: 2px 2px 0px rgba(0,0,0,0.1);">ABCD</h2>
+<button class="p-2 rounded-lg bg-primary border-2 border-[#181711] shadow-[2px_2px_0px_0px_#181711] hover:translate-y-0.5 hover:shadow-none transition-all text-[#181711]">
+<span class="material-symbols-outlined text-[24px]">content_copy</span>
+</button>
+</div>
+</div>
+<div class="bg-primary border-t-3 border-[#181711] dark:border-white p-3 flex justify-center items-center gap-2 cursor-pointer hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-[24px] text-black">ios_share</span>
+<span class="text-base font-black text-black">SHARE INVITE LINK</span>
+</div>
+</div>
+</div>
+<div class="flex-1 w-full max-w-md mx-auto mt-8 px-4 pb-32">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xl font-black text-[#181711] dark:text-white uppercase italic tracking-wider">Players</h3>
+<span class="bg-white dark:bg-neutral-800 border-2 border-[#181711] dark:border-white shadow-[2px_2px_0px_0px_#181711] dark:shadow-[2px_2px_0px_0px_#ffffff] px-3 py-1 rounded-lg text-sm font-bold text-[#181711] dark:text-white">5 / 8 Joined</span>
+</div>
+<div class="grid grid-cols-4 gap-4">
+<div class="flex flex-col items-center gap-2 relative group">
+<div class="absolute -top-3 -right-2 z-10 bg-primary text-black text-[10px] font-black px-2 py-0.5 rounded border-2 border-[#181711] shadow-[2px_2px_0px_0px_#181711] rotate-12">YOU</div>
+<div class="relative w-16 h-16 rounded-full border-3 border-[#181711] dark:border-white bg-white dark:bg-neutral-800 shadow-[3px_3px_0px_0px_#181711] dark:shadow-[3px_3px_0px_0px_#ffffff] overflow-hidden group-hover:scale-105 transition-transform duration-200">
+<img alt="User avatar showing a smiling person" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCE8qtUiChskhXYbbGdL8rp1zYAXvGkfZoQVNYeSc4lhO1JLTsb1ROQwk5Q581d5lD4_KikioSUenWib72N8P7OId-Qq2piWJGS-JPP20qJopYGYU6G7UKSYNhRPXBX9-24si63eCuVI5bijIAx0B4PvIXPzRniu0m0pvzue6-kAJhhMxXuR66TbNRrX997pvk2HCjXz1eOqOZK5qssSj7KyT05te0dyCSKaGr1isk3Ok586Tv6Mg49SEEYFuCoqhvD_1xMM9g6gfWv"/>
+</div>
+<span class="text-sm font-bold text-center truncate w-full text-[#181711] dark:text-white bg-white dark:bg-neutral-800 px-1 rounded border border-[#181711]/10 dark:border-white/20">Alex</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 rounded-full border-3 border-[#181711] dark:border-white bg-white dark:bg-neutral-800 shadow-[3px_3px_0px_0px_#181711] dark:shadow-[3px_3px_0px_0px_#ffffff] overflow-hidden">
+<img alt="Player avatar of a woman laughing" class="w-full h-full object-cover grayscale opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8jy9XOzv_39MSpO6Zdv4DnvwPJemRaSboz1mTZKmzVjbJELGBzRa0MhFoxWf7pjIbnUgFd9lYBeXuhytMzxK3or5eGYiTAjb4dwGSzRZjURKpZjOfzlcRipQC0v_rbf8PTo7w53Ntt_eS6TM3BVriCFnqpw3c1lkQbKBrM7fghR-AlaqAEm1pzQ7n5G5-zA2_R167ijbzor9Fen0QJswq2v_2QaS2uLOZQ0LjuUjJ8bmwVqyGMhPw4XEO9EzwjUosDMhMT27M4Kj1"/>
+</div>
+<span class="text-xs font-bold text-center truncate w-full text-[#181711]/80 dark:text-white/80">Sarah</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 rounded-full border-3 border-[#181711] dark:border-white bg-white dark:bg-neutral-800 shadow-[3px_3px_0px_0px_#181711] dark:shadow-[3px_3px_0px_0px_#ffffff] overflow-hidden">
+<img alt="Player avatar of a man with glasses" class="w-full h-full object-cover grayscale opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzNskmLgXJFKjCmM3B1SqocdrykIw22VmF0ZkLoR8cMG-DRPycVE7OoCHLAZWIopn4tqnRasSAeC0IXGUo87eRkff-CIdvhTWrlt4DM1YfLXLni_B4M1T7dCzPAuBhMu7JUFQlDVQS69kUfqUIEDRh8A0aqlzQgRdfcNx6aGZFrjnbp3Dj1dpmQgV65dhcpWo17avITgS_Jttu81if_3KQAHrFac6szQUjpQlCL6jD8co-iQUhOQFYR-gCDnUpvYcjjg83rJfrvgxU"/>
+</div>
+<span class="text-xs font-bold text-center truncate w-full text-[#181711]/80 dark:text-white/80">Mike</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 rounded-full border-3 border-[#181711] dark:border-white bg-white dark:bg-neutral-800 shadow-[3px_3px_0px_0px_#181711] dark:shadow-[3px_3px_0px_0px_#ffffff] overflow-hidden">
+<img alt="Player avatar of a man with a beard" class="w-full h-full object-cover grayscale opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPj4gxFmBpWWgJpQCzif5AJqL6e3Neu12udZENUkpc-7HErSsQaBgWPmSJPnjYlwA_4pl7sj2vHjZbGGLR6rVl1PRiNU3sTTx5tvID2VsXuTgBxbwFEZPa-dxJIo7d1AT41RbmGPn296vDJvplHfdhNuND_ZufXtBGR2QrSccYd-3phlaVSeC6wblIJNYLbT1igtMRQN2BLuEeNyJX27g73PY1V39ygurGoRihmMzdDho6zOCuTm1SNQ6QrIWNckcsgv1gMhSPCUKq"/>
+</div>
+<span class="text-xs font-bold text-center truncate w-full text-[#181711]/80 dark:text-white/80">David</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-16 h-16 rounded-full border-3 border-[#181711] dark:border-white bg-white dark:bg-neutral-800 shadow-[3px_3px_0px_0px_#181711] dark:shadow-[3px_3px_0px_0px_#ffffff] overflow-hidden">
+<img alt="Player avatar of a woman with curly hair" class="w-full h-full object-cover grayscale opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAswb8mdnBk_fzs14aaIrszjotT92y_XenC7fTJFD1PlGpI8kb6LfxCPwQUXHRg_ijctgF-ZvZjJpukM-2gtROYk2_YpUBntK6sGXzOwEfCQm1nnx6h1fsluH8WHChHbHz-iii8rZMxYMsUVvKP7VYQfmX1rO5N3FvHQ1iKS8Da20nOb0Woocxu8jWICsfrI-IIIwYBH2q-r04cJzgt5TaV1XRKmV_FHB7-fjaFHfpQx3Mw9ThCL7iK2YSh1Kt0Jg4GCEuC1lNqFgc-"/>
+</div>
+<span class="text-xs font-bold text-center truncate w-full text-[#181711]/80 dark:text-white/80">Elena</span>
+</div>
+<div class="flex flex-col items-center gap-2 opacity-50">
+<div class="w-16 h-16 rounded-full border-3 border-dashed border-[#181711] dark:border-white flex items-center justify-center bg-transparent">
+<span class="material-symbols-outlined text-[24px] text-[#181711] dark:text-white">add</span>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed bottom-0 left-0 w-full p-4 bg-gradient-to-t from-background-light via-background-light to-transparent dark:from-background-dark dark:via-background-dark pointer-events-none z-20">
+<div class="pointer-events-auto bg-white dark:bg-neutral-800 p-4 rounded-xl border-3 border-[#181711] dark:border-white shadow-[6px_6px_0px_0px_#181711] dark:shadow-[6px_6px_0px_0px_#ffffff] transform -rotate-1 max-w-md mx-auto transition-transform hover:rotate-0">
+<div class="flex gap-4">
+<div class="shrink-0 bg-primary border-2 border-[#181711] dark:border-white rounded-full h-10 w-10 flex items-center justify-center text-black shadow-[2px_2px_0px_0px_#181711] dark:shadow-[2px_2px_0px_0px_#ffffff]">
+<span class="material-symbols-outlined text-[20px] font-bold">lightbulb</span>
+</div>
+<div>
+<p class="text-xs font-black uppercase text-black dark:text-white mb-1 tracking-wider bg-primary inline-block px-1 -ml-1 transform -skew-x-12">Bureau Tip #42</p>
+<p class="text-sm font-medium text-[#181711] dark:text-white leading-snug">
+                            Answering faster earns you more points, but wrong answers subtract them. Speed kills!
+                        </p>
+</div>
+</div>
+</div>
+<p class="text-center text-[10px] text-[#181711]/60 dark:text-white/50 font-black uppercase tracking-widest mt-4 mb-2">Don't lock your screen!</p>
+</div>
+</div>
+
+</body></html>

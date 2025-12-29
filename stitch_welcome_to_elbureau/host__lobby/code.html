@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Host: Lobby</title>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f4d125",
+                        "primary-dark": "#e0c010",
+                        "background-light": "#f9f7f0",
+                        "background-dark": "#1a1a1a",
+                        "paper-white": "#ffffff",
+                        "text-main": "#181711",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.75rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "2xl": "2rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        "sketch": "3px 3px 0px 0px #181711",
+                        "sketch-sm": "2px 2px 0px 0px #181711",
+                        "sketch-lg": "5px 5px 0px 0px #181711",
+                        "sketch-active": "1px 1px 0px 0px #181711",
+                    },
+                    borderWidth: {
+                        "3": "3px",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+            background-image: radial-gradient(#181711 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased overflow-hidden selection:bg-primary selection:text-text-main text-text-main dark:text-white">
+<div class="relative flex h-full min-h-screen w-full flex-col group/design-root">
+<div class="flex items-center px-6 py-4 justify-between bg-transparent z-20">
+<div class="w-12"></div>
+<h2 class="text-text-main dark:text-white text-2xl font-black uppercase tracking-tight flex-1 text-center bg-white dark:bg-black border-2 border-text-main dark:border-white shadow-sketch-sm rounded-lg py-1 rotate-1">Lobby</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex items-center justify-center rounded-full h-12 w-12 bg-white dark:bg-gray-800 border-2 border-text-main dark:border-white shadow-sketch text-text-main dark:text-white hover:bg-gray-50 active:translate-y-[2px] active:shadow-sketch-active transition-all">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto pb-32">
+<div class="flex flex-col gap-8 p-4 pt-2 max-w-md mx-auto w-full">
+<div class="relative w-full rounded-2xl bg-primary border-[3px] border-text-main shadow-sketch-lg p-8 overflow-hidden transform transition-transform hover:scale-[1.01] duration-300">
+<div class="absolute top-3 right-3 w-4 h-4 bg-white border-2 border-text-main rounded-full"></div>
+<div class="absolute top-3 left-3 w-4 h-4 bg-white border-2 border-text-main rounded-full"></div>
+<div class="absolute bottom-3 right-3 w-4 h-4 bg-white border-2 border-text-main rounded-full"></div>
+<div class="absolute bottom-3 left-3 w-4 h-4 bg-white border-2 border-text-main rounded-full"></div>
+<div class="relative flex flex-col items-center justify-center text-center z-10">
+<span class="bg-white border-2 border-text-main px-3 py-1 rounded-full text-text-main font-bold uppercase tracking-widest text-xs mb-3 shadow-sketch-sm -rotate-2">Room Code</span>
+<h1 class="text-text-main text-7xl font-black tracking-widest leading-none drop-shadow-sm">ABCD</h1>
+<button class="mt-6 inline-flex items-center gap-2 bg-white hover:bg-gray-50 active:bg-gray-100 border-2 border-text-main shadow-sketch px-4 py-2 rounded-xl transition-all active:translate-y-[2px] active:shadow-sketch-active cursor-pointer">
+<span class="material-symbols-outlined text-lg">share</span>
+<span class="text-sm font-bold text-text-main uppercase">Tap to share</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col items-center gap-4">
+<div class="inline-flex items-center justify-center gap-x-3 rounded-xl bg-white dark:bg-gray-800 border-2 border-text-main dark:border-white pl-3 pr-5 py-2 shadow-sketch">
+<div class="flex items-center justify-center w-8 h-8 rounded-lg bg-green-100 border-2 border-text-main text-green-700">
+<span class="material-symbols-outlined text-xl font-bold">check</span>
+</div>
+<p class="text-text-main dark:text-white text-base font-bold">4/8 Players Ready</p>
+</div>
+<h2 class="text-text-main dark:text-white text-lg font-bold leading-tight text-center bg-paper-white/80 backdrop-blur-sm px-4 py-1 rounded-lg border-2 border-dashed border-text-main/30">
+                        Waiting for players...
+                    </h2>
+</div>
+<div class="grid grid-cols-2 gap-x-4 gap-y-6">
+<div class="flex flex-col items-center gap-3 p-4 rounded-2xl bg-white dark:bg-gray-800 border-[3px] border-text-main dark:border-gray-500 shadow-sketch hover:-translate-y-1 hover:shadow-sketch-lg transition-all cursor-default group">
+<div class="relative">
+<div class="w-20 h-20 rounded-full bg-blue-100 bg-cover bg-center border-[3px] border-text-main dark:border-white shadow-sm group-hover:scale-110 transition-transform duration-300" data-alt="Avatar of Mike" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDL5BiS4OpsorYSUPxVPEXRQVP_mly3eDa_qHGQ5ajQ51FacoWL8iRMK-PgEXxPiAbE0ndkTGyeI30D_EKF1--oEyagUxm75OULP7eFSkRHzFHJk1G7fr-F2ZNdxpiWoRSsKGcr9W2a7-nqOxmumNoiJkwc4j7aYX10k9xQ6EZ8wHDu5E7taUM9U2oaq4j-uysUBz5YLClfgBry2w6eaw1HmKyTpZFfafX-qApRzvT_YPNWsC4rFYxyvDz4LSKt6IFaEflCZjT5wTQ2");'></div>
+<div class="absolute bottom-0 right-0 bg-green-500 w-6 h-6 rounded-full border-[3px] border-text-main shadow-sm"></div>
+</div>
+<h3 class="text-text-main dark:text-white text-lg font-black uppercase tracking-tight -rotate-1">Mike</h3>
+</div>
+<div class="flex flex-col items-center gap-3 p-4 rounded-2xl bg-white dark:bg-gray-800 border-[3px] border-text-main dark:border-gray-500 shadow-sketch hover:-translate-y-1 hover:shadow-sketch-lg transition-all cursor-default group">
+<div class="relative">
+<div class="w-20 h-20 rounded-full bg-pink-100 bg-cover bg-center border-[3px] border-text-main dark:border-white shadow-sm group-hover:scale-110 transition-transform duration-300" data-alt="Avatar of Sarah" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBgKne7vJRuAUKbplNiDfcH8NRkzL-R1p4I6caMHj6JXVRsUrNio42eaErwMngh2dKOkiLSTRRPcMvtl9O9yB2EO8Rzs7BcHcdbvOVqeEganzubN8puEWJvJwDaqgdGcSkg1CWUPdVP0GnZVrImUhZmLPtQ5JgY4hWWsMDbAXO4PCqcwW85kQ1n3bTkxYZvsEXufZ2oBqDibrj_Z3GDPLHaRPUrn73103K_9jYs9c-h-ZYIWhw46j1aIWkYuRhQAdT6Doo1kqGvkSqG");'></div>
+<div class="absolute bottom-0 right-0 bg-green-500 w-6 h-6 rounded-full border-[3px] border-text-main shadow-sm"></div>
+</div>
+<h3 class="text-text-main dark:text-white text-lg font-black uppercase tracking-tight rotate-1">Sarah</h3>
+</div>
+<div class="flex flex-col items-center gap-3 p-4 rounded-2xl bg-white dark:bg-gray-800 border-[3px] border-text-main dark:border-gray-500 shadow-sketch hover:-translate-y-1 hover:shadow-sketch-lg transition-all cursor-default group">
+<div class="relative">
+<div class="w-20 h-20 rounded-full bg-yellow-100 bg-cover bg-center border-[3px] border-text-main dark:border-white shadow-sm group-hover:scale-110 transition-transform duration-300" data-alt="Avatar of Alex" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCrELU1ZGAqijLJkVzvYmVgW6_hmAt7kNMSk0xPf6JwUv1ggHkvHb-sP0Mxjenf0Cm63gzSYqqmv0UndRHjKEL0Zvx0PV0oT_6DtTlikDrkntOkKj_c6VL7DeIJ9s13tWJW2UGvVr7WD_-oYSQ_Gp9FayAzPl9OO4HKjVCKDoxRtWMZ_yJvM_czrUaaFo5Ecmlm0LIEqYYUbnf7pwLmKmS3c_KDjpQfEOJ2kv6SkrGLB573o1vjuZpIRRWxc16R_qICRcMZ_Ekm6h6P");'></div>
+<div class="absolute bottom-0 right-0 bg-green-500 w-6 h-6 rounded-full border-[3px] border-text-main shadow-sm"></div>
+</div>
+<h3 class="text-text-main dark:text-white text-lg font-black uppercase tracking-tight">Alex</h3>
+</div>
+<div class="flex flex-col items-center gap-3 p-4 rounded-2xl bg-white dark:bg-gray-800 border-[3px] border-text-main dark:border-gray-500 shadow-sketch hover:-translate-y-1 hover:shadow-sketch-lg transition-all cursor-default group">
+<div class="relative">
+<div class="w-20 h-20 rounded-full bg-purple-100 bg-cover bg-center border-[3px] border-text-main dark:border-white shadow-sm group-hover:scale-110 transition-transform duration-300" data-alt="Avatar of Jamie" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB66SSbq_-WycSBvwxZLoHQwgCJ0exHzeXxAZXhS3fsn8QCZF4UwABrMa00i95skF6bGFnW9IQXmuDzM6FC_mfiP5CLTiaJSR35hauvP9dJFontDhnluLHbw6nxfe1EDU5PnTGRql8TQG3oIR9PWoNccWv35yJ9hafEq1xZLDnZeuEYyKdvQcdsuYUBrbOnGLv2qFO_OscepyloCRY97nTo6wcGPgzK7nAkv0CM_jpGZS327U8y4ms08s6jNcLj6eaInLJWCZSyOtwL");'></div>
+<div class="absolute bottom-0 right-0 bg-green-500 w-6 h-6 rounded-full border-[3px] border-text-main shadow-sm"></div>
+</div>
+<h3 class="text-text-main dark:text-white text-lg font-black uppercase tracking-tight -rotate-1">Jamie</h3>
+</div>
+<div class="flex flex-col items-center justify-center gap-3 p-4 rounded-2xl border-[3px] border-dashed border-text-main/20 dark:border-white/20 bg-transparent min-h-[160px]">
+<div class="w-16 h-16 rounded-full bg-transparent border-2 border-dashed border-text-main/20 flex items-center justify-center text-text-main/40 dark:text-white/40">
+<span class="material-symbols-outlined text-3xl">person_add</span>
+</div>
+<h3 class="text-text-main/40 dark:text-white/40 text-sm font-bold uppercase tracking-wide">Waiting...</h3>
+</div>
+<div class="flex flex-col items-center justify-center gap-3 p-4 rounded-2xl border-[3px] border-dashed border-text-main/20 dark:border-white/20 bg-transparent min-h-[160px]">
+<div class="w-16 h-16 rounded-full bg-transparent border-2 border-dashed border-text-main/20 flex items-center justify-center text-text-main/40 dark:text-white/40">
+<span class="material-symbols-outlined text-3xl">person_add</span>
+</div>
+<h3 class="text-text-main/40 dark:text-white/40 text-sm font-bold uppercase tracking-wide">Waiting...</h3>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed bottom-0 left-0 right-0 p-6 pt-12 z-30 bg-gradient-to-t from-background-light via-background-light to-transparent dark:from-background-dark dark:via-background-dark">
+<div class="max-w-md mx-auto w-full flex flex-col items-center gap-4">
+<button class="w-full bg-primary hover:bg-primary-dark active:translate-y-1 active:shadow-sketch-active transition-all text-text-main font-black uppercase tracking-wider text-xl h-16 rounded-full border-[3px] border-text-main shadow-sketch-lg flex items-center justify-center gap-3 group relative overflow-hidden">
+<span class="material-symbols-outlined text-3xl">play_circle</span>
+                    Start Game
+                </button>
+<div class="bg-white border-2 border-text-main shadow-sketch-sm px-4 py-1.5 rounded-lg -rotate-1">
+<p class="text-center text-xs text-text-main font-bold uppercase tracking-wide">Minimum 2 players required</p>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

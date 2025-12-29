@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElBureau - Question Display</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#f4d125",
+            "primary-dark": "#e0be10",
+            "background-light": "#FDFBF7", 
+            "background-dark": "#221f10",
+            "card-white": "#FFFFFF",
+            "text-main": "#181711",
+            "accent-brown": "#8a8360",
+          },
+          fontFamily: {
+            "display": ["Fredoka", "sans-serif"],
+            "body": ["Spline Sans", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "1rem", 
+            "lg": "1.5rem", 
+            "xl": "2rem", 
+            "2xl": "2.5rem",
+            "3xl": "3rem",
+            "full": "9999px"
+          },
+          boxShadow: {
+            'sketch-sm': '2px 2px 0px 0px #181711',
+            'sketch': '4px 4px 0px 0px #181711',
+            'sketch-lg': '8px 8px 0px 0px #181711',
+            'sketch-xl': '12px 12px 0px 0px #181711',
+            'sketch-primary': '4px 4px 0px 0px #f4d125',
+          },
+          backgroundImage: {
+            'paper-texture': "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
+          }
+        },
+      },
+    }
+  </script>
+<style>.bg-paper {
+    background-color: #FDFBF7;
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuDoAdLnsqjqlmACPMriueCUkQ7R1XAiGiAFkeeGy55VTh49_5OWjOWL_R0CaNLr70z5d8cpnlPo5fdMhz_ZKEJrKEaSIfx5rjrzlnptE7j-NP8VwBfwLhsQwm20ZihUaKDOBAvS-3tk8ewtEh9LNsnElyj89i8iu3DxdnuV0e8X2jFwW_drsBXMQfdeW_F13YZHhZCZB5c2DuFH3RCZQyzC-D29xtTS13MbZl1tpergnM6hNMTBVgOOCgnjqYdodmh8705uUl-SxvkV);
+}
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-paper font-display text-text-main h-screen w-full overflow-hidden flex flex-col items-center selection:bg-primary selection:text-text-main">
+<div class="fixed top-24 right-8 text-primary/30 transform rotate-12 -z-0 pointer-events-none animate-pulse">
+<span class="material-symbols-outlined text-[140px] drop-shadow-[4px_4px_0_rgba(0,0,0,0.1)]" style="font-variation-settings: 'FILL' 0, 'wght' 600;">star</span>
+</div>
+<div class="fixed bottom-32 -left-8 text-red-400/20 transform -rotate-12 -z-0 pointer-events-none">
+<span class="material-symbols-outlined text-[160px] drop-shadow-[4px_4px_0_rgba(0,0,0,0.1)]" style="font-variation-settings: 'FILL' 0, 'wght' 600;">pentagon</span>
+</div>
+<div class="fixed top-1/2 left-8 w-6 h-6 rounded-full border-4 border-blue-400 bg-white shadow-sketch-sm z-0"></div>
+<div class="fixed top-1/3 right-12 w-4 h-4 rounded-none rotate-45 border-4 border-red-400 bg-white shadow-sketch-sm z-0"></div>
+<div class="fixed bottom-1/4 left-1/4 w-8 h-8 rounded-full border-[5px] border-primary/40 z-0"></div>
+<div class="w-full flex items-center justify-between p-6 z-10 relative">
+<button class="group bg-white border-2 border-text-main flex size-12 shrink-0 items-center justify-center rounded-xl shadow-sketch transition-all active:shadow-none active:translate-x-[4px] active:translate-y-[4px]">
+<span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform">pause</span>
+</button>
+<div class="bg-white border-2 border-text-main px-6 py-3 rounded-xl shadow-sketch transform -rotate-1">
+<h2 class="text-text-main text-base font-bold tracking-wide uppercase">Question 3 <span class="text-accent-brown">/ 10</span></h2>
+</div>
+<button class="group bg-white border-2 border-text-main flex size-12 shrink-0 items-center justify-center rounded-xl shadow-sketch transition-all active:shadow-none active:translate-x-[4px] active:translate-y-[4px]">
+<span class="material-symbols-outlined text-3xl group-hover:rotate-90 transition-transform duration-500">settings</span>
+</button>
+</div>
+<div class="relative w-full px-6 flex justify-center z-10 mt-1 mb-6">
+<div class="bg-text-main text-primary rounded-full px-8 py-3 flex items-center gap-4 shadow-sketch-primary border-2 border-text-main transform hover:scale-105 hover:-rotate-2 transition-all duration-300">
+<span class="material-symbols-outlined animate-spin" style="animation-duration: 3s;">hourglass_top</span>
+<span class="text-3xl font-bold font-mono tracking-widest pt-1">00:15</span>
+</div>
+</div>
+<div class="flex-1 w-full max-w-md px-6 flex flex-col justify-center items-center z-10 perspective-1000">
+<div class="relative w-full bg-white rounded-2xl shadow-sketch-lg border-4 border-text-main p-8 flex flex-col gap-6 transform transition-all hover:-translate-y-2 hover:rotate-1 duration-300 group rotate-1">
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 w-32 h-8 bg-primary/30 rotate-2 border-l-2 border-r-2 border-primary/50 backdrop-blur-sm z-20"></div>
+<div class="flex justify-between items-start relative z-10">
+<div class="bg-primary text-text-main rounded-lg border-2 border-text-main px-3 py-1.5 shadow-sketch-sm text-xs font-black uppercase tracking-wider -rotate-2">
+                AI Generated
+            </div>
+<button class="text-text-main hover:text-primary transition-colors border-2 border-transparent hover:border-text-main hover:bg-text-main hover:text-primary rounded-full p-1">
+<span class="material-symbols-outlined text-3xl">volume_up</span>
+</button>
+</div>
+<div class="flex-1 flex items-center justify-center py-6 min-h-[200px]">
+<p class="text-text-main text-3xl md:text-4xl font-bold leading-tight text-center tracking-tight drop-shadow-sm font-display">
+                If you had to replace your hands with kitchen utensils, which ones would you choose and why?
+            </p>
+</div>
+<div class="flex flex-col gap-2">
+<div class="w-full h-4 bg-gray-100 rounded-full border-2 border-text-main overflow-hidden relative">
+<div class="h-full bg-primary w-2/3 border-r-2 border-text-main absolute top-0 left-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.3)_25%,rgba(255,255,255,0.3)_50%,transparent_50%,transparent_75%,rgba(255,255,255,0.3)_75%,rgba(255,255,255,0.3)_100%)] bg-[length:20px_20px]"></div>
+</div>
+<div class="flex justify-between items-center px-1">
+<p class="text-xs font-bold text-text-main uppercase">Answering...</p>
+<p class="text-xs font-bold text-text-main">4/6</p>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full p-6 pb-12 z-10 mt-auto">
+<div class="flex flex-col items-center gap-6">
+<div class="flex -space-x-4 justify-center items-end py-4 px-8 bg-white border-2 border-text-main rounded-3xl shadow-sketch">
+<div class="relative group cursor-pointer transition-transform hover:-translate-y-4 hover:scale-110 z-0">
+<div class="w-12 h-12 rounded-full border-2 border-text-main overflow-hidden shadow-sm bg-indigo-100">
+<img alt="User Avatar 1" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRFb-SutpvkK2dZapstxMFGJC9nHHGPuDF6iyBfPQj_HG8Z9Odg7c8cRJs1etWMIjFMLtLbapG4aIgYFDib2BMqTQXmsEx0wbXrxzEvPLatPxanUdUJCt2UlMJjYt9s7u5DV59xakY6WmjJIWMjXhTTMZ5-sTp2yJdB5AeNaJzFU_sXgUUY3-6bwYg-YPvZ1rhBp0l_4VXNpmyvc4dbtPCDeNue-djJn-I3tfVF1xfCtjArkmM5CTXatCgskjL9zNEf8BKEMe99wh5"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-green-500 border-2 border-text-main w-5 h-5 rounded-full shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-white font-bold">check</span>
+</div>
+</div>
+<div class="relative group cursor-pointer transition-transform hover:-translate-y-4 hover:scale-110 z-10">
+<div class="w-14 h-14 rounded-full border-2 border-text-main overflow-hidden shadow-sm bg-pink-100">
+<img alt="User Avatar 2" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD02ocs37NkYbsnBlyvD09FDhZjGTSYxzTxQhA2cTM5XSqopAHZwjEBoIFMQk1JP4-yEs6zUB2XLziWbUAqV0ndG0n69Vu-e2JcMERuHvNce425sPzGaP4SEzroDPWbHLv5qNX2CiS6M8XVILapWQsaga0qHGQKt7AyrB8ehAC7kx8HksH8KaQXgnn4Jdp7958CK29WdYJMFZSFQK0LWuLTP2QpZiBFHt11wERmeV1ylQGs6-uPEJapJZMYFQBLgAIQ1IkegXxFJGTj"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-primary border-2 border-text-main w-5 h-5 rounded-full shadow-sm flex items-center justify-center animate-bounce">
+<span class="material-symbols-outlined text-[10px] text-text-main font-bold">more_horiz</span>
+</div>
+</div>
+<div class="relative group cursor-pointer transition-transform hover:-translate-y-4 hover:scale-110 z-0">
+<div class="w-12 h-12 rounded-full border-2 border-text-main overflow-hidden shadow-sm bg-blue-100">
+<img alt="User Avatar 3" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCR_GIzPovLW7i859ZiySfG3e0nBwmk41j91t8_mJvICrvnr9FJBq35hBknuQtbLUqX8bTyQCZVnLafMMCiRhYIRZ0Fk8XkPOuHH1Nw3zRqbNX5GaDRnqfef38yAQ1PccQnIZHTQ3p_6IWnaQwKVgjzSZ18hrZOt-aJy_gGmbEEz-Coq-H2PEZCjoolHeuJ5p3Z-GrWHRLVgb6uZvsMcIt089bY2v19vxhoBIRnKwRVLnU5krvdYL5ZNe-W1-cDmyc1uuu0wwdKE_gu"/>
+</div>
+</div>
+<div class="relative group cursor-pointer transition-transform hover:-translate-y-4 hover:scale-110 z-20 -mt-8">
+<div class="w-16 h-16 rounded-full border-[3px] border-text-main overflow-hidden shadow-sketch-sm bg-yellow-50 transform -translate-y-2">
+<img alt="My Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArLGQwKgp0VCGSEd9wrVXuZ_PkGL6UkXJTZpeRm4Xl0CvYMPAdlotu66YwZaa6cwmrFq96rTrmCvpeqyZTqTrb2VoYcV6bAFCmQ6kWX_KdjfR97gV-sy1sCiMsgas_aL5qgtrsBJvA_Zlgjeqz2_fdqgfNq0S53dMPcj9ihyHtBcP6ePzVZyVNH0sF23Mcdi33D_Vs7MOfPIvgOXNebovoxb5UcYuAMgwWP_l_xtCTxCo9szl0q0YwbnxXbYvNXomsMOWwP1ddjIK8"/>
+</div>
+<div class="absolute -top-2 left-1/2 -translate-x-1/2 bg-text-main text-white text-[10px] px-2 rounded-full font-bold border border-white">YOU</div>
+</div>
+<div class="relative group cursor-pointer transition-transform hover:-translate-y-4 hover:scale-110 z-0">
+<div class="w-12 h-12 rounded-full border-2 border-text-main overflow-hidden shadow-sm bg-green-100">
+<img alt="User Avatar 5" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM0LmNInw8QOQRhum7sY7PzHXg1USHxKVhlAHtUxmJUEfPdPHlSsWbSKq9-DNSXhzld_k-y3RaXckcOR9ehwz9sQEjZGRVv34q3GVzICVnsL3S_94bSdrsip3zAxfDtvrAJFv-k-crx7spWL7TW8f8bUHD52cxcg5i1ZTryvgMANn8WtnO70NsFwj8BjBgZmyVu_55L9fc2_Rsr7LQwBT4u8jss5pYOMdVhPaoZGzfzpMgCE0glNjVsHvPL82BRJqkYXrOjWyc8cXm"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-gray-300 border-2 border-text-main w-5 h-5 rounded-full shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-gray-600 font-bold">priority_high</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

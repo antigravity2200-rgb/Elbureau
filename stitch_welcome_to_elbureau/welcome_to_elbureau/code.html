@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ElBureau - Welcome</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f4d125",
+              "background-light": "#f8f8f5",
+              "background-dark": "#221f10",
+              "paper-white": "#ffffff",
+              "ink": "#181711",
+            },
+            fontFamily: {
+              "display": ["Spline Sans", "sans-serif"],
+              "marker": ["Permanent Marker", "cursive"],
+            },
+            backgroundImage: {
+               'paper-pattern': "url('data:image/svg+xml,%3Csvg width=\\'64\\' height=\\'64\\' viewBox=\\'0 0 64 64\\' xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Cpath d=\\'M8 16c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm0-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zm33.414-6l5.95-5.95L45.95.636 40 6.586 34.05.636 32.636 2.05 38.586 8l-5.95 5.95 1.414 1.414L40 9.414l5.95 5.95 1.414-1.414L41.414 8zM40 48c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm0-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zM9.414 40l5.95-5.95-1.414-1.414L8 38.586l-5.95-5.95L.636 34.05 6.586 40l-5.95 5.95 1.414 1.414L8 41.414l5.95 5.95 1.414-1.414L9.414 40z\\' fill=\\'%239C92AC\\' fill-opacity=\\'0.03\\' fill-rule=\\'evenodd\\'/%3E%3C/svg%3E')",
+               'scribble': "url('data:image/svg+xml,%3Csvg width=\\'100\\' height=\\'100\\' viewBox=\\'0 0 100 100\\' xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Cpath d=\\'M10,50 Q25,25 50,50 T90,50\\' fill=\\'none\\' stroke=\\'black\\' stroke-width=\\'2\\' /%3E%3C/svg%3E')"
+            },
+            borderRadius: {
+                "DEFAULT": "1rem", 
+                "lg": "2rem", 
+                "xl": "3rem", 
+                "full": "9999px",
+                "sketchy": "255px 15px 225px 15px / 15px 225px 15px 255px"
+            },
+            boxShadow: {
+              'paper': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+              'sticker': '2px 4px 12px rgba(0,0,0,0.15)',
+              'button-pop': '4px 4px 0 #181711', // Sketchy hard shadow
+              'button-flat': '0 0 0 #181711', // Pressed state
+              'sketch': '3px 3px 0px 0px #181711',
+            }
+          },
+        },
+      }
+    </script>
+<style>@keyframes float {
+        0% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-6px) rotate(1deg); }
+        100% { transform: translateY(0px) rotate(0deg); }
+      }
+      .animate-float {
+        animation: float 6s ease-in-out infinite;
+      }
+      .animate-float-delayed {
+        animation: float 7s ease-in-out infinite;
+        animation-delay: 1s;
+      }.sketchy-border {
+        border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      }
+      .sketchy-border-sm {
+        border-radius: 25px 5px 22px 5px / 5px 22px 5px 25px;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased h-screen w-full overflow-hidden select-none">
+<div class="fixed inset-0 pointer-events-none opacity-40 bg-paper-pattern z-0 mix-blend-multiply dark:mix-blend-overlay"></div>
+<div class="fixed top-0 left-0 w-full h-2 bg-ink z-50 opacity-10" style="clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 90% 100%, 80% 70%, 70% 100%, 60% 80%, 50% 100%, 40% 80%, 30% 100%, 20% 80%, 10% 100%, 0% 80%);"></div>
+<div class="relative z-10 flex flex-col h-full max-w-md mx-auto shadow-2xl bg-background-light dark:bg-background-dark border-x-2 border-ink dark:border-white/20">
+<header class="flex items-center justify-between p-6">
+<button class="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-ink dark:text-white border-2 border-ink dark:border-white shadow-sketch active:shadow-none active:translate-x-[3px] active:translate-y-[3px]">
+<span class="material-symbols-outlined text-2xl">settings</span>
+</button>
+<div class="flex items-center gap-2 bg-paper-white dark:bg-white/10 px-3 py-1.5 rounded-full shadow-sketch border-2 border-ink dark:border-white/50 cursor-pointer hover:-rotate-2 transition-transform">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center overflow-hidden border-2 border-ink dark:border-white/20">
+<span class="material-symbols-outlined text-ink text-sm">sentiment_satisfied</span>
+</div>
+<span class="text-sm font-bold text-ink dark:text-white pr-2 font-marker tracking-wide">PlayerOne</span>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center justify-center px-6 -mt-10 relative">
+<svg class="absolute top-20 left-6 w-16 h-16 opacity-30 animate-float text-blue-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" viewBox="0 0 100 100">
+<path d="M20,20 Q40,5 60,20 T90,30 T60,60 T30,50 T20,20 Z"></path>
+</svg>
+<svg class="absolute bottom-40 right-4 w-24 h-24 opacity-20 animate-float-delayed text-primary" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewBox="0 0 100 100">
+<circle cx="50" cy="50" r="40" stroke-dasharray="10 5"></circle>
+<path d="M30,30 L70,70 M30,70 L70,30"></path>
+</svg>
+<div class="relative mb-10 text-center animate-float">
+<div class="absolute -top-14 -right-10 transform rotate-12 z-20">
+<div class="bg-primary px-4 py-1 sketchy-border-sm shadow-sketch transform rotate-6 border-2 border-ink">
+<span class="text-sm font-black text-ink uppercase tracking-wider font-marker">BETA!</span>
+</div>
+</div>
+<div class="w-36 h-36 mx-auto mb-6 bg-white dark:bg-white/10 rounded-[2rem] shadow-sticker flex items-center justify-center border-[3px] border-ink dark:border-white/50 transform -rotate-2 overflow-hidden sketchy-border" data-alt="Abstract colorful geometric logo for ElBureau game showing a stylized brain or lightbulb" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDUVygg1Vgpn-sKiuqSPGVm8n_iwdySfmkCSh-KOfm42UzdF_Wwgb4RKTKjPxfVKbbkKc4rbsgVWGV2BkHI0RHmDZhe2fawYRG-V_fsdCh-djhgJ2ykxyRJTZaN2-TipXLHXAIs83S6CCu7fqm_QLM5Am86J-yathTMwamN6Cpckram3rk_vAHm4CMQwNrrsEOjamnfO-l2Db2b3qxIWqkJ5BDeEsSxgOLQ_KmvTjjNJcShQje0ZcjUQ2HbsOxZQz7FgIWrfcqQxUjV'); background-size: cover; background-position: center;">
+</div>
+<h1 class="text-6xl font-black text-ink dark:text-white tracking-tighter leading-none mb-1 drop-shadow-sm font-display -rotate-1" style="-webkit-text-stroke: 1.5px black; text-shadow: 3px 3px 0 #f4d125;">
+                    ElBureau
+                </h1>
+<p class="text-xl font-bold text-ink/80 dark:text-white/80 font-marker rotate-1">
+                    The AI Quiz Show
+                </p>
+</div>
+<div class="mb-14 relative group">
+<div class="absolute -bottom-2 left-1/2 w-4 h-4 bg-white border-b-2 border-r-2 border-ink transform rotate-45 translate-y-1 -translate-x-1/2 bg-paper-white z-10"></div>
+<div class="bg-paper-white px-8 py-4 sketchy-border border-2 border-ink shadow-sketch transform -rotate-1 hover:rotate-1 transition-transform duration-300 relative z-20">
+<p class="text-ink font-bold text-lg text-center font-marker">
+                        "Ready to buzz in?"
+                    </p>
+</div>
+</div>
+<div class="w-full flex flex-col gap-5 max-w-xs relative z-30">
+<button class="group relative flex w-full cursor-pointer items-center justify-center sketchy-border h-16 px-6 bg-primary text-ink border-[3px] border-ink shadow-button-pop active:shadow-button-flat active:translate-x-[4px] active:translate-y-[4px] transition-all duration-100 ease-in-out hover:-rotate-1">
+<span class="material-symbols-outlined mr-3 text-3xl group-hover:scale-110 transition-transform font-black">play_arrow</span>
+<span class="text-2xl font-black tracking-wide font-display uppercase">JOIN ROOM</span>
+<div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/diagonal-stripes.png')] rounded-[inherit]"></div>
+</button>
+<button class="group flex w-full cursor-pointer items-center justify-center sketchy-border h-16 px-6 bg-white dark:bg-white/5 text-ink dark:text-white border-[3px] border-ink dark:border-white hover:bg-gray-50 dark:hover:bg-white/10 shadow-button-pop active:shadow-button-flat active:translate-x-[4px] active:translate-y-[4px] transition-all duration-100 ease-in-out hover:rotate-1">
+<span class="material-symbols-outlined mr-3 text-3xl text-ink dark:text-white group-hover:rotate-90 transition-transform">add_circle</span>
+<span class="text-xl font-bold tracking-wide font-display uppercase">CREATE ROOM</span>
+</button>
+</div>
+</main>
+<footer class="p-6 pb-10 flex justify-center items-center gap-6 text-sm font-bold text-ink/60 dark:text-white/60 font-marker">
+<a class="hover:text-primary hover:underline decoration-wavy decoration-2 transition-colors flex items-center gap-1" href="#">
+<span class="material-symbols-outlined text-lg">help</span>
+                How to Play
+            </a>
+<span class="w-1.5 h-1.5 bg-ink rounded-full"></span>
+<a class="hover:text-primary hover:underline decoration-wavy decoration-2 transition-colors" href="#">Privacy</a>
+</footer>
+</div>
+
+</body></html>
