@@ -286,27 +286,28 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
             .map(([diff]) => diff);
 
         if (tiedDifficulties.length > 1 && isHost) {
-            // Update local state to show tie-breaker UI (we can reuse a state or specific room state if we want all to see)
-            // For simplicity, let's just use a prompt or a quick alert-based selection for now, 
-            // OR better: Update room state to a temporary "TIE_BREAKER" sub-state? 
-            // Simplest: Just set a local flag or use a verify step. 
-            // ACTUALLY: Let's just update the room state to indicate a tie, creating a mini-phase.
-            // But to keep it simple and robust without new enums:
-            // We'll add a 'tieBreaker' field to the game state or just handle it client-side for the host.
-            // Let's use a local state for the host to resolve the tie.
             setTieBreakerOptions(tiedDifficulties);
             return;
         }
 
+        // --- FIX: Race Condition Protection ---
+        // We set a flag or loading state to prevent double clicks? 
+        // Actually, we transition to WAGER_GENERATING. 
+        // But let's log it.
+        console.log("Starting Final Round Generation...");
+
         await updateRoomState(roomId, {
             phase: GamePhase.WAGER_GENERATING,
-            winningDifficulty: winningDiff
+            winningDifficulty: winningDiff,
+            loadingMessage: undefined // Clear any previous error
         });
 
         // 3. Generate Question
         try {
             const finalQ = await generateFinalQuestion(gameState.apiKey, config.theme, config.language, winningDiff);
 
+            // Fetch latest state to ensure we don't overwrite any (unlikely) changes, 
+            // but more importantly, we just push the new phase.
             await updateRoomState(roomId, {
                 phase: GamePhase.WAGER_QUESTION,
                 finalQuestion: finalQ,
@@ -318,7 +319,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
             console.error("Final Gen Error", e);
             await updateRoomState(roomId, {
                 phase: GamePhase.WAGER_SETUP,
-                loadingMessage: "Error generating. Try again."
+                loadingMessage: "Error generating question. Please try again. (" + (e as any).message + ")"
             });
         }
     };
@@ -670,9 +671,16 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                         </SketchCard>
 
                         {/* Waiting Message */}
-                        {me.wagerAmount !== undefined && me.wagerDifficulty !== undefined && (
+                        {me.wagerAmount !== undefined && me.wagerDifficulty !== undefined && !gameState.loadingMessage && (
                             <div className="text-center text-gray-500 font-bold bg-white/80 py-3 rounded-lg backdrop-blur-sm animate-pulse">
                                 {t.waitingForOthers}
+                            </div>
+                        )}
+
+                        {/* Error Message */}
+                        {gameState.loadingMessage && (
+                            <div className="text-center text-pop-red font-bold bg-white/90 py-3 rounded-lg border-2 border-pop-red animate-bounce">
+                                ⚠ {gameState.loadingMessage}
                             </div>
                         )}
 
