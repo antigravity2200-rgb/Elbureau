@@ -16,7 +16,6 @@ interface GameRoundProps {
 export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomId }) => {
     const { config, players, questions, currentQuestionIndex, phase } = gameState;
 
-    const { config, players, questions, currentQuestionIndex, phase } = gameState;
 
     // Strict Language from Config
     const localLang = config.language;
