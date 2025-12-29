@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { GameState, GamePhase, Player, Question } from '../types';
 import { TRANSLATIONS } from '../constants';
-import { updateRoomState } from '../services/firebase';
+import { updateRoomState, updatePlayerState } from '../services/firebase';
 import { SketchButton } from '../components/SketchButton';
 import { SketchCard } from '../components/SketchCard';
 import { Avatar } from '../components/Avatar';
@@ -75,19 +75,27 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
         if (!selectedBet || !answerInput.trim()) return;
         setIsSubmitting(true);
 
-        // Submit BOTH Bet and Answer
-        const updatedPlayers = players.map(p =>
-            p.id === playerId ? { ...p, currentBet: selectedBet, currentAnswer: answerInput } : p
-        );
+        if (isHost) {
+            // Host can update room state directly
+            const updatedPlayers = players.map(p =>
+                p.id === playerId ? { ...p, currentBet: selectedBet, currentAnswer: answerInput } : p
+            );
 
-        // Check if all players have submitted BOTH
-        const allDone = updatedPlayers.every(p => p.currentBet !== null && !!p.currentAnswer);
+            // Check if all players have submitted BOTH
+            const allDone = updatedPlayers.every(p => p.currentBet !== null && !!p.currentAnswer);
 
-        // Transition to PREVIEW first, then REVEAL
-        await updateRoomState(roomId, {
-            players: updatedPlayers,
-            phase: allDone ? GamePhase.PREVIEW : GamePhase.BETTING
-        });
+            // Transition to PREVIEW first, then REVEAL
+            await updateRoomState(roomId, {
+                players: updatedPlayers,
+                phase: allDone ? GamePhase.PREVIEW : GamePhase.BETTING
+            });
+        } else {
+            // Joined players send update to host via P2P
+            await updatePlayerState(roomId, playerId, {
+                currentBet: selectedBet,
+                currentAnswer: answerInput
+            });
+        }
         setIsSubmitting(false);
     };
 
@@ -302,51 +310,57 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
 
                 {/* VIEW B: ANSWER GRID (Preview & Reveal) */}
                 {(isPreview || isReveal) && (
-                    <section className="grid grid-cols-2 gap-4 w-full px-1 animate-fade-in relative z-30">
-                        {players.map((p, i) => {
-                            // Random rotation class based on index
-                            const rotClass = `rotate-random-${(i % 4) + 1}`;
-                            const isCorrect = p.isCorrect === true; // Strict check for yellow
+                    <>
+                        {/* Only show preview if current player has submitted */}
+                        {(isPreview && !hasSubmitted) ? (
+                            <div className="text-center text-gray-500 font-bold bg-white/80 py-8 rounded-lg backdrop-blur-sm">
+                                Answer submitted! Waiting for others...
+                            </div>
+                        ) : (
+                            <section className="grid grid-cols-2 gap-4 w-full px-1 animate-fade-in relative z-30">
+                                {players.map((p, i) => {
+                                    const isCorrect = p.isCorrect === true; // Strict check for yellow
 
-                            const bgClass = isCorrect ? 'bg-primary' : 'bg-white dark:bg-gray-700';
-                            const borderClass = isCorrect ? 'border-2 border-black z-20' : 'border-[3px] border-text-main';
-                            const scaleClass = isCorrect ? 'scale-105' : 'hover:scale-[1.02]';
+                                    const bgClass = isCorrect ? 'bg-primary' : 'bg-paper-white dark:bg-gray-700';
+                                    const borderClass = isCorrect ? 'border-2 border-black z-20' : 'border-[3px] border-text-main';
+                                    const scaleClass = isCorrect ? 'scale-105' : '';
 
-                            return (
-                                <div
-                                    key={p.id}
-                                    onClick={() => toggleCorrectness(p.id)}
-                                    className={`
-                             rounded-lg p-3 shadow-sketch relative group transition-all duration-200 max-h-32 overflow-hidden
-                             ${rotClass}
+                                    return (
+                                        <div
+                                            key={p.id}
+                                            onClick={() => toggleCorrectness(p.id)}
+                                            className={`
+                             rounded-xl p-4 shadow-sketch relative group transition-all duration-200
                              ${bgClass} ${borderClass} ${scaleClass}
                              ${isReveal && isHost ? 'cursor-pointer' : 'cursor-default'}
                            `}
-                                >
-                                    <div className="flex items-start justify-between mb-2">
-                                        <Avatar size="sm" className={`${p.avatarColor}`} />
-                                        {isReveal && (
-                                            <span className="material-symbols-outlined text-xl">
-                                                {isCorrect ? 'check_circle' : 'help'}
-                                            </span>
-                                        )}
-                                    </div>
-                                    <div>
-                                        <h3 className="text-lg font-black leading-tight break-words dark:text-white line-clamp-2">
-                                            {isReveal || isHost || p.id === me.id ? p.currentAnswer : "..."}
-                                        </h3>
-                                        <p className="text-xs font-bold opacity-60 mt-1">@{p.name}</p>
-
-                                        {isReveal && (
-                                            <div className="absolute -top-2 -right-2 bg-text-main text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-white">
-                                                {p.currentBet}
+                                        >
+                                            <div className="flex items-start justify-between mb-3">
+                                                <Avatar size="md" className={`${p.avatarColor}`} />
+                                                {isReveal && (
+                                                    <span className="material-symbols-outlined text-xl">
+                                                        {isCorrect ? 'check_circle' : 'help'}
+                                                    </span>
+                                                )}
                                             </div>
-                                        )}
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </section>
+                                            <div>
+                                                <h3 className="text-2xl font-black leading-tight break-words dark:text-white line-clamp-3 mb-2">
+                                                    {isReveal || isHost || p.id === me.id ? p.currentAnswer : "..."}
+                                                </h3>
+                                                <p className="text-sm font-bold opacity-70">@{p.name}</p>
+
+                                                {isReveal && (
+                                                    <div className="absolute -top-2 -right-2 bg-text-main text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-white">
+                                                        {p.currentBet}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </section>
+                        )}
+                    </>
                 )}
 
 

@@ -514,7 +514,7 @@ export const Lobby: React.FC<LobbyProps> = ({
               <span className="text-sm font-black text-text-main uppercase tracking-wider font-marker">BETA!</span>
             </div>
           </div>
-          <img src="/Flowting%20Logo.svg" alt="ElBureau Logo" className="w-full h-auto drop-shadow-sm transform -rotate-2" />
+          <img src="/logo.svg" alt="ElBureau Logo" className="w-full h-auto drop-shadow-sm transform -rotate-2" />
         </div>
 
         {/* Tagline */}

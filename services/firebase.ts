@@ -67,7 +67,14 @@ const handleData = (data: any, senderId: string) => {
       const newPlayers = currentGameState.players.map(p =>
         p.id === playerId ? { ...p, ...updates } : p
       );
-      updateRoomState(null as any, { players: newPlayers });
+
+      // Check if all players have submitted BOTH bet and answer
+      const allDone = newPlayers.every(p => p.currentBet !== null && !!p.currentAnswer);
+
+      updateRoomState(null as any, {
+        players: newPlayers,
+        phase: allDone ? GamePhase.PREVIEW : currentGameState.phase
+      });
     }
   }
   // CLIENT LOGIC: Process incoming state from Host
