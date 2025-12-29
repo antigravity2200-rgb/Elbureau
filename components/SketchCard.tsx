@@ -6,6 +6,7 @@ interface SketchCardProps {
   color?: string;
   rotation?: string;
   noPadding?: boolean;
+  padding?: string;
   variant?: 'default' | 'sketchy';
 }
 
@@ -15,11 +16,12 @@ export const SketchCard: React.FC<SketchCardProps> = ({
   color = 'bg-white dark:bg-white/10',
   rotation = '', // Default no rotation unless specified
   noPadding = false,
+  padding,
   variant = 'default'
 }) => {
 
   const radiusClass = variant === 'sketchy' ? 'rounded-sketchy' : 'rounded-2xl';
-  const paddingClass = noPadding ? '' : 'p-6';
+  const paddingClass = noPadding ? '' : (padding || 'p-6');
 
   return (
     <div

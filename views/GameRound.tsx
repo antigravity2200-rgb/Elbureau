@@ -5,7 +5,7 @@ import { updateRoomState, updatePlayerState } from '../services/supabaseService'
 import { SketchButton } from '../components/SketchButton';
 import { SketchCard } from '../components/SketchCard';
 import { Avatar } from '../components/Avatar';
-import { generateFinalQuestion, validateAnswerWithAI } from '../services/geminiService';
+import { generateFinalQuestion, validateAnswersBatch } from '../services/geminiService';
 
 interface GameRoundProps {
     gameState: GameState;
@@ -32,12 +32,15 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
     const t = TRANSLATIONS[localLang];
 
     const me = players.find(p => p.id === playerId);
+    const isHost = me?.isHost;
+
     const isWagerPhase = [GamePhase.WAGER_SETUP, GamePhase.WAGER_GENERATING, GamePhase.WAGER_QUESTION, GamePhase.WAGER_REVEAL].includes(phase);
     const activeQuestion = isWagerPhase ? (gameState.finalQuestion || { text: t.generatingFinal, category: t.wagerRound, correctAnswer: "", id: "final", type: "open" } as Question) : questions[currentQuestionIndex];
 
     const [selectedBet, setSelectedBet] = useState<number | null>(null);
     const [answerInput, setAnswerInput] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isValidating, setIsValidating] = useState(false); // New Guard State
     const [timeLeft, setTimeLeft] = useState(config.timerSeconds > 0 ? config.timerSeconds : 0);
     const [tieBreakerOptions, setTieBreakerOptions] = useState<string[] | null>(null);
 
@@ -46,24 +49,50 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
         setSelectedBet(me?.currentBet || null);
         setAnswerInput(me?.currentAnswer || '');
         setIsSubmitting(false);
+        setIsValidating(false);
         setTimeLeft(config.timerSeconds > 0 ? config.timerSeconds : 0);
     }, [currentQuestionIndex, phase, config.timerSeconds]);
 
-    // Timer Effect
+    // Timer Effect & Auto-Submission
     useEffect(() => {
-        if (![GamePhase.BETTING, GamePhase.WAGER_QUESTION].includes(phase) || config.timerSeconds <= 0) return;
+        if (![GamePhase.BETTING, GamePhase.WAGER_QUESTION].includes(phase)) return;
 
         // If everyone submitted, stop visually
         if (players.every(p => p.currentBet !== null && !!p.currentAnswer)) return;
 
-        if (timeLeft <= 0) return;
+        if (timeLeft > 0) {
+            const timer = setInterval(() => {
+                setTimeLeft(prev => prev > 0 ? prev - 1 : 0);
+            }, 1000);
+            return () => clearInterval(timer);
+        } else if (timeLeft === 0 && isHost) {
+            // TIME IS UP! Auto-submit valid placeholders for laggers
+            const laggingPlayers = players.filter(p => !p.currentAnswer || (phase === GamePhase.BETTING && p.currentBet === null));
 
-        const timer = setInterval(() => {
-            setTimeLeft(prev => prev > 0 ? prev - 1 : 0);
-        }, 1000);
+            if (laggingPlayers.length > 0) {
+                const updatedPlayers = players.map(p => {
+                    if (!p.currentAnswer || (phase === GamePhase.BETTING && p.currentBet === null)) {
+                        // Force a bet if needed (lowest available)
+                        const forcedBet = (phase === GamePhase.BETTING && p.currentBet === null)
+                            ? (p.betsAvailable[0] || 0)
+                            : p.currentBet;
 
-        return () => clearInterval(timer);
-    }, [phase, timeLeft, config.timerSeconds, players]);
+                        return {
+                            ...p,
+                            currentBet: forcedBet,
+                            currentAnswer: '-' // Mark as effectively wrong
+                        };
+                    }
+                    return p;
+                });
+
+                updateRoomState(roomId, {
+                    players: updatedPlayers,
+                    phase: GamePhase.PREVIEW // Force move since everyone is now "done"
+                });
+            }
+        }
+    }, [phase, timeLeft, config.timerSeconds, players, isHost, roomId]);
 
     // Sync effective selection from remote if available
     useEffect(() => {
@@ -76,8 +105,6 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
 
 
     if (!me || (!activeQuestion && !isWagerPhase)) return <div>Loading...</div>;
-
-    const isHost = me.isHost;
 
     // Use activeQuestion for rendering, with fallback to translations
     const currentQuestion = {
@@ -134,33 +161,37 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
     };
 
     const handleReveal = async () => {
-        if (!isHost) return;
+        if (!isHost || isValidating) return;
+        setIsValidating(true);
 
-        // Auto-validate all answers using AI
-        const validatedPlayers = await Promise.all(
-            players.map(async (p) => {
-                if (!p.currentAnswer) return { ...p, isCorrect: false };
+        // Prep Batch Submissions
+        const submissions = players
+            .filter(p => !!p.currentAnswer)
+            .map(p => ({ id: p.id, answer: p.currentAnswer }));
 
-                try {
-                    const isCorrect = await validateAnswerWithAI(
-                        gameState.apiKey,
-                        currentQuestion.text,
-                        currentQuestion.correctAnswer,
-                        p.currentAnswer,
-                        localLang
-                    );
-                    return { ...p, isCorrect };
-                } catch (e) {
-                    console.warn(`Validation failed for ${p.name}`, e);
-                    return { ...p, isCorrect: null }; // Host will manually judge
-                }
-            })
-        );
+        try {
+            const validationResults = await validateAnswersBatch(
+                gameState.apiKey,
+                currentQuestion.text,
+                currentQuestion.correctAnswer,
+                submissions,
+                localLang
+            );
 
-        await updateRoomState(roomId, {
-            phase: GamePhase.REVEAL,
-            players: validatedPlayers
-        });
+            const validatedPlayers = players.map(p => ({
+                ...p,
+                isCorrect: validationResults[p.id] ?? false // Default false if missing
+            }));
+
+            await updateRoomState(roomId, {
+                phase: GamePhase.REVEAL,
+                players: validatedPlayers
+            });
+        } catch (e) {
+            console.error("Reveal validation error", e);
+            alert("Error validating answers. Please try again.");
+            setIsValidating(false);
+        }
     };
 
     const toggleCorrectness = async (targetId: string) => {
@@ -194,7 +225,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
             const nextIdx = currentQuestionIndex + 1;
 
             // CHECK FOR FINAL WAGER ROUND
-            if (nextIdx >= questions.length && phase !== GamePhase.WAGER_REVEAL) {
+            if (nextIdx >= questions.length) {
                 await updateRoomState(roomId, {
                     phase: GamePhase.WAGER_SETUP,
                     // Reset player round state for wager
@@ -304,33 +335,36 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
     };
 
     const handleWagerReveal = async () => {
-        if (!isHost) return;
+        if (!isHost || isValidating) return;
+        setIsValidating(true);
 
-        // Auto-validate all wager answers using AI
-        const validatedPlayers = await Promise.all(
-            players.map(async (p) => {
-                if (!p.currentAnswer) return { ...p, isCorrect: false };
+        const submissions = players
+            .filter(p => !!p.currentAnswer)
+            .map(p => ({ id: p.id, answer: p.currentAnswer }));
 
-                try {
-                    const isCorrect = await validateAnswerWithAI(
-                        gameState.apiKey,
-                        currentQuestion.text,
-                        currentQuestion.correctAnswer,
-                        p.currentAnswer,
-                        localLang
-                    );
-                    return { ...p, isCorrect };
-                } catch (e) {
-                    console.warn(`Wager validation failed for ${p.name}`, e);
-                    return { ...p, isCorrect: null }; // Host will manually judge
-                }
-            })
-        );
+        try {
+            const validationResults = await validateAnswersBatch(
+                gameState.apiKey,
+                currentQuestion.text,
+                currentQuestion.correctAnswer,
+                submissions,
+                localLang
+            );
 
-        await updateRoomState(roomId, {
-            phase: GamePhase.WAGER_REVEAL,
-            players: validatedPlayers
-        });
+            const validatedPlayers = players.map(p => ({
+                ...p,
+                isCorrect: validationResults[p.id] ?? false
+            }));
+
+            await updateRoomState(roomId, {
+                phase: GamePhase.WAGER_REVEAL,
+                players: validatedPlayers
+            });
+        } catch (e) {
+            console.error("Wager reveal error", e);
+            alert("Error validating final answers.");
+            setIsValidating(false);
+        }
     };
 
     const handleEndGame = async () => {
@@ -720,10 +754,10 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                     {(isPreview && isHost) && (
                         <SketchButton
                             variant="primary"
-                            onClick={isWagerReveal ? null : (phase === GamePhase.WAGER_QUESTION || phase === GamePhase.WAGER_GENERATING ? handleWagerReveal : handleReveal)}
+                            onClick={handleReveal}
                             className={`w-full text-lg py-3 shadow-sketch-lg bg-pop-blue border-black text-white ${(isWagerReveal) ? 'hidden' : ''}`}
                         >
-                            {phase === GamePhase.WAGER_QUESTION ? t.revealFinal : t.startJudging} <span className="material-symbols-outlined ml-2">gavel</span>
+                            {t.startJudging} <span className="material-symbols-outlined ml-2">gavel</span>
                         </SketchButton>
                     )}
 

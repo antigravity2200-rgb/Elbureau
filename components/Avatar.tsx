@@ -5,7 +5,7 @@ interface AvatarProps {
     seed?: string; // For generating avatars if needed, or determining color
     alt?: string;
     className?: string;
-    size?: 'sm' | 'md' | 'lg' | 'xl';
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
     borderColor?: string;
 }
 
@@ -18,6 +18,7 @@ export const Avatar: React.FC<AvatarProps> = ({
     borderColor = 'border-text-main'
 }) => {
     const sizeClasses = {
+        xs: 'w-6 h-6 border-2',
         sm: 'w-10 h-10 border-2',
         md: 'w-16 h-16 border-[3px]',
         lg: 'w-20 h-20 border-[3px]',

@@ -281,3 +281,46 @@ export const validateAnswerWithAI = async (
     return false; // Default to strict if AI fails
   }
 };
+
+export const validateAnswersBatch = async (
+  apiKey: string,
+  question: string,
+  correctAnswer: string,
+  submissions: { id: string, answer: string }[],
+  language: Language
+): Promise<Record<string, boolean>> => {
+  if (submissions.length === 0) return {};
+
+  const ai = new GoogleGenAI({ apiKey });
+
+  const prompt = `
+    Question: "${question}"
+    Official Answer: "${correctAnswer}"
+    Language: ${language}
+
+    For each User Answer below, determine if it is essentially correct (TRUE) or incorrect (FALSE).
+    Allow for typos, phonetic spelling, and synonyms.
+    
+    Submissions:
+    ${JSON.stringify(submissions)}
+
+    Respond with a JSON object mapping ID to BOOLEAN.
+    Example: { "player-1": true, "player-2": false }
+    RETURN ONLY JSON.
+  `;
+
+  try {
+    const response = await fetchWithRetry(() => ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: prompt,
+      config: { responseMimeType: "application/json" }
+    }));
+
+    const text = response.text || "{}";
+    return JSON.parse(cleanJson(text));
+  } catch (e) {
+    console.error("Batch validation error", e);
+    // Fallback: mark all false or try individual? For now, fail safe to false.
+    return submissions.reduce((acc, curr) => ({ ...acc, [curr.id]: false }), {});
+  }
+};

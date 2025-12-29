@@ -8,6 +8,7 @@ import { Avatar } from '../components/Avatar';
 interface EndGameProps {
   gameState: GameState;
   onReset: () => void;
+  onLeave: () => void;
   isHost: boolean;
 }
 

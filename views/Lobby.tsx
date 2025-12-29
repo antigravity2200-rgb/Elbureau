@@ -54,10 +54,10 @@ export const Lobby: React.FC<LobbyProps> = ({
   const t = TRANSLATIONS[config.language];
 
   useEffect(() => {
-    if (isWaiting && view !== 'waiting_room') {
+    if (isWaiting) {
       setView('waiting_room');
     }
-  }, [isWaiting, view]);
+  }, [isWaiting]);
 
   const handleCreate = async () => {
     let effectiveName = playerName.trim();
@@ -366,7 +366,7 @@ export const Lobby: React.FC<LobbyProps> = ({
                   <p className="text-text-main dark:text-white text-lg font-display font-bold">{t.timeLimit}</p>
                 </div>
                 <div className="flex gap-2">
-                  {[0, 15, 30, 45, 60].map(sec => (
+                  {[15, 30, 45, 60].map(sec => (
                     <button
                       key={sec}
                       onClick={() => setConfig({ ...config, timerSeconds: sec })}
@@ -376,7 +376,7 @@ export const Lobby: React.FC<LobbyProps> = ({
                           : 'text-text-main border-transparent hover:bg-gray-100 hover:border-paper-border'}
                                   `}
                     >
-                      {sec === 0 ? t.timeNone : `${sec}s`}
+                      {`${sec}s`}
                     </button>
                   ))}
                 </div>
