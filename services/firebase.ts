@@ -47,29 +47,29 @@ const handleData = (data: any, senderId: string) => {
   if (isHost) {
     if (data.type === 'JOIN') {
       const newPlayer = data.player;
-      
+
       // Check if player already exists (reconnect scenario)
       const existingIdx = currentGameState.players.findIndex(p => p.id === newPlayer.id);
       let newPlayers = [...currentGameState.players];
-      
+
       if (existingIdx >= 0) {
         // Update existing player socket/info
         newPlayers[existingIdx] = { ...newPlayers[existingIdx], ...newPlayer };
       } else {
         newPlayers.push(newPlayer);
       }
-      
+
       const newState = { ...currentGameState, players: newPlayers };
       updateRoomState(null as any, newState);
-    } 
+    }
     else if (data.type === 'PLAYER_UPDATE') {
       const { playerId, updates } = data;
-      const newPlayers = currentGameState.players.map(p => 
+      const newPlayers = currentGameState.players.map(p =>
         p.id === playerId ? { ...p, ...updates } : p
       );
       updateRoomState(null as any, { players: newPlayers });
     }
-  } 
+  }
   // CLIENT LOGIC: Process incoming state from Host
   else {
     if (data.type === 'STATE_UPDATE') {
@@ -82,14 +82,14 @@ const handleData = (data: any, senderId: string) => {
 // --- PUBLIC API ---
 
 export const createRoom = async (
-  hostPlayer: Player, 
-  config: GameConfig, 
+  hostPlayer: Player,
+  config: GameConfig,
   apiKey: string
 ): Promise<string> => {
   cleanup(); // Reset previous session
 
-  // Generate a short 4-character room code
-  const roomCode = Math.random().toString(36).substring(2, 6).toUpperCase();
+  // Generate a 4-digit numeric room code
+  const roomCode = Math.floor(1000 + Math.random() * 9000).toString();
   const peerId = `${ID_PREFIX}${roomCode}`;
 
   isHost = true;
@@ -122,7 +122,7 @@ export const createRoom = async (
 
     peer.on('connection', (conn: any) => {
       console.log('Client connecting:', conn.peer);
-      
+
       conn.on('open', () => {
         clientConnections.set(conn.peer, conn);
         // Send immediate state sync
@@ -130,31 +130,31 @@ export const createRoom = async (
       });
 
       conn.on('data', (data: any) => handleData(data, conn.peer));
-      
+
       conn.on('close', () => {
         clientConnections.delete(conn.peer);
       });
-      
+
       conn.on('error', (e: any) => console.error("Conn error", e));
     });
   });
 };
 
 export const joinRoom = async (
-  roomId: string, 
+  roomId: string,
   player: Player
 ): Promise<GameState> => {
   cleanup(); // Reset previous session
 
   isHost = false;
   // Create a random client peer
-  peer = new Peer(); 
+  peer = new Peer();
 
   return new Promise((resolve, reject) => {
     peer.on('open', () => {
       const hostPeerId = `${ID_PREFIX}${roomId.toUpperCase()}`;
       console.log("Connecting to host:", hostPeerId);
-      
+
       hostConnection = peer.connect(hostPeerId, { reliable: true });
 
       hostConnection.on('open', () => {
@@ -165,9 +165,9 @@ export const joinRoom = async (
 
       hostConnection.on('data', (data: any) => {
         if (data.type === 'STATE_UPDATE') {
-            currentGameState = data.state;
-            if (onStateUpdate) onStateUpdate(currentGameState!);
-            resolve(currentGameState!); // Resolve promise on first state receipt
+          currentGameState = data.state;
+          if (onStateUpdate) onStateUpdate(currentGameState!);
+          resolve(currentGameState!); // Resolve promise on first state receipt
         }
       });
 
@@ -180,7 +180,7 @@ export const joinRoom = async (
         reject(err);
       });
     });
-    
+
     peer.on('error', (err: any) => {
       console.error("Client Peer error:", err);
       reject(err);
@@ -188,24 +188,24 @@ export const joinRoom = async (
 
     // Timeout fallback if host doesn't exist or firewall issues
     setTimeout(() => {
-        if (!hostConnection?.open && !currentGameState) {
-            reject(new Error("Connection timed out. Room may not exist."));
-        }
+      if (!hostConnection?.open && !currentGameState) {
+        reject(new Error("Connection timed out. Room may not exist."));
+      }
     }, 8000);
   });
 };
 
 export const subscribeToRoom = (
-  roomId: string, 
+  roomId: string,
   onUpdate: (data: GameState) => void
 ) => {
   onStateUpdate = onUpdate;
-  
+
   // If we already have state (from join), trigger immediately
   if (currentGameState) {
     onUpdate(currentGameState);
   }
-  
+
   // Return cleanup function
   return () => {
     onStateUpdate = null;
@@ -213,15 +213,15 @@ export const subscribeToRoom = (
 };
 
 export const updateRoomState = async (
-  roomId: string, 
+  roomId: string,
   updates: Partial<GameState>
 ) => {
   if (isHost && currentGameState) {
     currentGameState = { ...currentGameState, ...updates };
-    
+
     // 1. Notify local UI
     if (onStateUpdate) onStateUpdate(currentGameState);
-    
+
     // 2. Broadcast to all clients
     broadcast({ type: 'STATE_UPDATE', state: currentGameState });
   } else {
@@ -231,51 +231,51 @@ export const updateRoomState = async (
 };
 
 export const updatePlayerState = async (
-  roomId: string, 
-  playerId: string, 
+  roomId: string,
+  playerId: string,
   updates: Partial<Player>
 ) => {
   if (isHost) {
     // Host updating a player (could be themselves or another)
     if (currentGameState) {
-        const newPlayers = currentGameState.players.map(p => 
-            p.id === playerId ? { ...p, ...updates } : p
-        );
-        // Reuse updateRoomState to handle broadcast
-        updateRoomState(roomId, { players: newPlayers });
+      const newPlayers = currentGameState.players.map(p =>
+        p.id === playerId ? { ...p, ...updates } : p
+      );
+      // Reuse updateRoomState to handle broadcast
+      updateRoomState(roomId, { players: newPlayers });
     }
   } else {
     // Client requesting update for themselves
     if (hostConnection && hostConnection.open) {
-        hostConnection.send({ type: 'PLAYER_UPDATE', playerId, updates });
+      hostConnection.send({ type: 'PLAYER_UPDATE', playerId, updates });
     }
   }
 };
 
 export const resetRoom = async (roomId: string, config: GameConfig) => {
-    if (!isHost || !currentGameState) return;
-    
-    const resetPlayers = currentGameState.players.map(p => ({
-      ...p,
-      score: 0,
-      betsAvailable: Array.from({ length: config.questionCount }, (_, i) => i + 1),
-      currentBet: null,
-      currentAnswer: '',
-      isCorrect: null,
-      wagerAmount: undefined,
-      wagerDifficulty: undefined,
-      usedHint: false
-    }));
+  if (!isHost || !currentGameState) return;
 
-    const newState = {
-         ...currentGameState,
-         phase: GamePhase.LOBBY,
-         questions: [],
-         finalQuestion: undefined,
-         currentQuestionIndex: 0,
-         players: resetPlayers,
-         config: config
-    };
-    
-    updateRoomState(roomId, newState);
+  const resetPlayers = currentGameState.players.map(p => ({
+    ...p,
+    score: 0,
+    betsAvailable: Array.from({ length: config.questionCount }, (_, i) => i + 1),
+    currentBet: null,
+    currentAnswer: '',
+    isCorrect: null,
+    wagerAmount: undefined,
+    wagerDifficulty: undefined,
+    usedHint: false
+  }));
+
+  const newState = {
+    ...currentGameState,
+    phase: GamePhase.LOBBY,
+    questions: [],
+    finalQuestion: undefined,
+    currentQuestionIndex: 0,
+    players: resetPlayers,
+    config: config
+  };
+
+  updateRoomState(roomId, newState);
 };

@@ -75,7 +75,7 @@ export const Lobby: React.FC<LobbyProps> = ({
   };
 
   const handleJoin = async () => {
-    const code = joinCodeParts.join('').toUpperCase();
+    const code = joinCodeParts.join('');
     let effectiveName = playerName.trim();
     if (!effectiveName) {
       effectiveName = `Player`;
@@ -94,6 +94,9 @@ export const Lobby: React.FC<LobbyProps> = ({
   };
 
   const handleCodeInput = (index: number, value: string) => {
+    // Only allow numeric input
+    if (value && !/^\d$/.test(value)) return;
+
     if (value.length > 1) value = value.slice(0, 1);
     const newParts = [...joinCodeParts];
     newParts[index] = value;
@@ -443,9 +446,9 @@ export const Lobby: React.FC<LobbyProps> = ({
                   <input
                     id={`code-${i}`}
                     type="text"
-                    inputMode="text"
+                    inputMode="numeric"
                     value={part}
-                    onChange={(e) => handleCodeInput(i, e.target.value.toUpperCase())}
+                    onChange={(e) => handleCodeInput(i, e.target.value)}
                     onKeyDown={(e) => handleCodeKeyDown(i, e)}
                     className="flex h-16 w-[4.5rem] text-center bg-white dark:bg-white/5 rounded-xl text-3xl font-display font-bold text-text-main dark:text-white placeholder:text-gray-300 border-2 border-text-main dark:border-white shadow-sketch outline-none transition-all focus:translate-x-[4px] focus:translate-y-[4px] focus:shadow-none focus:ring-0 focus:border-primary"
                     placeholder="?"
