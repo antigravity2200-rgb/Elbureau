@@ -141,9 +141,17 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
             // Next Question or End Game
             const nextIdx = currentQuestionIndex + 1;
             if (nextIdx >= questions.length) {
+                // Transition to Final Wager Round
+                const resetPlayers = scoredPlayers.map(p => ({
+                    ...p,
+                    currentBet: null,
+                    currentAnswer: '',
+                    isCorrect: null,
+                }));
+
                 await updateRoomState(roomId, {
-                    phase: GamePhase.ENDGAME,
-                    players: scoredPlayers // Persist scores
+                    phase: GamePhase.WAGER_SETUP,
+                    players: resetPlayers
                 });
             } else {
                 // Reset player round state
@@ -352,7 +360,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                                             </div>
                                             <div>
                                                 <h3 className="text-2xl font-black leading-tight break-words dark:text-white line-clamp-3 mb-2">
-                                                    {isReveal || isHost || p.id === me.id ? p.currentAnswer : "..."}
+                                                    {isPreview || isReveal || isHost || p.id === me.id ? p.currentAnswer : "..."}
                                                 </h3>
                                                 <p className="text-sm font-bold opacity-70">@{p.name}</p>
 

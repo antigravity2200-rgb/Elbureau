@@ -3,6 +3,7 @@ import { GameState, GamePhase, Language, GameConfig, Player } from './types';
 import { TRANSLATIONS, AVATAR_COLORS } from './constants';
 import { Lobby } from './views/Lobby';
 import { GameRound } from './views/GameRound';
+import { WagerRound } from './views/WagerRound';
 import { EndGame } from './views/EndGame';
 import { SettingsModal } from './components/SettingsModal';
 import { generateQuizQuestions } from './services/geminiService';
@@ -200,7 +201,15 @@ function App() {
 
   // Render Logic
   const showLobby = !roomId || gameState.phase === GamePhase.LOBBY;
-  const showGame = roomId && !showLobby && gameState.phase !== GamePhase.GENERATING && gameState.phase !== GamePhase.ENDGAME;
+
+  const isWagerPhase = [
+    GamePhase.WAGER_SETUP,
+    GamePhase.WAGER_GENERATING,
+    GamePhase.WAGER_QUESTION,
+    GamePhase.WAGER_REVEAL
+  ].includes(gameState.phase);
+
+  const showGame = roomId && !showLobby && !isWagerPhase && gameState.phase !== GamePhase.GENERATING && gameState.phase !== GamePhase.ENDGAME;
   const showLoading = gameState.phase === GamePhase.GENERATING;
   const showEnd = gameState.phase === GamePhase.ENDGAME;
 
@@ -262,8 +271,15 @@ function App() {
           <GameRound gameState={gameState} playerId={playerId} roomId={roomId} />
         )}
 
+        {(gameState.phase === GamePhase.WAGER_SETUP ||
+          gameState.phase === GamePhase.WAGER_GENERATING ||
+          gameState.phase === GamePhase.WAGER_QUESTION ||
+          gameState.phase === GamePhase.WAGER_REVEAL) && roomId && playerId && (
+            <WagerRound gameState={gameState} playerId={playerId} roomId={roomId} />
+          )}
+
         {showEnd && (
-          <EndGame gameState={gameState} onReset={handleReset} isHost={isHost} />
+          <EndGame gameState={gameState} onReset={handleReset} onLeave={handleLeave} isHost={isHost} />
         )}
       </main>
 
