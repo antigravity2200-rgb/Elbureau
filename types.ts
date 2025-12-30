@@ -34,6 +34,7 @@ export interface Player {
   wagerAmount?: number;
   wagerDifficulty?: 'easy' | 'medium' | 'hard';
   usedHint?: boolean;
+  language?: Language;
 }
 
 export interface Question {

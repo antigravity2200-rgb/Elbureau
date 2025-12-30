@@ -6,7 +6,7 @@ import { GameRound } from './views/GameRound';
 import { EndGame } from './views/EndGame';
 import { SettingsModal } from './components/SettingsModal';
 import { generateQuizQuestions } from './services/geminiService';
-import { createRoom, joinRoom, subscribeToRoom, updateRoomState, resetRoom, initSupabase } from './services/supabaseService';
+import { createRoom, joinRoom, subscribeToRoom, updateRoomState, updatePlayerState, resetRoom, initSupabase } from './services/supabaseService';
 
 const getInitialLanguage = (): Language => {
   const saved = localStorage.getItem('elbureau_lang');
@@ -137,7 +137,8 @@ function App() {
       currentBet: null,
       currentAnswer: '',
       isCorrect: null,
-      usedHint: false
+      usedHint: false,
+      language: localLanguage
     };
 
     try {
@@ -167,13 +168,15 @@ function App() {
       currentBet: null,
       currentAnswer: '',
       isCorrect: null,
-      usedHint: false
+      usedHint: false,
+      language: localLanguage
     };
 
     try {
-      await joinRoom(code, player);
+      const initialGameState = await joinRoom(code, player);
       setPlayerId(pid);
       setRoomId(code);
+      setGameState(initialGameState); // Initialize state immediately
     } catch (e) {
       console.error(e);
       alert("Error joining room. Check code or if game has started.");
@@ -237,12 +240,23 @@ function App() {
     setGameState({ ...gameState, phase: GamePhase.LOBBY, players: [] });
   };
 
+  // --- LOCAL LANGUAGE STATE ---
+  const [localLanguage, setLocalLanguage] = useState<Language>(getInitialLanguage());
+
   const updateLanguage = (lang: Language) => {
-    // If in lobby and host, update remote config
+    setLocalLanguage(lang);
+    localStorage.setItem('elbureau_lang', lang);
+
+    // 1. Update Player State if connected
+    if (roomId && playerId) {
+      updatePlayerState(roomId, playerId, { language: lang });
+    }
+
+    // 2. If Host in Lobby, sync with Game Config (so room defaults to Host's language)
     if (roomId && isHost && gameState.phase === GamePhase.LOBBY) {
       updateRoomState(roomId, { config: { ...gameState.config, language: lang } });
-    } else {
-      // Local update for unconnected state
+    } else if (!roomId) {
+      // If unconnected, just update local config draft
       setGameState(prev => ({ ...prev, config: { ...prev.config, language: lang } }));
     }
   };
@@ -300,6 +314,7 @@ function App() {
             roomCode={roomId || undefined}
             isHost={isHost}
             isWaiting={!!roomId}
+            language={localLanguage}
           />
         )}
 
@@ -326,7 +341,7 @@ function App() {
         onClose={() => setIsSettingsOpen(false)}
         apiKey={apiKey}
         setApiKey={setApiKey}
-        language={gameState.config.language}
+        language={localLanguage}
         setLanguage={updateLanguage}
         playerName={playerName}
         setPlayerName={setPlayerName}

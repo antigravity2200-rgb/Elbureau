@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GameConfig, Player } from '../types';
+import { GameConfig, Player, Language } from '../types';
 import { TRANSLATIONS } from '../constants';
 import { SketchButton } from '../components/SketchButton';
 import { SketchCard } from '../components/SketchCard';
@@ -19,6 +19,7 @@ interface LobbyProps {
   roomCode?: string;
   isHost: boolean;
   isWaiting: boolean;
+  language: Language;
 }
 
 type LobbyView = 'home' | 'host_setup' | 'join_setup' | 'waiting_room';
@@ -44,14 +45,15 @@ export const Lobby: React.FC<LobbyProps> = ({
   connectedPlayers,
   roomCode,
   isHost,
-  isWaiting
+  isWaiting,
+  language
 }) => {
   const [view, setView] = useState<LobbyView>(isWaiting ? 'waiting_room' : 'home');
   const [customTheme, setCustomTheme] = useState('');
   const [joinCodeParts, setJoinCodeParts] = useState(['', '', '', '']);
   const [isBusy, setIsBusy] = useState(false);
 
-  const t = TRANSLATIONS[config.language];
+  const t = TRANSLATIONS[language];
 
   useEffect(() => {
     if (isWaiting) {

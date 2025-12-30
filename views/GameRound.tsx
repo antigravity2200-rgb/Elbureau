@@ -17,11 +17,11 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
     const { config, players, questions, currentQuestionIndex, phase } = gameState;
 
 
-    // Strict Language from Config
-    const localLang = config.language;
-    const t = TRANSLATIONS[localLang];
-
     const me = players.find(p => p.id === playerId);
+
+    // Strict Language from Config OR User Preference
+    const localLang = me?.language || config.language;
+    const t = TRANSLATIONS[localLang];
     const isHost = me?.isHost;
 
     const isWagerPhase = [GamePhase.WAGER_SETUP, GamePhase.WAGER_GENERATING, GamePhase.WAGER_QUESTION, GamePhase.WAGER_REVEAL].includes(phase);
@@ -78,7 +78,8 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
 
                 updateRoomState(roomId, {
                     players: updatedPlayers,
-                    phase: GamePhase.PREVIEW // Force move since everyone is now "done"
+                    // If Wager Question, go straight to WAGER_REVEAL to avoid 'PREVIEW' ambiguity/loop
+                    phase: phase === GamePhase.WAGER_QUESTION ? GamePhase.WAGER_REVEAL : GamePhase.PREVIEW
                 });
             }
         }
