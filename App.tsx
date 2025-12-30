@@ -278,7 +278,7 @@ function App() {
     >
       {/* Floating Controls */}
       <div className="absolute top-2 left-2 z-50 flex gap-2">
-        {roomId && !showGame && (
+        {roomId && (
           <button
             onClick={handleLeave}
             className="w-10 h-10 bg-white border-2 border-ink rounded-full flex items-center justify-center shadow-sketch-sm hover:scale-110 transition-transform font-sketch font-bold text-xl text-pop-red"

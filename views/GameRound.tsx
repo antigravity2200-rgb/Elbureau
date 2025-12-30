@@ -62,9 +62,9 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
             if (laggingPlayers.length > 0) {
                 const updatedPlayers = players.map(p => {
                     if (!p.currentAnswer || (phase === GamePhase.BETTING && p.currentBet === null)) {
-                        // Force a bet if needed (lowest available)
+                        // Force a bet if needed (lowest available, minimum 1)
                         const forcedBet = (phase === GamePhase.BETTING && p.currentBet === null)
-                            ? (p.betsAvailable[0] || 0)
+                            ? (p.betsAvailable[0] || 1)
                             : p.currentBet;
 
                         return {
@@ -78,8 +78,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
 
                 updateRoomState(roomId, {
                     players: updatedPlayers,
-                    // If Wager Question, go straight to WAGER_REVEAL to avoid 'PREVIEW' ambiguity/loop
-                    phase: phase === GamePhase.WAGER_QUESTION ? GamePhase.WAGER_REVEAL : GamePhase.PREVIEW
+                    phase: GamePhase.PREVIEW // Force move since everyone is now "done"
                 });
             }
         }
