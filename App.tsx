@@ -21,7 +21,7 @@ const INITIAL_CONFIG: GameConfig = {
   questionCount: 5,
   difficulty: 'medium',
   language: getInitialLanguage(),
-  timerSeconds: 0,
+  timerSeconds: 30,
   allowHints: true,
   scoringMode: 'standard',
   questionTypes: 'mixed'

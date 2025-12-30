@@ -55,7 +55,7 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                 setTimeLeft(prev => prev > 0 ? prev - 1 : 0);
             }, 1000);
             return () => clearInterval(timer);
-        } else if (timeLeft === 0 && isHost) {
+        } else if (timeLeft === 0 && config.timerSeconds > 0 && isHost) {
             // TIME IS UP! Auto-submit valid placeholders for laggers
             const laggingPlayers = players.filter(p => !p.currentAnswer || (phase === GamePhase.BETTING && p.currentBet === null));
 
