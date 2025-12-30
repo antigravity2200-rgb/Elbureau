@@ -5,7 +5,7 @@ import { updateRoomState, updatePlayerState } from '../services/supabaseService'
 import { SketchButton } from '../components/SketchButton';
 import { SketchCard } from '../components/SketchCard';
 import { Avatar } from '../components/Avatar';
-import { generateFinalQuestion, validateAnswersBatch } from '../services/geminiService';
+import { generateFinalQuestion } from '../services/geminiService';
 
 interface GameRoundProps {
     gameState: GameState;
@@ -151,37 +151,19 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
     };
 
     const handleReveal = async () => {
-        if (!isHost || isValidating) return;
-        setIsValidating(true);
+        if (!isHost) return;
 
-        // Prep Batch Submissions
-        const submissions = players
-            .filter(p => !!p.currentAnswer)
-            .map(p => ({ id: p.id, answer: p.currentAnswer }));
+        // No AI validation - Host will manually mark correct answers
+        // All players default to isCorrect: null (not yet judged)
+        const playersToReveal = players.map(p => ({
+            ...p,
+            isCorrect: null // Host will click to toggle
+        }));
 
-        try {
-            const validationResults = await validateAnswersBatch(
-                gameState.apiKey,
-                currentQuestion.text,
-                currentQuestion.correctAnswer,
-                submissions,
-                localLang
-            );
-
-            const validatedPlayers = players.map(p => ({
-                ...p,
-                isCorrect: validationResults[p.id] ?? false // Default false if missing
-            }));
-
-            await updateRoomState(roomId, {
-                phase: GamePhase.REVEAL,
-                players: validatedPlayers
-            });
-        } catch (e) {
-            console.error("Reveal validation error", e);
-            alert("Error validating answers. Please try again.");
-            setIsValidating(false);
-        }
+        await updateRoomState(roomId, {
+            phase: GamePhase.REVEAL,
+            players: playersToReveal
+        });
     };
 
     const toggleCorrectness = async (targetId: string) => {
@@ -326,36 +308,18 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
     };
 
     const handleWagerReveal = async () => {
-        if (!isHost || isValidating) return;
-        setIsValidating(true);
+        if (!isHost) return;
 
-        const submissions = players
-            .filter(p => !!p.currentAnswer)
-            .map(p => ({ id: p.id, answer: p.currentAnswer }));
+        // No AI validation - Host will manually mark correct answers
+        const playersToReveal = players.map(p => ({
+            ...p,
+            isCorrect: null // Host will click to toggle
+        }));
 
-        try {
-            const validationResults = await validateAnswersBatch(
-                gameState.apiKey,
-                currentQuestion.text,
-                currentQuestion.correctAnswer,
-                submissions,
-                localLang
-            );
-
-            const validatedPlayers = players.map(p => ({
-                ...p,
-                isCorrect: validationResults[p.id] ?? false
-            }));
-
-            await updateRoomState(roomId, {
-                phase: GamePhase.WAGER_REVEAL,
-                players: validatedPlayers
-            });
-        } catch (e) {
-            console.error("Wager reveal error", e);
-            alert("Error validating final answers.");
-            setIsValidating(false);
-        }
+        await updateRoomState(roomId, {
+            phase: GamePhase.WAGER_REVEAL,
+            players: playersToReveal
+        });
     };
 
     const handleEndGame = async () => {
