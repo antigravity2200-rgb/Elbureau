@@ -253,12 +253,26 @@ function App() {
   };
 
   const handleLeave = () => {
-    // Clear session
+    // Clear session storage
     localStorage.removeItem('elbureau_room_id');
     localStorage.removeItem('elbureau_player_id');
+
+    // Reset all connection state
     setRoomId(null);
     setPlayerId(null);
-    setGameState({ ...gameState, phase: GamePhase.LOBBY, players: [] });
+
+    // Reset game state to initial values with fresh config
+    setGameState({
+      phase: GamePhase.LOBBY,
+      apiKey: apiKey,
+      config: { ...INITIAL_CONFIG, language: localLanguage },
+      players: [],
+      questions: [],
+      currentQuestionIndex: 0,
+      finalQuestion: undefined,
+      winningDifficulty: undefined,
+      loadingMessage: undefined
+    });
   };
 
   // --- LOCAL LANGUAGE STATE ---
