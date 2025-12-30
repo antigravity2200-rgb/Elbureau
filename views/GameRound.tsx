@@ -520,27 +520,27 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                                             key={p.id}
                                             onClick={() => toggleCorrectness(p.id)}
                                             className={`
-                                            rounded-xl p-4 shadow-sketch relative group transition-all duration-200
+                                            rounded-lg p-2.5 shadow-sketch relative group transition-all duration-200
                                             ${bgClass} ${borderClass} ${scaleClass}
                                             ${(isReveal || isWagerReveal) && isHost ? 'cursor-pointer' : 'cursor-default'}
                                         `}
                                         >
-                                            <div className="flex items-start justify-between mb-3">
-                                                <Avatar size="md" className={`${p.avatarColor}`} />
+                                            <div className="flex items-start justify-between mb-1.5">
+                                                <Avatar size="sm" className={`${p.avatarColor}`} />
                                                 {(isReveal || isWagerReveal) && (
-                                                    <span className="material-symbols-outlined text-xl">
+                                                    <span className="material-symbols-outlined text-base">
                                                         {isCorrect ? 'check_circle' : (p.isCorrect === false ? 'cancel' : 'help')}
                                                     </span>
                                                 )}
                                             </div>
                                             <div>
-                                                <h3 className="text-2xl font-black leading-tight break-words dark:text-white line-clamp-3 mb-2">
+                                                <h3 className="text-base font-black leading-tight break-words dark:text-white line-clamp-2 mb-1">
                                                     {(isPreview || isReveal || isWagerReveal || isHost || p.id === me.id) ? p.currentAnswer : "..."}
                                                 </h3>
-                                                <p className="text-sm font-bold opacity-70">@{p.name}</p>
+                                                <p className="text-xs font-bold opacity-70">@{p.name}</p>
 
                                                 {(isReveal || isWagerReveal) && (
-                                                    <div className="absolute -top-2 -right-2 bg-text-main text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border border-white">
+                                                    <div className="absolute -top-1.5 -right-1.5 bg-text-main text-white text-[9px] font-bold px-1 py-0.5 rounded-full border border-white">
                                                         {isWagerPhase ? (p.wagerAmount || 0) : (p.currentBet || 0)}
                                                     </div>
                                                 )}
