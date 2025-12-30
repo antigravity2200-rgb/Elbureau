@@ -441,7 +441,7 @@ export const Lobby: React.FC<LobbyProps> = ({
           </div>
 
           {/* Inputs */}
-          <div className="w-full max-w-[340px] mb-8">
+          <div className="w-full max-w-[340px] mb-8" dir="ltr">
             <fieldset className="flex justify-between gap-3">
               {joinCodeParts.map((part, i) => (
                 <div key={i} className="relative group">
