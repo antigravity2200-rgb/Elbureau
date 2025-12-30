@@ -93,6 +93,8 @@ export const generateQuizQuestions = async (
     Generate a quiz based on the requested theme.
     The output MUST be valid JSON.
     
+    IMPORTANT: Keep questions SHORT and PUNCHY. Maximum 2 sentences per question.
+    
     CRITICAL MULTILINGUAL REQUIREMENT:
     You MUST generate COMPLETE translations for EVERY question in THREE languages: English (en), French (fr), and Arabic (ar).
     Each translation object MUST contain: text, correctAnswer, hint, explanation.
