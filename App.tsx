@@ -120,6 +120,27 @@ function App() {
     }
   }, [roomId]);
 
+  // --- BACK BUTTON NAVIGATION ---
+  useEffect(() => {
+    // Push initial state to prevent immediate exit
+    if (window.history.state === null) {
+      window.history.pushState({ page: 'home' }, '');
+    }
+
+    const handlePopState = (event: PopStateEvent) => {
+      // Prevent default exit behavior by pushing state back
+      window.history.pushState({ page: 'app' }, '');
+
+      // If in a room, leave it
+      if (roomId) {
+        handleLeave();
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [roomId]);
+
 
   // --- HANDLERS ---
 

@@ -416,9 +416,11 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                                 {currentQuestion.category || (isWagerPhase ? t.wagerRound : "General")}
                             </div>
 
-                            <h2 className={`text-2xl md:text-3xl font-black text-center leading-tight mt-3 line-clamp-4 ${isWagerPhase ? "text-pop-yellow" : "text-text-main dark:text-white"}`}>
-                                {currentQuestion.text}
-                            </h2>
+                            <div className="max-h-[200px] overflow-y-auto no-scrollbar">
+                                <h2 className={`text-xl md:text-2xl font-black text-center leading-tight mt-3 ${isWagerPhase ? "text-pop-yellow" : "text-text-main dark:text-white"}`}>
+                                    {currentQuestion.text}
+                                </h2>
+                            </div>
 
                             {/* TIMER BAR */}
                             {isInputPhase && config.timerSeconds > 0 && (
@@ -665,6 +667,27 @@ export const GameRound: React.FC<GameRoundProps> = ({ gameState, playerId, roomI
                             <div className="text-center text-gray-500 font-bold bg-white/80 py-3 rounded-lg backdrop-blur-sm animate-pulse">
                                 {t.waitingForOthers}
                             </div>
+                        )}
+
+                        {/* VOTE RESULTS - Visible to all players once everyone has voted */}
+                        {players.every(p => p.wagerAmount !== undefined && p.wagerDifficulty !== undefined) && (
+                            <SketchCard className="bg-primary/20 border-primary" padding="p-4">
+                                <h3 className="text-lg font-black mb-3 text-center">📊 Vote Results</h3>
+                                <div className="grid grid-cols-3 gap-2 text-center">
+                                    {['easy', 'medium', 'hard'].map(diff => {
+                                        const count = players.filter(p => p.wagerDifficulty === diff).length;
+                                        return (
+                                            <div key={diff} className={`p-2 rounded-lg border-2 ${count > 0 ? 'bg-white border-black' : 'bg-gray-100 border-gray-300'}`}>
+                                                <div className="text-2xl font-black">{count}</div>
+                                                <div className="text-xs font-bold uppercase text-gray-600">{diff}</div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                                <div className="mt-3 text-center text-sm font-bold text-gray-600">
+                                    {!isHost && "Waiting for host to start..."}
+                                </div>
+                            </SketchCard>
                         )}
 
                         {/* Error Message */}
